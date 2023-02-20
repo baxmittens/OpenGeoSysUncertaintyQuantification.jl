@@ -1,3 +1,4 @@
+module UGSUQ
 using Distributions
 using DelimitedFiles
 
@@ -271,4 +272,4 @@ function var(sogs,exp_val)
 	return var(sogs.analysis, sogs, exp_val)
 end
 
-
+end #module
