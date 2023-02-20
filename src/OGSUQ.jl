@@ -1,4 +1,4 @@
-module OSGUQ
+module OGSUQ
 
 greet() = print("Hello World!")
 
