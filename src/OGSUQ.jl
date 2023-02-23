@@ -22,7 +22,7 @@ end
 
 mutable struct OGSOQ
 	ogsparams::OGS6ProjectParams
-	stochparams::Vector{StochasticOgs6Parameter}()
+	stochparams::Vector{StochasticOgs6Parameter}
 	stochmethod::String
 	num_local_workers::Int
 	remote_workers::Vector{Tuple{String,Int}}
