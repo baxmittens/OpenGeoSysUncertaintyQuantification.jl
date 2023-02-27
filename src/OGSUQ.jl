@@ -2,7 +2,7 @@ module OGSUQ
 
 using XMLParser
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
-import Distributions: Normal, Uniform
+import Distributions: Normal, Uniform, UnivariateDistribution
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
