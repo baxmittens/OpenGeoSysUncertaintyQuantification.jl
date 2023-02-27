@@ -71,6 +71,6 @@ end
 
 include("./OGSUQ/utils.jl")
 
-export: OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generateStochasticOGSModell, generateSampleMethodModel
+export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generateStochasticOGSModell, generateSampleMethodModel
 
 end # module
