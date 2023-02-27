@@ -52,11 +52,11 @@ function generateStochasticOGSModell(
 	return sogs
 end
 
-function createUserFiles(outfile::String, sogs::StochasticOGS6Parameter, file::String) where {N,CT,RT}
-	f = open(file)
+function createUserFiles(outfile::String, sogsfile::String, templatefile::String) where {N,CT,RT}
+	f = open(templatefile)
 	str = read(f,String)
 	close(f)
-	str = replace(str, "_ogsp_placeholder_"=>"$(sogs.sogsfile)")
+	str = replace(str, "_ogsp_placeholder_"=>"$(sogsfile)")
 	f = open(outfile, "w")
 	write(f,str)
 	close(f)
@@ -71,9 +71,10 @@ function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs:
 	init_lvl = N+1
 	maxlvl = 20
 	tol = 1e-2
-	file = joinpath(@__DIR__,"user_function_template.jl")
-	createFiles(sogs.analysis,sogs,file)
-	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,"user_functions.jl",anafile)
+	templatefile = joinpath(@__DIR__,"user_function_template.jl")
+	outfile = "./user_functions.jl"
+	createFiles(outfile,sogs.file,templatefile)
+	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,,anafile)
 	writeXML(Julia2XML(smparams), anafile)
 	return smparams
 end
