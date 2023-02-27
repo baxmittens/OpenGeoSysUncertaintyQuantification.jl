@@ -64,10 +64,9 @@ function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams
 	return OGSUQParams(stochasticmodelparams, samplemethodparams)
 end
 
-mutable struct OGSUQ
-	params::OGSUQParams
-
-end
+#mutable struct OGSUQ
+#	params::OGSUQParams
+#end
 
 include("./OGSUQ/utils.jl")
 
