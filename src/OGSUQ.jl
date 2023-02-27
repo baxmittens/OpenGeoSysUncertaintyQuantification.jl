@@ -2,7 +2,8 @@ module OGSUQ
 
 using XMLParser
 using Distributed
-import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
+using StaticArrays
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init
 import Distributions: Normal, Uniform, UnivariateDistribution
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!
@@ -76,10 +77,13 @@ end
 #end
 
 function init(::Type{AdaptiveHierarchicalSparseGrid}, params::OGSUQParams)
-	asg = 
+	N = params.samplemethodparams.N
+	CT = params.samplemethodparams.CT
+	RT = params.samplemethodparams.RT
+	pointprobs = SVector(params.samplemethodparams.pointprobs...)
+	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	return OGSUQASG(params, asg)
 end
-
 
 function init(params::OGSUQParams)
 	return init(params.samplemethod, params)
