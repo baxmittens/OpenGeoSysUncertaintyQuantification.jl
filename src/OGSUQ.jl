@@ -73,7 +73,6 @@ end
 
 #mutable struct OGSUQMC
 #	params::OGSUQParams
-#	
 #end
 
 function init(::Type{AdaptiveHierarchicalSparseGrid}, params::OGSUQParams)
@@ -86,7 +85,11 @@ function init(::Type{AdaptiveHierarchicalSparseGrid}, params::OGSUQParams)
 end
 
 function init(params::OGSUQParams)
-	return init(params.samplemethod, params)
+	actworker = nworkers()
+	if actworker < params.stochasticmodelparams.num_local_workers
+		addprocs(params.stochasticmodelparams.num_local_workers-actworker)
+	end
+	return init(params.stochasticmodelparams.samplemethod, params)
 end
 
 include("./OGSUQ/utils.jl")
