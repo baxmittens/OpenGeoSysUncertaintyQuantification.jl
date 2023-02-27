@@ -71,11 +71,8 @@ function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs:
 	init_lvl = N+1
 	maxlvl = 20
 	tol = 1e-2
-	#file = joinpath(@__DIR__,"distributed_function_template.jl")
-	file = joinpath("..","..","src","StochasticOgs6","distributed_function_template.jl")
-	#createFiles(sogs.analysis,sogs,file)
-	#write(sogs.analysis,anafile)
-	#return sogs.analysis
+	file = joinpath(@__DIR__,"user_function_template.jl")
+	createFiles(sogs.analysis,sogs,file)
 	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,"user_functions.jl",anafile)
 	writeXML(Julia2XML(smparams), anafile)
 	return smparams
