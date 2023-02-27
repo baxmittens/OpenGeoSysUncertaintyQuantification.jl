@@ -1,11 +1,11 @@
 module OGSUQ
 
-using Distributions
-import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!
-using DistributedSparseGrids
-import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 using XMLParser
-using VTUFileHandler
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
+import Distributions: Normal, Uniform
+import VTUFileHandler: VTUFile
+import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 
 mutable struct OGS6ProjectParams
 	projectfile::String
@@ -64,12 +64,21 @@ function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams
 	return OGSUQParams(stochasticmodelparams, samplemethodparams)
 end
 
-#mutable struct OGSUQ
+mutable struct OGSUQASG
+	params::OGSUQParams
+	asg::AdaptiveHierarchicalSparseGrid
+end
+
+#mutable struct OGSUQMC
 #	params::OGSUQParams
+#	
 #end
+
+
+function init()
 
 include("./OGSUQ/utils.jl")
 
-export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters
+export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile
 
 end # module
