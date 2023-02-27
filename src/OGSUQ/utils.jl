@@ -63,18 +63,6 @@ function createUserFiles(outfile::String, sogsfile::String, templatefile::String
 	println("Function template file written to $outfile")
 end
 
-mutable struct SparseGridParams <: SampleMethodParams
-	N::Int
-	CT::Type
-	RT::Type
-	pointprobs::Vector{Int}
-	init_lvl::Int
-	maxlvl::Int
-	tol::Float64
-	userfunctionfile::String
-	file::String
-end
-
 function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
 	N = length(sogs.stochparams)
 	CT = Float64
@@ -85,7 +73,7 @@ function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs:
 	tol = 1e-2
 	templatefile = joinpath(@__DIR__,"user_function_template.jl")
 	outfile = "./user_functions.jl"
-	createFiles(outfile,sogs.file,templatefile)
+	createUserFiles(outfile,sogs.file,templatefile)
 	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,outfile,anafile)
 	writeXML(Julia2XML(smparams), anafile)
 	return smparams
