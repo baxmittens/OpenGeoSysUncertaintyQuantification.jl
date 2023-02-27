@@ -1,7 +1,7 @@
 include("../../src/OGSUQ.jl")
 
-ogs_numeric_keyvals = ["value","reference_condition","slope", "reference_value"]
-function generateGenericStochasticOgsModell(prjfile::String,simcall::String,addfiles::String,postprocfile::Vector{String},outputpath="./Res",stochmethod=AdaptiveHierarchicalSparseGrid,n_local_workers=50,keywords=ogs_numeric_keyvals,sogsfile="StochasticOgs6Params.csv")
+ogs_numeric_keyvals = ["value","reference_condition","slope", "reference_value","specific_body_force"]
+function generateGenericStochasticOgsModell(prjfile::String,addfiles::String,simcall::String,postprocfile::Vector{String},outputpath="./Res",stochmethod=AdaptiveHierarchicalSparseGrid,n_local_workers=50,keywords=ogs_numeric_keyvals,sogsfile="StochasticOgs6Params.csv")
 	modeldef = read(Ogs6ModelDef,prjfile)
 	stochparams = Vector{StochasticOgs6Parameter}()
 	pathes = Vector{String}()
@@ -32,3 +32,4 @@ end
 prjfile = "./project/disc_with_hole.prj"
 addfiles = "./mesh"
 simcall = "/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2023-02-23/bin/ogs"
+postprocfile
