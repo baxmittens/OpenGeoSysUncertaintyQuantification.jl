@@ -58,9 +58,19 @@ mutable struct OGSUQParams
 	samplemethodparams::SampleMethodParams
 end
 
+function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams::String)
+	stochasticmodelparams = XML2Julia(read(XMLElement, file_stochasticmodelparams))
+	samplemethodparams = XML2Julia(read(XMLElement, file_samplemethodparams))
+	return OGSUQParams(stochasticmodelparams, samplemethodparams)
+end
+
 mutable struct OGSUQ
 	params::OGSUQParams
 
 end
+
+include("./OGSUQ/utils.jl")
+
+export: OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generateStochasticOGSModell, generateSampleMethodModel
 
 end # module
