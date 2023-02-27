@@ -1,6 +1,7 @@
 module OGSUQ
 
 using XMLParser
+using Distributed
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 import Distributions: Normal, Uniform, UnivariateDistribution
 import VTUFileHandler: VTUFile
@@ -74,11 +75,18 @@ end
 #	
 #end
 
+function init(::Type{AdaptiveHierarchicalSparseGrid}, params::OGSUQParams)
+	asg = 
+	return OGSUQASG(params, asg)
+end
 
-#function init()
+
+function init(params::OGSUQParams)
+	return init(params.samplemethod, params)
+end
 
 include("./OGSUQ/utils.jl")
 
-export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile
+export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile
 
 end # module

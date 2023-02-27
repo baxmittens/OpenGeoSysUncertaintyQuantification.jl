@@ -1,6 +1,6 @@
 
 ogs_numeric_keyvals = ["value","reference_condition","slope", "reference_value","specific_body_force","values"]
-function getPossibleStochasticParameters(projectfile::String, file::String="./PossibleStochasticParameters.xml", keywords::Vector{String}=ogs_numeric_keyvals)
+function generatePossibleStochasticParameters(projectfile::String, file::String="./PossibleStochasticParameters.xml", keywords::Vector{String}=ogs_numeric_keyvals)
 	modeldef = read(Ogs6ModelDef,projectfile)
 	stochparams = Vector{StochasticOGS6Parameter}()
 	pathes = Vector{String}()
