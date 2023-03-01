@@ -98,7 +98,7 @@ end
 #	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 #end
 
-function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOgs6Parameter, x, user_func::Function,cptostoch::Function=CPtoStoch)
+function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOGS6Parameter, x, user_func::Function,cptostoch::Function=CPtoStoch)
 	vals = getElementbyPath(modeldef, stoparam.path)
 	splitstr = split(vals.content[1])
 	splitstr[stoparam.valspec] = string(user_func(cptostoch(x,stoparam)))
@@ -106,18 +106,18 @@ function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOgs
 	return nothing
 end
 
-function setStochasticParameters!(modeldef::Ogs6ModelDef, stoparams::Vector{StochasticOgs6Parameter}, x, user_funcs::Vector{Function},cptostoch::Function=CPtoStoch)
+function setStochasticParameters!(modeldef::Ogs6ModelDef, stoparams::Vector{StochasticOGS6Parameter}, x, user_funcs::Vector{Function},cptostoch::Function=CPtoStoch)
 	foreach((_x,_y,_z)->setStochasticParameter!(modeldef, _y, _x, _z, cptostoch), x, stoparams, user_funcs)
 	return nothing
 end
 
-function Distributions.pdf(stoparam::StochasticOgs6Parameter, x::Float64)
+function Distributions.pdf(stoparam::StochasticOGS6Parameter, x::Float64)
 	val = lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 	return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 	#return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))#*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 end
 
-function Distributions.pdf(stoparams::Vector{StochasticOgs6Parameter}, x)
+function Distributions.pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
 end
 
