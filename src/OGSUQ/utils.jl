@@ -111,13 +111,13 @@ function setStochasticParameters!(modeldef::Ogs6ModelDef, stoparams::Vector{Stoc
 	return nothing
 end
 
-function Distributions.pdf(stoparam::StochasticOGS6Parameter, x::Float64)
+function pdf(stoparam::StochasticOGS6Parameter, x::Float64)
 	val = lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 	return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 	#return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))#*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 end
 
-function Distributions.pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
+function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
 end
 
