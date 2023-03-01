@@ -87,9 +87,11 @@ end
 function init(ogsuqparams::OGSUQParams)
 	actworker = nworkers()
 	if actworker < ogsuqparams.stochasticmodelparams.num_local_workers
-		addprocs(ogsuqparams.stochasticmodelparams.num_local_workers-actworker)
+		naddprocs = ogsuqparams.stochasticmodelparams.num_local_workers-actworker
+		@info "add $addprocs procs"
+		addprocs(naddprocs)
 	end
-	@eval @everywhere include($(ana.funfile))
+	@eval @everywhere include($(ogsuqparams.userfunctionfile))
 	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
 end
 
