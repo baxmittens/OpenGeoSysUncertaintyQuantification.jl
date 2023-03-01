@@ -6,6 +6,8 @@ stoparams = stochmodelparams.stochparams
 ogsparams = stochmodelparams.ogsparams
 modeldef = read(Ogs6ModelDef, ogsparams.projectfile)
 
+user_functions = [x->x for i = 1:length(stoparams)]
+
 function create_directories(ID, ogsparams)
 	PATH = joinpath(ogsparams.outputpath,ID)
 	if all(map(x->isfile(joinpath(PATH,x)),ogsparams.postprocfiles))
@@ -24,8 +26,14 @@ function create(x, ID, modeldef, ogsparams, stoparams)
 		rename!(md, joinpath(PATH,name))
 		copyfiles =  readdir(ogsparams.additionalprojecfilespath)
 		foreach(x->cp(joinpath(ogsparams.additionalprojecfilespath,x), joinpath(PATH,x), force=true), copyfiles)
-		setStochasticParameters!(modeldef, stoparams, x)
+		setStochasticParameters!(modeldef, stoparams, x, user_functions)
 		write(md)
+		top = Any[]
+		for stoparam in stoparams
+			vals = getElementbyPath(md, stoparam.path)
+			push!(top,vals.content[1])
+		end
+		writedlm("./Res/"*ID*"/pars.txt",top)
 		return joinpath(PATH,name)
 	end
 
@@ -34,6 +42,7 @@ function fun(x,ID, modeldef=modeldef, ogsparams=ogsparams, stoparams=stoparams)
 	if create_directories(ID, ogsparams)
 		PATH = create(x,ID, modeldef, ogsparams, stoparams)
 		println("ogs call @$x")
+		ENV["OMP_NUM_THREADS"] = 1
 		run(pipeline(`$(ogsparams.simcall) -o $(joinpath(ogsparams.outputpath,ID)) $PATH`, joinpath(ogsparams.outputpath,ID,"out.txt")))
 		println("ogs call finished")
 	end
