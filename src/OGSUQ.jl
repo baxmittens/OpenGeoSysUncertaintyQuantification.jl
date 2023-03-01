@@ -91,7 +91,7 @@ function init(ogsuqparams::OGSUQParams)
 		@info "add $addprocs procs"
 		addprocs(naddprocs)
 	end
-	@eval @everywhere include($(ogsuqparams.userfunctionfile))
+	@eval @everywhere include($(ogsuqparams.stochasticmodelparams.userfunctionfile))
 	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
 end
 
