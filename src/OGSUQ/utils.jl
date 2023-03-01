@@ -85,3 +85,58 @@ function generateSampleMethodModel(sogs::StochasticOGSModelParams, anafile="Samp
 	return generateSampleMethodModel(sogs.samplemethod, sogs, anafile)
 end
 
+function lin_func(x,xmin,ymin,xmax,ymax)
+	a = (ymax-ymin)/(xmax-xmin)
+	b = ymax-a*xmax
+	return a*x+b
+end
+function CPtoStoch(x,stoparam)
+	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
+end
+
+#function CTtoStoParam(x,stoparam)
+#	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
+#end
+
+function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOgs6Parameter, x, user_func::Function,cptostoch::Function=CPtoStoch)
+	vals = getElementbyPath(modeldef, stoparam.path)
+	splitstr = split(vals.content[1])
+	splitstr[stoparam.valspec] = string(user_func(cptostoch(x,stoparam)))
+	vals.content[1] = join(splitstr, " ")
+	return nothing
+end
+
+function setStochasticParameters!(modeldef::Ogs6ModelDef, stoparams::Vector{StochasticOgs6Parameter}, x, user_funcs::Vector{Function},cptostoch::Function=CPtoStoch)
+	foreach((_x,_y,_z)->setStochasticParameter!(modeldef, _y, _x, _z, cptostoch), x, stoparams, user_funcs)
+	return nothing
+end
+
+function Distributions.pdf(stoparam::StochasticOgs6Parameter, x::Float64)
+	val = lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
+	return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
+	#return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))#*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
+end
+
+function Distributions.pdf(stoparams::Vector{StochasticOgs6Parameter}, x)
+	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
+end
+
+function ASG(ana::AHSGAnalysis{N, CT, RT}, _fun, tol=1e-4) where {N,CT,RT}
+	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},ana.pointprobs)
+	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
+	for i = 1:5
+		union!(cpts,generate_next_level!(asg))
+	end
+	@time init_weights_inplace_ops!(asg, collect(cpts), _fun)
+	for i = 1:20
+		println("adaptive ref step $i")
+		# call generate_next_level! with tol=1e-5 and maxlevels=20
+		cpts = generate_next_level!(asg, tol, 20)
+		if isempty(cpts)
+			break
+		end
+		init_weights_inplace_ops!(asg, collect(cpts), _fun)
+		println("$(length(cpts)) new cpts")
+	end
+	return asg
+end
