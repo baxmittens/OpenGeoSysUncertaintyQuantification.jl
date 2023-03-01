@@ -97,11 +97,11 @@ end
 
 function start!(ogsuqasg::OGSUQASG)
 	asg = ogsuqasg.asg
+	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
 	cpts = collect(asg)
-	for i = 1:sogs.analysis.init_lvl
+	for i = 1:samplemethodparams.init_lvl
 		append!(cpts,generate_next_level!(asg))
 	end
-	#@time distributed_init_weights!(asg, cpts, fun, sogs.hpcparams.worker_ids)
 	@time distributed_init_weights_inplace_ops!(asg, cpts, fun, sogs.hpcparams.worker_ids)
 end
 
