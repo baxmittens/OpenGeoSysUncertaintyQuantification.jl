@@ -121,22 +121,22 @@ function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
 end
 
-function ASG(ana::AHSGAnalysis{N, CT, RT}, _fun, tol=1e-4) where {N,CT,RT}
-	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},ana.pointprobs)
-	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
-	for i = 1:5
-		union!(cpts,generate_next_level!(asg))
-	end
-	@time init_weights_inplace_ops!(asg, collect(cpts), _fun)
-	for i = 1:20
-		println("adaptive ref step $i")
-		# call generate_next_level! with tol=1e-5 and maxlevels=20
-		cpts = generate_next_level!(asg, tol, 20)
-		if isempty(cpts)
-			break
-		end
-		init_weights_inplace_ops!(asg, collect(cpts), _fun)
-		println("$(length(cpts)) new cpts")
-	end
-	return asg
-end
+#function ASG(ana::AHSGAnalysis{N, CT, RT}, _fun, tol=1e-4) where {N,CT,RT}
+#	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},ana.pointprobs)
+#	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
+#	for i = 1:5
+#		union!(cpts,generate_next_level!(asg))
+#	end
+#	@time init_weights_inplace_ops!(asg, collect(cpts), _fun)
+#	for i = 1:20
+#		println("adaptive ref step $i")
+#		# call generate_next_level! with tol=1e-5 and maxlevels=20
+#		cpts = generate_next_level!(asg, tol, 20)
+#		if isempty(cpts)
+#			break
+#		end
+#		init_weights_inplace_ops!(asg, collect(cpts), _fun)
+#		println("$(length(cpts)) new cpts")
+#	end
+#	return asg
+#end
