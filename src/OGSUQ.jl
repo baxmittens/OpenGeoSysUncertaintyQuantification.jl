@@ -102,7 +102,8 @@ function start!(ogsuqasg::OGSUQASG)
 	for i = 1:samplemethodparams.init_lvl
 		append!(cpts,generate_next_level!(asg))
 	end
-	@time distributed_init_weights_inplace_ops!(asg, cpts, fun, sogs.hpcparams.worker_ids)
+	worker_ids = workers()
+	@time distributed_init_weights_inplace_ops!(asg, cpts, fun, worker_ids)
 end
 
 include("./OGSUQ/utils.jl")
