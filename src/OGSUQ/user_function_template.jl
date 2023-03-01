@@ -6,7 +6,7 @@ stoparams = stochmodelparams.stochparams
 ogsparams = stochmodelparams.ogsparams
 modeldef = read(Ogs6ModelDef, ogsparams.projectfile)
 
-user_functions = [x->x for i = 1:length(stoparams)]
+user_functions = Function[x->x for i = 1:length(stoparams)]
 
 function create_directories(ID, ogsparams)
 	PATH = joinpath(ogsparams.outputpath,ID)
