@@ -1,5 +1,6 @@
 using XMLParser
 using OGSUQ
+import DelimitedFiles.writedlm
 
 stochmodelparams = XML2Julia(read(XMLElement, "_ogsp_placeholder_"))
 stoparams = stochmodelparams.stochparams
