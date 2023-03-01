@@ -29,3 +29,4 @@ ogsuqparams = OGSUQParams(OGSUQ.filename(stochasticmodelparams), OGSUQ.filename(
 
 
 ogsuqasg = OGSUQ.init(ogsuqparams)
+OGSUQ.start!(ogsuqasg)

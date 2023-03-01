@@ -6,7 +6,7 @@ using StaticArrays
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!
 import Distributions: Normal, Uniform, UnivariateDistribution
 import VTUFileHandler: VTUFile
-import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!
+import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 
 mutable struct OGS6ProjectParams
@@ -108,6 +108,6 @@ end
 
 include("./OGSUQ/utils.jl")
 
-export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile
+export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!
 
 end # module
