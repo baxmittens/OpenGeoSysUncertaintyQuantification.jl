@@ -31,6 +31,7 @@ mutable struct StochasticOGSModelParams
 	samplemethod::Type
 	num_local_workers::Int
 	#remote_workers::Vector{Tuple{String,Int}}
+	userfunctionfile::String
 	file::String
 end
 filename(a::StochasticOGSModelParams) = a.file
@@ -44,7 +45,6 @@ mutable struct SparseGridParams <: SampleMethodParams
 	init_lvl::Int
 	maxlvl::Int
 	tol::Float64
-	userfunctionfile::String
 	file::String
 end
 #mutable struct MCAnalysis{DIM,MCT,RT} <: StochasticAnalysis
@@ -67,7 +67,7 @@ function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams
 end
 
 mutable struct OGSUQASG
-	params::OGSUQParams
+	ogsuqparams::OGSUQParams
 	asg::AdaptiveHierarchicalSparseGrid
 end
 
@@ -75,22 +75,22 @@ end
 #	params::OGSUQParams
 #end
 
-function init(::Type{AdaptiveHierarchicalSparseGrid}, params::OGSUQParams)
-	N = params.samplemethodparams.N
-	CT = params.samplemethodparams.CT
-	RT = params.samplemethodparams.RT
-	pointprobs = SVector(params.samplemethodparams.pointprobs...)
+function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
+	N = ogsuqparams.samplemethodparams.N
+	CT = ogsuqparams.samplemethodparams.CT
+	RT = ogsuqparams.samplemethodparams.RT
+	pointprobs = SVector(ogsuqparams.samplemethodparams.pointprobs...)
 	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
-	return OGSUQASG(params, asg)
+	return OGSUQASG(ogsuqparams, asg)
 end
 
-function init(params::OGSUQParams)
+function init(ogsuqparams::OGSUQParams)
 	actworker = nworkers()
-	if actworker < params.stochasticmodelparams.num_local_workers
-		addprocs(params.stochasticmodelparams.num_local_workers-actworker)
+	if actworker < ogsuqparams.stochasticmodelparams.num_local_workers
+		addprocs(ogsuqparams.stochasticmodelparams.num_local_workers-actworker)
 	end
 	@eval @everywhere include($(ana.funfile))
-	return init(params.stochasticmodelparams.samplemethod, params)
+	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
 end
 
 include("./OGSUQ/utils.jl")

@@ -16,6 +16,17 @@ function loadStochasticParameters(file::String="./PossibleStochasticParameters.x
 	return pathes
 end
 
+function createUserFiles(outfile::String, sogsfile::String, templatefile::String) where {N,CT,RT}
+	f = open(templatefile)
+	str = read(f,String)
+	close(f)
+	str = replace(str, "_ogsp_placeholder_"=>"$(sogsfile)")
+	f = open(outfile, "w")
+	write(f,str)
+	close(f)
+	println("Function template file written to $outfile")
+end
+
 function generateStochasticOGSModell(
 	projectfile::String,
 	simcall::String,
@@ -41,26 +52,20 @@ function generateStochasticOGSModell(
 		user_function = x->x
 		push!(stochparams, StochasticOGS6Parameter(path,valspec,dist,lb,ub))
 	end
+
+	templatefile = joinpath(@__DIR__,"user_function_template.jl")
+	outfile = "./user_functions.jl"
+	createUserFiles(outfile,sogs.file,templatefile)
+
 	ogs6pp = OGS6ProjectParams(projectfile,simcall,additionalprojecfilespath,outputpath,postprocfile)
 	#sogs = OGSUQParams(ogs6pp,stochparams,stochmethod,n_local_workers,remote_workers,sogsfile)
-	sogs = StochasticOGSModelParams(ogs6pp,stochparams,stochmethod,n_local_workers,sogsfile)
+	sogs = StochasticOGSModelParams(ogs6pp,stochparams,stochmethod,n_local_workers,outfile,sogsfile)
 	writeXML(Julia2XML(sogs), sogsfile)
 	if !isdir(ogs6pp.outputpath)
 		run(`mkdir $(ogs6pp.outputpath)`)
 		println("Created Resultfolder $(ogs6pp.outputpath)")
 	end
 	return sogs
-end
-
-function createUserFiles(outfile::String, sogsfile::String, templatefile::String) where {N,CT,RT}
-	f = open(templatefile)
-	str = read(f,String)
-	close(f)
-	str = replace(str, "_ogsp_placeholder_"=>"$(sogsfile)")
-	f = open(outfile, "w")
-	write(f,str)
-	close(f)
-	println("Function template file written to $outfile")
 end
 
 function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
@@ -71,10 +76,7 @@ function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs:
 	init_lvl = N+1
 	maxlvl = 20
 	tol = 1e-2
-	templatefile = joinpath(@__DIR__,"user_function_template.jl")
-	outfile = "./user_functions.jl"
-	createUserFiles(outfile,sogs.file,templatefile)
-	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,outfile,anafile)
+	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,anafile)
 	writeXML(Julia2XML(smparams), anafile)
 	return smparams
 end
