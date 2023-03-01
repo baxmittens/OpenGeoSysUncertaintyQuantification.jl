@@ -89,6 +89,7 @@ function init(params::OGSUQParams)
 	if actworker < params.stochasticmodelparams.num_local_workers
 		addprocs(params.stochasticmodelparams.num_local_workers-actworker)
 	end
+	@eval @everywhere include($(ana.funfile))
 	return init(params.stochasticmodelparams.samplemethod, params)
 end
 
