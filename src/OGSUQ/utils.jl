@@ -55,7 +55,7 @@ function generateStochasticOGSModell(
 
 	templatefile = joinpath(@__DIR__,"user_function_template.jl")
 	outfile = "./user_functions.jl"
-	createUserFiles(outfile,sogs.file,templatefile)
+	createUserFiles(outfile,sogsfile,templatefile)
 
 	ogs6pp = OGS6ProjectParams(projectfile,simcall,additionalprojecfilespath,outputpath,postprocfile)
 	#sogs = OGSUQParams(ogs6pp,stochparams,stochmethod,n_local_workers,remote_workers,sogsfile)
