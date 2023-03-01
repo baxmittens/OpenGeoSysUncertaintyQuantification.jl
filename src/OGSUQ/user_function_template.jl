@@ -1,8 +1,9 @@
 using XMLParser
 using OGSUQ
 
-ogsparams = XML2Julia(read(XMLElement, "_ogsp_placeholder_"))
-stoparams = ogsparams.stochparams
+stochmodelparams = XML2Julia(read(XMLElement, "_ogsp_placeholder_"))
+stoparams = stochmodelparams.stochparams
+ogsparams = stochmodelparams.ogsparams
 modeldef = read(Ogs6ModelDef, ogsparams.projectfile)
 
 function create_directories(ID, ogsparams)
