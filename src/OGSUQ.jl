@@ -3,7 +3,7 @@ module OGSUQ
 using XMLParser
 using Distributed
 using StaticArrays
-import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!
 import Distributions: Normal, Uniform, UnivariateDistribution
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!
@@ -80,7 +80,7 @@ function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	CT = ogsuqparams.samplemethodparams.CT
 	RT = ogsuqparams.samplemethodparams.RT
 	pointprobs = SVector(ogsuqparams.samplemethodparams.pointprobs...)
-	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
+	asg = init(AdaptiveHierarchicalSparseGrid{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	return OGSUQASG(ogsuqparams, asg)
 end
 
@@ -93,6 +93,16 @@ function init(ogsuqparams::OGSUQParams)
 	end
 	@eval @everywhere include($(ogsuqparams.stochasticmodelparams.userfunctionfile))
 	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
+end
+
+function start!(ogsuqasg::OGSUQASG)
+	asg = ogsuqasg.asg
+	cpts = collect(asg)
+	for i = 1:sogs.analysis.init_lvl
+		append!(cpts,generate_next_level!(asg))
+	end
+	#@time distributed_init_weights!(asg, cpts, fun, sogs.hpcparams.worker_ids)
+	@time distributed_init_weights_inplace_ops!(asg, cpts, fun, sogs.hpcparams.worker_ids)
 end
 
 include("./OGSUQ/utils.jl")
