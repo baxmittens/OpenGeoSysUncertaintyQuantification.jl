@@ -2,7 +2,7 @@ using XMLParser
 using OGSUQ
 import DelimitedFiles.writedlm
 
-stochmodelparams = XML2Julia(read(XMLElement, "_ogsp_placeholder_"))
+stochmodelparams = XML2Julia(read(XMLFile, "_ogsp_placeholder_"))
 stoparams = stochmodelparams.stochparams
 ogsparams = stochmodelparams.ogsparams
 modeldef = read(Ogs6ModelDef, ogsparams.projectfile)
