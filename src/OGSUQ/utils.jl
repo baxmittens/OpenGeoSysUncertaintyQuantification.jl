@@ -7,12 +7,13 @@ function generatePossibleStochasticParameters(projectfile::String, file::String=
 	for keyword in keywords
 		getAllPathesbyTag!(pathes,modeldef.xmlroot,keyword)
 	end
-	writeXML(Julia2XML(pathes), file)
+	#writeXML(Julia2XML(pathes), file)
+	write(file, Julia2XML(pathes))
 	return pathes
 end
 
 function loadStochasticParameters(file::String="./PossibleStochasticParameters.xml")
-	pathes = XML2Julia(read(XMLElement, file))
+	pathes = XML2Julia(read(XMLFile, file))
 	return pathes
 end
 
