@@ -61,7 +61,8 @@ function generateStochasticOGSModell(
 	ogs6pp = OGS6ProjectParams(projectfile,simcall,additionalprojecfilespath,outputpath,postprocfile)
 	#sogs = OGSUQParams(ogs6pp,stochparams,stochmethod,n_local_workers,remote_workers,sogsfile)
 	sogs = StochasticOGSModelParams(ogs6pp,stochparams,stochmethod,n_local_workers,outfile,sogsfile)
-	writeXML(Julia2XML(sogs), sogsfile)
+	#writeXML(Julia2XML(sogs), sogsfile)
+	write(sogsfile, Julia2XML(sogs))
 	if !isdir(ogs6pp.outputpath)
 		run(`mkdir $(ogs6pp.outputpath)`)
 		println("Created Resultfolder $(ogs6pp.outputpath)")
@@ -78,7 +79,8 @@ function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs:
 	maxlvl = 20
 	tol = 1e-2
 	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,anafile)
-	writeXML(Julia2XML(smparams), anafile)
+	#writeXML(Julia2XML(smparams), anafile)
+	write(anafile, Julia2XML(smparams))
 	return smparams
 end
 
