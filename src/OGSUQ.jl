@@ -61,8 +61,8 @@ mutable struct OGSUQParams
 end
 
 function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams::String)
-	stochasticmodelparams = XML2Julia(read(XMLElement, file_stochasticmodelparams))
-	samplemethodparams = XML2Julia(read(XMLElement, file_samplemethodparams))
+	stochasticmodelparams = XML2Julia(read(XMLFile, file_stochasticmodelparams))
+	samplemethodparams = XML2Julia(read(XMLFile, file_samplemethodparams))
 	return OGSUQParams(stochasticmodelparams, samplemethodparams)
 end
 
