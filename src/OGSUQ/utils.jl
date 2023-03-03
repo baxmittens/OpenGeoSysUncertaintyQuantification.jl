@@ -46,10 +46,13 @@ function generateStochasticOGSModell(
 	#remote_workers = Tuple{String,Int}[]
 	sort!(stochpathes)
 	for path in stochpathes
+		vals = getElementbyPath(modeldef, path)
+		splitstr = split(vals.content[1])
 		valspec = 1
-		dist = Uniform(0,1)
-		lb = -1
-		ub = 1
+		val = splitstr[valspec]
+		dist = Normal(val-val/10,val+val/10)
+		lb = val-val/10
+		ub = val+val/10
 		user_function = x->x
 		push!(stochparams, StochasticOGS6Parameter(path,valspec,dist,lb,ub))
 	end
