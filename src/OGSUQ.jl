@@ -111,7 +111,7 @@ function start!(ogsuqasg::OGSUQASG)
     	if isempty(cpts)
     		break
   		end
-  		distributed_init_weights!(asg, collect(cpts), Main.fun, worker_ids)
+  		distributed_init_weights_inplace_ops!(asg, collect(cpts), Main.fun, worker_ids)
 	end
 end
 
