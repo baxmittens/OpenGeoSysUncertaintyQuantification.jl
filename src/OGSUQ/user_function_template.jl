@@ -27,7 +27,7 @@ function create(x, ID, modeldef, ogsparams, stoparams)
 		rename!(md, joinpath(PATH,name))
 		copyfiles =  readdir(ogsparams.additionalprojecfilespath)
 		foreach(x->cp(joinpath(ogsparams.additionalprojecfilespath,x), joinpath(PATH,x), force=true), copyfiles)
-		setStochasticParameters!(modeldef, stoparams, x, user_functions)
+		setStochasticParameters!(md, stoparams, x, user_functions)
 		write(md)
 		top = Any[]
 		for stoparam in stoparams
