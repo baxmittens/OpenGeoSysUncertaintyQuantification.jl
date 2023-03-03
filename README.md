@@ -33,16 +33,16 @@ This toolbox (will) heavily relies upon the following individual projects:
 [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 
-### Defining stochastic dimensions
+### Defining the stochastic dimensions
 
 The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_params_file.jl) 
-```
+```julia
 using OGSUQ
 
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with `OGS6-XML-pathes` and generates an XML-file `PossibleStochasticParameters.xml` in the working directory
+return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file `PossibleStochasticParameters.xml` in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -76,4 +76,125 @@ return an array of strings with `OGS6-XML-pathes` and generates an XML-file `Pos
 	./parameters/parameter/?displacement0/values
 	./parameters/parameter/?pressure_ic/values
 </Array>
+```
+where all parameters possible to select as stochastic parameter are mapped. Since, in this example, an adaptive sparse grid collocation sampling shall be adopted, only two parameters are selected, or, respectively, all other parameters are deleted from the file.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Array
+	 julia:type="String,1"
+>
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
+</Array>
+```
+
+### Defining the stochastic model
+
+The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_model.jl) 
+```julia
+using OGSUQ
+
+projectfile="./project/point_heat_source_2D.prj"
+simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2023-02-23/bin/ogs"
+additionalprojecfilespath="./mesh"
+outputpath="./Res"
+postprocfiles=["PointHeatSource_ts_10_t_50000.000000.vtu"]
+outputpath="./Res"
+stochmethod=AdaptiveHierarchicalSparseGrid
+
+stochparampathes = loadStochasticParameters()
+	
+stochasticmodelparams = generateStochasticOGSModell(
+	projectfile,
+	simcall,
+	additionalprojecfilespath,
+	postprocfiles,
+	stochparampathes,
+	outputpath,
+	stochmethod)
+
+samplemethodparams = generateSampleMethodModel(stochasticmodelparams)
+```
+
+generates two XML-files defining the stochastic model.
+
+
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<StochasticOGSModelParams
+	 samplemethod="AdaptiveHierarchicalSparseGrid"
+	 num_local_workers="50"
+	 userfunctionfile="./user_functions.jl"
+	 file="StochasticOGSModelParams.xml"
+>
+	<OGS6ProjectParams
+		 julia:fieldname="ogsparams"
+		 projectfile="./project/point_heat_source_2D.prj"
+		 simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2023-02-23/bin/ogs"
+		 additionalprojecfilespath="./mesh"
+		 outputpath="./Res"
+	>
+		<Array
+			 julia:type="String,1"
+			 julia:fieldname="postprocfiles"
+		>
+			PointHeatSource_ts_10_t_50000.000000.vtu
+		</Array>
+	</OGS6ProjectParams>
+	<Array
+		 julia:type="StochasticOGS6Parameter,1"
+		 julia:fieldname="stochparams"
+	>
+		<StochasticOGS6Parameter
+			 path="./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value"
+			 valspec="1"
+			 lower_bound="3852.0"
+			 upper_bound="4708.0"
+		>
+			<Uniform
+				 julia:type="Float64"
+				 julia:fieldname="dist"
+				 a="3852.0"
+				 b="4708.0"
+			/>
+		</StochasticOGS6Parameter>
+		<StochasticOGS6Parameter
+			 path="./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value"
+			 valspec="1"
+			 lower_bound="0.54"
+			 upper_bound="0.6599999999999999"
+		>
+			<Uniform
+				 julia:type="Float64"
+				 julia:fieldname="dist"
+				 a="0.54"
+				 b="0.6599999999999999"
+			/>
+		</StochasticOGS6Parameter>
+	</Array>
+</StochasticOGSModelParams>
+```
+
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<SparseGridParams
+	 N="2"
+	 CT="Float64"
+	 RT="VTUFile"
+	 init_lvl="3"
+	 maxlvl="20"
+	 tol="0.01"
+	 file="SampleMethodParams.xml"
+>
+	<Array
+		 julia:type="Int64,1"
+		 julia:fieldname="pointprobs"
+	>
+		1
+		1
+	</Array>
+</SparseGridParams>
+
 ```
