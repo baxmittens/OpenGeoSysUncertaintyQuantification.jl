@@ -7,6 +7,7 @@ version = "0.1.0"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 XMLParser = "b09a1ce3-015a-45b4-89ae-f27efbd2c76d"
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
 julia = "1"
