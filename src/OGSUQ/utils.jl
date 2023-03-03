@@ -49,7 +49,7 @@ function generateStochasticOGSModell(
 		vals = getElementbyPath(modeldef, path)
 		splitstr = split(vals.content[1])
 		valspec = 1
-		val = splitstr[valspec]
+		val = parse(Float64,splitstr[valspec])
 		dist = Normal(val-val/10,val+val/10)
 		lb = val-val/10
 		ub = val+val/10
