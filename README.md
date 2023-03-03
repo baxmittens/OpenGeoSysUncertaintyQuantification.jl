@@ -31,3 +31,49 @@ This toolbox (will) heavily relies upon the following individual projects:
 ## Usage
 
 [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+
+
+### Defining stochastic dimensions
+
+The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_params_file.jl) 
+```
+using OGSUQ
+
+projectfile="./project/point_heat_source_2D.prj"
+pathes = generatePossibleStochasticParameters(projectfile)
+```
+return an array of strings with `OGS6-XML-pathes` and generates an XML-file `PossibleStochasticParameters.xml` in the working directory
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Array
+	 julia:type="String,1"
+>
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?density/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_expansivity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?viscosity/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?density/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?thermal_conductivity/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?thermal_expansivity/value
+	./media/medium/@id/0/properties/property/?saturation/value
+	./media/medium/@id/0/properties/property/?relative_permeability/value
+	./media/medium/@id/0/properties/property/?permeability/value
+	./media/medium/@id/0/properties/property/?porosity/value
+	./media/medium/@id/0/properties/property/?biot_coefficient/value
+	./parameters/parameter/?E/value
+	./parameters/parameter/?nu/value
+	./parameters/parameter/?T0/value
+	./parameters/parameter/?dirichlet0/value
+	./parameters/parameter/?Neumann0/value
+	./parameters/parameter/?temperature_ic/value
+	./parameters/parameter/?pressure_bc_left/value
+	./parameters/parameter/?temperature_bc_left/value
+	./parameters/parameter/?temperature_source_term/value
+	./processes/process/specific_body_force
+	./parameters/parameter/?displacement0/values
+	./parameters/parameter/?pressure_ic/values
+</Array>
+```
