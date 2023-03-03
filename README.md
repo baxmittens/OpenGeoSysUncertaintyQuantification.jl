@@ -11,7 +11,7 @@ Special care is taken to ensure reliable and accurate determination of the stoch
 
 The current environment for using this toolbox is individual servers. This means additional workers are added via the `distributed.addprocs` method. This can be easily extended for use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or a mapping of servers and executed snapshots.
 
-This toolbox (will) consists of the following individual projects:
+This toolbox (will) heavily relies upon the following individual projects:
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) 
 - [DistributedMonteCarlo.jl](https://github.com/baxmittens/DistributedMonteCarlo.jl)
