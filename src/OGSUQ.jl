@@ -104,6 +104,15 @@ function start!(ogsuqasg::OGSUQASG)
 	end
 	worker_ids = workers()
 	@time distributed_init_weights_inplace_ops!(asg, cpts, Main.fun, worker_ids)
+	tol =  ogsuqasg.ogsuqparams.samplemethodparams.tol
+	maxlvl =  ogsuqasg.ogsuqparams.samplemethodparams.maxlvl
+	while true
+  		cpts = generate_next_level!(asg, tol, maxlvl)
+    	if isempty(cpts)
+    		break
+  		end
+  		distributed_init_weights!(asg, collect(cpts), Main.fun, worker_ids)
+	end
 end
 
 include("./OGSUQ/utils.jl")
