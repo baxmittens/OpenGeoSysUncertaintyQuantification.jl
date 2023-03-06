@@ -127,7 +127,7 @@ function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
 end
 
-function ASG(::AdaptiveHierarchicalSparseGrid{N, CT, RT},samplemethodparams::SparseGridParams, _fun, tol=1e-4) where {N,CT,RT}
+function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseGridParams, _fun, tol=1e-4) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
 	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},samplemethodparams.pointprobs)
 	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
 	for i = 1:samplemethodparams.init_lvl
