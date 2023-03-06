@@ -7,9 +7,9 @@ An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.
 
 In simulation-aided planning of safety-related projects, the effects of these uncertainties on the results must be assessed. 
 This toolbox is intended to provide all the necessary methods to quantify the uncertainties in a validly configured deterministic OGS6 simulation. 
-Special care is taken to ensure reliable and accurate determination of the stochastic moments even when a large amount of data is generated even for individual calculations.
+Special care is taken to ensure reliable and accurate determination of the stochastic moments even when a large amount of data is generated for individual calculations.
 
-The current environment for using this toolbox is individual servers. This means additional local workers are added via the `distributed.addprocs` method. This can be easily extended for use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or a mapping of servers and executed snapshots.
+The current environment for using this toolbox is individual servers. This means additional local workers are added via the `distributed.addprocs` method. This can be easily extended for the use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or the implementation of a mapping of executed snapshots to servers.
 
 This toolbox (will) heavily relies upon the following individual projects:
 
@@ -61,7 +61,7 @@ generateStochasticOGSModell(
 	sogsfile="StochasticOGSModelParams.xml"
 	)
 ```
-creates an xml-file which defines the so-called `StochasticOGSModel`. It is defined by 
+creates an xml-file which defines the so-called `StochasticOGSModelParams`. It is defined by 
 - the location to the existing `projectfile`, 
 - the `simcall` (e.g. `"path/to/ogs/bin/ogs"`), 
 - a `additionalprojecfilespath` where meshes and other files can be located which are copied in each individual folder for a OGS6-snapshot, 
@@ -87,7 +87,7 @@ generateSampleMethodModel(
 	anafile="SampleMethodParams.xml"
 	)
 ```
-creates an xml-file with all necessary parameters for the chosen sample method.
+creates an xml-file `anafile` with all necessary parameters for the chosen sample method in the `StochasticOGSModelParams`.
 
 ## Usage
 
