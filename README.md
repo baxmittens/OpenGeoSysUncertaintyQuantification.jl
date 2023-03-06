@@ -31,11 +31,7 @@ However, this project could serve as a basis for creating functionalities for ge
 
 ## Implemented features
 
-## Usage
-
-In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
-
-### The general idea for the creation of a stochastic OGS6 project
+## The general idea for the creation of a stochastic OGS6 project
 
 The general idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files. These files are human-readable and can be manually configured and duplicated for the use in other projects.
 
@@ -75,6 +71,28 @@ creates an xml-file which defines the so-called `StochasticOGSModel`. It is defi
 - a `stochmethod` (sparse grid or Monte-Carlo, where Monte-Carlo is not yet implemented),
 - the number of local workers `n_local_workers`, and, 
 - the filename `sogsfile` under which the model is stored as an xml-file. 
+
+This function also creates a file `user_function.jl` which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual calculations are generated and how the postprocessing results are handled.
+
+The third and last function
+
+```julia
+generateSampleMethodModel(
+	sogsfile::String, 
+	anafile="SampleMethodParams.xml"
+	)
+# or
+generateSampleMethodModel(
+	sogs::StochasticOGSModelParams, 
+	anafile="SampleMethodParams.xml"
+	)
+```
+creates an xml-file with all necessary parameters for the chosen sample method.
+
+## Usage
+
+In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+
 
 ### Defining the stochastic dimensions
 
