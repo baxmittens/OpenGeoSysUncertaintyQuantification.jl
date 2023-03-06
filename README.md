@@ -128,6 +128,7 @@ where all parameters possible to select as stochastic parameter are mapped. Sinc
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
 </Array>
 ```
+Here, the porosity and the thermal conductivity of the aqueous liquid are chosen as stochastic parameters.
 
 ### Defining the stochastic model
 

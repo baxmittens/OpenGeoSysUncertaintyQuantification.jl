@@ -90,6 +90,11 @@ function generateSampleMethodModel(sogs::StochasticOGSModelParams, anafile="Samp
 	return generateSampleMethodModel(sogs.samplemethod, sogs, anafile)
 end
 
+function generateSampleMethodModel(sogsfile::String, anafile="SampleMethodParams.xml")
+	sogs = XML2Julia(read(XMLFile, sogsfile))
+	return generateSampleMethodModel(sogs.samplemethod, sogs, anafile)
+end
+
 function lin_func(x,xmin,ymin,xmax,ymax)
 	a = (ymax-ymin)/(xmax-xmin)
 	b = ymax-a*xmax
