@@ -111,9 +111,9 @@ return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmitten
 >
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
-											.
-											.
-											.
+			.
+			.
+			.
 	./parameters/parameter/?displacement0/values
 	./parameters/parameter/?pressure_ic/values
 </Array>
