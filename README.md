@@ -241,5 +241,8 @@ generates two XML-files defining the stochastic model.
 
 | | |
 |:-------------------------:|:-------------------------:|
-|<img src="https://user-images.githubusercontent.com/100423479/223125219-45af259f-72fc-40d3-b08e-3c9f029aff15.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
+|<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
 | resulting sparse grid  | response surface |
+
+
+![image](https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png)
