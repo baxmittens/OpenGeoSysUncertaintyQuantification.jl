@@ -201,4 +201,4 @@ generates two XML-files defining the stochastic model.
 
 
 ![image](https://user-images.githubusercontent.com/100423479/223125219-45af259f-72fc-40d3-b08e-3c9f029aff15.png)
-![image](https://user-images.githubusercontent.com/100423479/223125678-66ebeb28-e69c-42a4-a517-cf4f0dfb8996.png)
+![image](https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png)
