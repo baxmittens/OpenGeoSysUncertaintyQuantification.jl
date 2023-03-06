@@ -115,7 +115,7 @@ function start!(ogsuqasg::OGSUQASG)
 	end
 end
 
-function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto)
+function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
 	ret = similar(retval_proto)
 	interpolate!(ret,ogsuqasg.asg, x)
 	mul!(ret,pdf(ogsuqasg.stochasticmodelparams.stochparams, x))
@@ -133,7 +133,7 @@ function 𝔼(sogs)
 	return 𝔼(sogs.analysis,sogs) 
 end
 
-function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT)
+function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
 	stochparams = ogsuqasg.stochasticmodelparams.stochparams
 	asg = ogsuqasg.asg
 	ret = similar(exp_val)
@@ -145,7 +145,7 @@ function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT)
 	return ret
 end
 
-function var(ogsuqasg::OGSUQASG,exp_val::RT)
+function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
 	asg = ASG(ogsuqasg, _var_func, ogsuqasg.ogsuqparams.samplemethodparams.tol)
 	return integrate_inplace_ops(asg)
