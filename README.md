@@ -20,6 +20,9 @@ This toolbox (will) heavily relies upon the following individual projects:
 - [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
 - [AltInplaceOpsInterface.jl](https://github.com/baxmittens/AltInplaceOpsInterface.jl)
 
+Since creating stochastic calculations based on deterministic solutions of discretized partial differential equations is complicated in itself, this project will focus on generating stochastic OGS6 projects.
+However, this project could serve as a basis for creating functionalities for generic stochastic calculations. Furthermore, the Julia projects mentioned above can be individually used to create generic stochastic computations.
+
 ## Current state of development
 
 **Although in a relatively advanced stage of development, the project should not be used by anyone at this time.**
@@ -31,6 +34,9 @@ This toolbox (will) heavily relies upon the following individual projects:
 ## Usage
 
 [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+
+### The general idea for the creation of a stochastic OGS6 project
+
 
 
 ### Defining the stochastic dimensions
@@ -200,5 +206,5 @@ generates two XML-files defining the stochastic model.
 
 | | |
 |:-------------------------:|:-------------------------:|
-|<img src="https://user-images.githubusercontent.com/100423479/223125219-45af259f-72fc-40d3-b08e-3c9f029aff15.png" width="350" height="300" />  blah |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
+|<img src="https://user-images.githubusercontent.com/100423479/223125219-45af259f-72fc-40d3-b08e-3c9f029aff15.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
 | resulting sparse grid  | response surface |
