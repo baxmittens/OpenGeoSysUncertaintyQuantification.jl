@@ -153,5 +153,5 @@ function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseG
 end
 
 function ASG(ogsuqasg::OGSUQASG, _fun, tol=1e-4)
-	return ASG(ogsuqasg.asg, ogsuqasg.samplemethodparams, _fun, tol)
+	return ASG(ogsuqasg.asg, ogsuqasg.ogsuqparams.samplemethodparams, _fun, tol)
 end
