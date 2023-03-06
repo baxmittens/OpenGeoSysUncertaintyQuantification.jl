@@ -99,7 +99,6 @@ In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2
 The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_params_file.jl) 
 ```julia
 using OGSUQ
-
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
@@ -112,33 +111,14 @@ return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmitten
 >
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
-	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?density/value
-	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_expansivity/value
-	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?viscosity/value
-	./media/medium/@id/0/phases/phase/?Solid/properties/property/?density/value
-	./media/medium/@id/0/phases/phase/?Solid/properties/property/?thermal_conductivity/value
-	./media/medium/@id/0/phases/phase/?Solid/properties/property/?specific_heat_capacity/value
-	./media/medium/@id/0/phases/phase/?Solid/properties/property/?thermal_expansivity/value
-	./media/medium/@id/0/properties/property/?saturation/value
-	./media/medium/@id/0/properties/property/?relative_permeability/value
-	./media/medium/@id/0/properties/property/?permeability/value
-	./media/medium/@id/0/properties/property/?porosity/value
-	./media/medium/@id/0/properties/property/?biot_coefficient/value
-	./parameters/parameter/?E/value
-	./parameters/parameter/?nu/value
-	./parameters/parameter/?T0/value
-	./parameters/parameter/?dirichlet0/value
-	./parameters/parameter/?Neumann0/value
-	./parameters/parameter/?temperature_ic/value
-	./parameters/parameter/?pressure_bc_left/value
-	./parameters/parameter/?temperature_bc_left/value
-	./parameters/parameter/?temperature_source_term/value
-	./processes/process/specific_body_force
+											.
+											.
+											.
 	./parameters/parameter/?displacement0/values
 	./parameters/parameter/?pressure_ic/values
 </Array>
 ```
-where all parameters possible to select as stochastic parameter are mapped. Since, in this example, an adaptive sparse grid collocation sampling shall be adopted, only two parameters are selected, or, respectively, all other parameters are deleted from the file.
+where all parameters possible to select as stochastic parameter are mapped. Since, in this example, an adaptive sparse grid collocation sampling shall be adopted, only two parameters are selected, or, respectively, all other parameters are deleted from the file. The resulting xml-file looks as follows and is stored as `PossibleStochasticParameters.xml` in the working directory.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Array
@@ -154,7 +134,6 @@ where all parameters possible to select as stochastic parameter are mapped. Sinc
 The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_model.jl) 
 ```julia
 using OGSUQ
-
 projectfile="./project/point_heat_source_2D.prj"
 simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2023-02-23/bin/ogs"
 additionalprojecfilespath="./mesh"
@@ -163,7 +142,7 @@ postprocfiles=["PointHeatSource_ts_10_t_50000.000000.vtu"]
 outputpath="./Res"
 stochmethod=AdaptiveHierarchicalSparseGrid
 
-stochparampathes = loadStochasticParameters()
+stochparampathes = loadStochasticParameters() #load the 2 stochastic parameters defined in "./PossibleStochasticParameters.xml"
 	
 stochasticmodelparams = generateStochasticOGSModell(
 	projectfile,
@@ -172,9 +151,9 @@ stochasticmodelparams = generateStochasticOGSModell(
 	postprocfiles,
 	stochparampathes,
 	outputpath,
-	stochmethod)
+	stochmethod) # generate the StochasticOGSModelParams
 
-samplemethodparams = generateSampleMethodModel(stochasticmodelparams)
+samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
 ```
 
 generates two XML-files defining the stochastic model.
