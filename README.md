@@ -1,5 +1,5 @@
 # OGSUQ
-An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.org/)
+An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.org/).
 
 ## Introduction
 
@@ -7,9 +7,9 @@ An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.
 
 In simulation-aided planning of safety-related projects, the effects of these uncertainties on the results must be assessed. 
 This toolbox is intended to provide all the necessary methods to quantify the uncertainties in a validly configured deterministic OGS6 simulation. 
-Special care is taken to ensure reliable and accurate determination of the stochastic moments even when large amounts of data are generated even for individual calculations.
+Special care is taken to ensure reliable and accurate determination of the stochastic moments even when a large amount of data is generated even for individual calculations.
 
-The current environment for using this toolbox is individual servers. This means additional workers are added via the `distributed.addprocs` method. This can be easily extended for use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or a mapping of servers and executed snapshots.
+The current environment for using this toolbox is individual servers. This means additional local workers are added via the `distributed.addprocs` method. This can be easily extended for use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or a mapping of servers and executed snapshots.
 
 This toolbox (will) heavily relies upon the following individual projects:
 
@@ -21,7 +21,7 @@ This toolbox (will) heavily relies upon the following individual projects:
 - [AltInplaceOpsInterface.jl](https://github.com/baxmittens/AltInplaceOpsInterface.jl)
 
 Since creating stochastic calculations based on deterministic solutions of discretized partial differential equations is complicated in itself, this project will focus on generating stochastic OGS6 projects.
-However, this project could serve as a basis for creating functionalities for generic stochastic calculations. Furthermore, the Julia projects mentioned above can be individually used to create generic stochastic computations.
+However, this project could serve as a basis for creating functionalities for generic stochastic calculations. Furthermore, the Julia projects mentioned above can be individually used to help with creating generic stochastic computations.
 
 ## Current state of development
 
@@ -33,11 +33,48 @@ However, this project could serve as a basis for creating functionalities for ge
 
 ## Usage
 
-[Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 ### The general idea for the creation of a stochastic OGS6 project
 
+The general idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files. These files are human-readable and can be manually configured and duplicated for the use in other projects.
 
+The first function 
+```julia
+generatePossibleStochasticParameters(
+	projectfile::String, 
+	file::String="./PossibleStochasticParameters.xml", 
+	keywords::Vector{String}=ogs_numeric_keyvals
+	)
+```
+can be used to scan a existing `projectfile` for all existing possible stochastic parameter. What is considered a stochastic parameter is defined by the [`keywords`](https://github.com/baxmittens/OGSUQ.jl/blob/1b1d5d247299df4a69d90c5eec93cefb48e2d74b/src/OGSUQ/utils.jl#L2). This generates an xml-file `file` where all possible stochastic parameters are listed. 
+
+The second funtion
+
+```julia
+generateStochasticOGSModell(
+	projectfile::String,
+	simcall::String,
+	additionalprojecfilespath::String,
+	postprocfile::Vector{String},
+	stochpathes::Vector{String},
+	outputpath="./Res",
+	stochmethod=AdaptiveHierarchicalSparseGrid,
+	n_local_workers=50,
+	keywords=ogs_numeric_keyvals,
+	sogsfile="StochasticOGSModelParams.xml"
+	)
+```
+creates an xml-file which defines the so-called `StochasticOGSModel`. It is defined by 
+- the location to the existing `projectfile`, 
+- the `simcall` (e.g. `"path/to/ogs/bin/ogs"`), 
+- a `additionalprojecfilespath` where meshes and other files can be located which are copied in each individual folder for a OGS6-snapshot, 
+- the path to one or more `postprocfile`s, 
+- the stochpathes, generated with `generatePossibleStochasticParameters`, manipulated by the user, and loaded by the `loadStochasticParameters`-function,
+- a `outputpath`, where all snapshots will be stored,
+- a `stochmethod` (sparse grid or Monte-Carlo, where Monte-Carlo is not yet implemented),
+- the number of local workers `n_local_workers`, and, 
+- the filename `sogsfile` under which the model is stored as an xml-file. 
 
 ### Defining the stochastic dimensions
 

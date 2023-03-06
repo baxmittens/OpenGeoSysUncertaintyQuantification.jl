@@ -17,7 +17,7 @@ function loadStochasticParameters(file::String="./PossibleStochasticParameters.x
 	return pathes
 end
 
-function createUserFiles(outfile::String, sogsfile::String, templatefile::String) where {N,CT,RT}
+function createUserFiles(outfile::String, sogsfile::String, templatefile::String)
 	f = open(templatefile)
 	str = read(f,String)
 	close(f)
@@ -37,7 +37,6 @@ function generateStochasticOGSModell(
 	outputpath="./Res",
 	stochmethod=AdaptiveHierarchicalSparseGrid,
 	n_local_workers=50,
-	keywords=ogs_numeric_keyvals,
 	sogsfile="StochasticOGSModelParams.xml"
 	)
 
