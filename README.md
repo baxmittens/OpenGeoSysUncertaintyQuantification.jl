@@ -83,7 +83,7 @@ where all parameters possible to select as stochastic parameter are mapped. Sinc
 <Array
 	 julia:type="String,1"
 >
-	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/properties/property/?porosity/value
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
 </Array>
 ```
@@ -119,7 +119,6 @@ samplemethodparams = generateSampleMethodModel(stochasticmodelparams)
 generates two XML-files defining the stochastic model.
 
 
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <StochasticOGSModelParams
@@ -147,29 +146,29 @@ generates two XML-files defining the stochastic model.
 		 julia:fieldname="stochparams"
 	>
 		<StochasticOGS6Parameter
-			 path="./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value"
+			 path="./media/medium/@id/0/properties/property/?porosity/value"
 			 valspec="1"
-			 lower_bound="3852.0"
-			 upper_bound="4708.0"
+			 lower_bound="0.15"
+			 upper_bound="0.60"
 		>
 			<Uniform
 				 julia:type="Float64"
 				 julia:fieldname="dist"
-				 a="3852.0"
-				 b="4708.0"
+				 a="0.15"
+				 b="0.60"
 			/>
 		</StochasticOGS6Parameter>
 		<StochasticOGS6Parameter
 			 path="./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value"
 			 valspec="1"
-			 lower_bound="0.54"
-			 upper_bound="0.6599999999999999"
+			 lower_bound="0.5"
+			 upper_bound="0.7"
 		>
 			<Uniform
 				 julia:type="Float64"
 				 julia:fieldname="dist"
-				 a="0.54"
-				 b="0.6599999999999999"
+				 a="0.5"
+				 b="0.7"
 			/>
 		</StochasticOGS6Parameter>
 	</Array>
@@ -185,7 +184,7 @@ generates two XML-files defining the stochastic model.
 	 RT="VTUFile"
 	 init_lvl="3"
 	 maxlvl="20"
-	 tol="0.01"
+	 tol="10000.0"
 	 file="SampleMethodParams.xml"
 >
 	<Array
