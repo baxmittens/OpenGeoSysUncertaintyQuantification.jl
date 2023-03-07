@@ -143,7 +143,7 @@ function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseG
 	for i = 1:samplemethodparams.maxlvl
 		println("adaptive ref step $i")
 		# call generate_next_level! with tol=1e-5 and maxlevels=20
-		cpts = generate_next_level!(asg, tol, 9)
+		cpts = generate_next_level!(asg, tol, samplemethodparams.maxlvl)
 		if isempty(cpts)
 			break
 		end
