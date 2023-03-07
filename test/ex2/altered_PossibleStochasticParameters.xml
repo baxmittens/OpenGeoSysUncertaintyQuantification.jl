@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Array
+	 julia:type="String,1"
+>
+	./media/medium/@id/0/properties/property/?porosity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
+</Array>
