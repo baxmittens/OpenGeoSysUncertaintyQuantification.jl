@@ -4,7 +4,7 @@ using XMLParser
 using Distributed
 using StaticArrays
 import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
-import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath
@@ -128,7 +128,7 @@ function 𝔼(ogsuqasg::OGSUQASG)
 	retval_proto = deepcopy(first(ogsuqasg.asg).scaling_weight)
 	_exp_val_func(x,ID) = exp_val_func(x,ID,ogsuqasg,retval_proto)
 	asg = ASG(ogsuqasg, _exp_val_func, ogsuqasg.ogsuqparams.samplemethodparams.tol)
-	return integrate_inplace_ops(asg)
+	return integrate_inplace_ops(asg),asg
 end
 
 function 𝔼(sogs) 
@@ -150,7 +150,7 @@ end
 function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
 	asg = ASG(ogsuqasg, _var_func, ogsuqasg.ogsuqparams.samplemethodparams.tol)
-	return integrate_inplace_ops(asg)
+	return integrate_inplace_ops(asg),asg
 end
 
 include("./OGSUQ/utils.jl")
