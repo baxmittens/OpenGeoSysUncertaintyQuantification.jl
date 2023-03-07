@@ -132,7 +132,7 @@ function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 end
 
 import DistributedSparseGrids: AbstractCollocationPoint, AbstractHierarchicalCollocationPoint, AbstractHierarchicalSparseGrid
-function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseGridParams, _fun, tol=1e-4) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
+function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseGridParams, _fun, tol) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
 	pointprobs = SVector(samplemethodparams.pointprobs...)
 	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
@@ -154,6 +154,6 @@ function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseG
 end
 
 function ASG(ogsuqasg::OGSUQASG, _fun)
-	tol = ogsuqasg.ogsuqparams.samplemethodparams.tol * 1.5
+	tol = ogsuqasg.ogsuqparams.samplemethodparams.tol * 5.0
 	return ASG(ogsuqasg.asg, ogsuqasg.ogsuqparams.samplemethodparams, _fun, tol)
 end
