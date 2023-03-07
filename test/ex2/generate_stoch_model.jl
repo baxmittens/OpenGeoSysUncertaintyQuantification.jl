@@ -8,7 +8,7 @@ postprocfiles=["PointHeatSource_ts_10_t_50000.000000.vtu"]
 outputpath="./Res"
 stochmethod=AdaptiveHierarchicalSparseGrid
 
-stochparampathes = loadStochasticParameters()
+stochparampathes = loadStochasticParameters("altered_PossibleStochasticParameters.xml")
 	
 stochasticmodelparams = generateStochasticOGSModell(
 	projectfile,
