@@ -133,7 +133,8 @@ end
 
 import DistributedSparseGrids: AbstractCollocationPoint, AbstractHierarchicalCollocationPoint, AbstractHierarchicalSparseGrid
 function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseGridParams, _fun, tol=1e-4) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
-	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},samplemethodparams.pointprobs)
+	pointprobs = SVector(samplemethodparams.pointprobs...)
+	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
 	for i = 1:samplemethodparams.init_lvl
 		union!(cpts,generate_next_level!(asg))

@@ -3,7 +3,7 @@ module OGSUQ
 using XMLParser
 using Distributed
 using StaticArrays
-import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath
