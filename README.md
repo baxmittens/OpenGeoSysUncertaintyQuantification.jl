@@ -154,6 +154,7 @@ outputpath="./Res"
 postprocfiles=["PointHeatSource_ts_10_t_50000.000000.vtu"]
 outputpath="./Res"
 stochmethod=AdaptiveHierarchicalSparseGrid
+n_local_workers=50
 
 stochparampathes = loadStochasticParameters("altered_PossibleStochasticParameters.xml")
 	
@@ -164,7 +165,8 @@ stochasticmodelparams = generateStochasticOGSModell(
 	postprocfiles,
 	stochparampathes,
 	outputpath,
-	stochmethod) # generate the StochasticOGSModelParams
+	stochmethod,
+	n_local_workers) # generate the StochasticOGSModelParams
 
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
 ```
@@ -212,6 +214,25 @@ Note, that the refinement tolerance was chosen as a large value since at the mom
 
 ### Sampling the model
 
+The following [lines of code](./test/ex2/start.jl)
+
+```julia
+using OGSUQ
+ogsuqparams = OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
+ogsuqasg = OGSUQ.init(ogsuqparams)
+OGSUQ.start!(ogsuqasg)
+expval,asg_expval = OGSUQ.𝔼(ogsuqasg)
+```
+
+loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts the sampling procedure. Finally the expected value is integrated.
+
+- Initializing the model `OGSUQ.init(ogsuqparams)` consists of two steps
+	
+	1. Adding all local workers (in this case 50 local workers)
+	2. Initializing the adaptive sparse grid.
+
+- Starting the sampling procedure `OGSUQ.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement.
+	
 
 
 | | |
