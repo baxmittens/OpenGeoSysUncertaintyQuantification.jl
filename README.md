@@ -154,7 +154,25 @@ samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate
 
 generates two XML-files, [`StochasticOGSModelParams.xml`](./test/ex2/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex2/SampleMethodParams.xml), defining the stochastic model.
 
-Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](./test/ex2/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMethodParams.xml)
+Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](./test/ex2/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMethodParams.xml).
+
+In the former, the two stochastic parameters are altered. The probability distribution of the porosity is changed from `Uniform` to `Normal` with mean `μ=0.375` and standard deviation `σ=0.1`.
+```xml
+<StochasticOGS6Parameter
+	 path="./media/medium/@id/0/properties/property/?porosity/value"
+	 valspec="1"
+	 lower_bound="0.15"
+	 upper_bound="0.60"
+>
+	<Normal
+		 julia:type="Float64"
+		 julia:fieldname="dist"
+		 μ="0.375"
+		 σ="0.1"
+	/>
+</StochasticOGS6Parameter>
+```
+Note, the parameters `lower_bound=0.15` and `upper_bound=0.60` 
 
 
 | | |
