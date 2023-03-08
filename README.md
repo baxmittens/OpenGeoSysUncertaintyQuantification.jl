@@ -185,9 +185,7 @@ The second parameter, the thermal conductivity, is set up as a truncated normal 
 </p>
 
 
-<p align="center">
 | | |
 |:-------------------------:|:-------------------------:|
 |<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
 | resulting sparse grid  | response surface |
-</p>
