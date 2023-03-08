@@ -178,7 +178,9 @@ Note that for efficiency, the normal distribution is rendered a [truncated norma
 
 The second parameter, the thermal conductivity, is set up as a truncated normal distribution with mean `μ=0.6`, standard deviation `σ=0.05`, `lower_bound=0.5`, and, `upper_bound=0.7`.
 
-![image](https://user-images.githubusercontent.com/100423479/223680829-7e4564d7-8287-4edb-8e21-f09cef838da6.png)
+
+<img src="https://user-images.githubusercontent.com/100423479/223680829-7e4564d7-8287-4edb-8e21-f09cef838da6.png" width="500" height="350" />
+
 
 
 | | |
