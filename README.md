@@ -14,14 +14,28 @@ The current environment for using this toolbox is individual servers. This means
 This toolbox (will) heavily relies upon the following individual projects:
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) 
-	blksjdcb cjdsnc kjds
-	jkcdsnkjc jksndc j
-	nkjcndskj
+	
+	A library implementing an Adaptive Sparse Grid collocation method for integrating memory-heavy objects generated on distributed workers ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.05003)).
+
 - [DistributedMonteCarlo.jl](https://github.com/baxmittens/DistributedMonteCarlo.jl)
+
+	Analogous to the above (work in progress).
+
 - [Ogs6InputFileHandler.jl](https://github.com/baxmittens/Ogs6InputFileHandler.jl)
+
+	A simple OGS6 input file handler.
+
 - [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl)
+
+	A VTU library for reading and writing vtu files. In addition, all mathematical operators are provided needed for stochastic postprocessing. This results in the datatype `VTUFile` can be directly used with the sparse grid enabling interpolating complete OGS6 result files ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.04300)).
+
 - [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
+
+	Analogous to the above for the XDMF result file format (work in progress).
+
 - [AltInplaceOpsInterface.jl](https://github.com/baxmittens/AltInplaceOpsInterface.jl)
+
+	A simple interface for in-place operators needed in different packages.
 
 Since creating stochastic calculations based on deterministic solutions of discretized partial differential equations is complicated in itself, this project will focus on generating stochastic OGS6 projects.
 However, this project could serve as a basis for creating functionalities for generic stochastic calculations. Furthermore, the Julia projects mentioned above can be individually used to help with creating generic stochastic computations.
