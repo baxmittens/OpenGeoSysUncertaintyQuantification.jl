@@ -127,7 +127,7 @@ are selected. Thus, all other parameters are deleted from the file. The resultin
 
 ### Defining the stochastic model
 
-The following [source code](./ex2/generate_stoch_model.jl) 
+The following [source code](./test/ex2/generate_stoch_model.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
