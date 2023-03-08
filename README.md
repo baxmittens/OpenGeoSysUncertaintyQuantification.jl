@@ -233,9 +233,9 @@ loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, start
 
 - Starting the sampling procedure `OGSUQ.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement.
 	
+	This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
 
-
-| | |
-|:-------------------------:|:-------------------------:|
-|<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
-| resulting sparse grid  | response surface |
+	| | |
+	|:-------------------------:|:-------------------------:|
+	|<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
+	| resulting sparse grid  | response surface |
