@@ -191,6 +191,10 @@ The second file [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMeth
 - the number of maximal hierarchical level of the sparse grid `maxlvl=20`, and,
 - the minimum hierarchical surplus for the adaptive refinement `tol=100000.0`.
 
+Note, that the refinement tolerance was chosen as a large value since at the moment the reference value is the `norm(::VTUFile)` of the entire result file.
+
+### Sampling the model
+
 | | |
 |:-------------------------:|:-------------------------:|
 |<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
