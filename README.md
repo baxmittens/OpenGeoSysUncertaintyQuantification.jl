@@ -174,8 +174,9 @@ In the former, the two stochastic parameters are altered. The probability distri
 ```
 Note that for efficiency, the normal distribution is rendered a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5%. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
 
-<img src="https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png" width="325" height="350" />
+<img src="https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png" width="350" height="350" />
 
+The second parameter, the thermal conductivity is set up as a truncated normal distribution with mean `μ=0.6`, standard deviation `σ=0.05`, `lower_bound=0.5`, and, `upper_bound=0.7`.
 
 
 | | |
