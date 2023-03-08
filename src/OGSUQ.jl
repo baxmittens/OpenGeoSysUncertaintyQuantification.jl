@@ -127,7 +127,8 @@ end
 function 𝔼(ogsuqasg::OGSUQASG)
 	retval_proto = deepcopy(first(ogsuqasg.asg).scaling_weight)
 	_exp_val_func(x,ID) = exp_val_func(x,ID,ogsuqasg,retval_proto)
-	asg = ASG(ogsuqasg, _exp_val_func)
+	tol = ogsuqasg.ogsuqparams.samplemethodparams.tol*5.0
+	asg = ASG(ogsuqasg, _exp_val_func,tol)
 	return integrate_inplace_ops(asg),asg
 end
 
@@ -149,7 +150,8 @@ end
 
 function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
-	asg = ASG(ogsuqasg, _var_func)
+	tol = ogsuqasg.ogsuqparams.samplemethodparams.tol*1000.0
+	asg = ASG(ogsuqasg, _var_func,tol)
 	return integrate_inplace_ops(asg),asg
 end
 
