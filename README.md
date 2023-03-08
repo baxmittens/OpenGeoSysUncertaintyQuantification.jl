@@ -176,6 +176,7 @@ Note that for efficiency, the normal distribution is rendered a [truncated norma
 
 <img src="https://user-images.githubusercontent.com/100423479/223675895-2b38de22-b0eb-4fb9-ad42-abcc5d6a7f4f.png" width="325" height="350" />
 
+![image](https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png)
 
 
 | | |
