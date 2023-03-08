@@ -102,7 +102,7 @@ using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file `PossibleStochasticParameters.xml` in the working directory
+return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/4cc3d0abfae7b2f15c0a53aa5b1207a6de8b0050/test/ex2/PossibleStochasticParameters.xml) in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -118,17 +118,12 @@ return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmitten
 	./parameters/parameter/?pressure_ic/values
 </Array>
 ```
-where all parameters possible to select as stochastic parameter are mapped. Since, in this example, an adaptive sparse grid collocation sampling shall be adopted, only two parameters are selected, or, respectively, all other parameters are deleted from the file. The resulting xml-file looks as follows and is stored as `PossibleStochasticParameters.xml` in the working directory.
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Array
-	 julia:type="String,1"
->
-	./media/medium/@id/0/properties/property/?porosity/value
-	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
-</Array>
+where all parameters possible to select as stochastic parameter are mapped. Since, in this example, an adaptive sparse grid collocation sampling shall be adopted, only two parameters, the porosity and the thermal conductivity of the aqueous liquid,
 ```
-Here, the porosity and the thermal conductivity of the aqueous liquid are chosen as stochastic parameters.
+./media/medium/@id/0/properties/property/?porosity/value
+./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
+```
+are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/4cc3d0abfae7b2f15c0a53aa5b1207a6de8b0050/test/ex2/altered_PossibleStochasticParameters.xml) in the working directory.
 
 ### Defining the stochastic model
 
