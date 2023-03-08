@@ -191,7 +191,7 @@ In the former, the two stochastic parameters are altered. The probability distri
 	/>
 </StochasticOGS6Parameter>
 ```
-Note that for efficiency, the normal distribution is changed to a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5%. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
+Note that for efficiency, the normal distribution is changed to a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5% for this example. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
 
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png" width="350" height="350" />
@@ -239,3 +239,6 @@ loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, start
 	|:-------------------------:|:-------------------------:|
 	|<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
 	| resulting sparse grid  | response surface |
+
+
+- Computation of the expected value

@@ -136,7 +136,7 @@ function 𝔼(sogs)
 end
 
 function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
-	stochparams = ogsuqasg.stochasticmodelparams.stochparams
+	stochparams = ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams
 	asg = ogsuqasg.asg
 	ret = similar(exp_val)
 	interpolate!(ret,asg,x)
