@@ -4,7 +4,7 @@
 	 CT="Float64"
 	 RT="VTUFile"
 	 init_lvl="4"
-	 maxlvl="20"
+	 maxlvl="10"
 	 tol="100000.0"
 	 file="altered_SampleMethodParams.xml"
 >
