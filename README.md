@@ -179,6 +179,7 @@ Note that for efficiency, the normal distribution is rendered a [truncated norma
 The second parameter, the thermal conductivity, is set up as a truncated normal distribution with mean `μ=0.6`, standard deviation `σ=0.05`, `lower_bound=0.5`, and, `upper_bound=0.7`. The multivariate truncated normal distribution resulting from the convolution of both one-dimensional distributions is pictured below. Note, that the domain has been transformed to the domain $[-1,1]^2$ of the [sparse grid](https://github.com/baxmittens/DistributedSparseGrids.jl).
 
 <img src="https://user-images.githubusercontent.com/100423479/223680829-7e4564d7-8287-4edb-8e21-f09cef838da6.png" width="500" height="250" />
+![image](https://user-images.githubusercontent.com/100423479/223682880-2be481cc-986a-4f00-a47a-042d0b0684e5.png)
 
 
 
