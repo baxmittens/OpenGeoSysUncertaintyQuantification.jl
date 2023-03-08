@@ -91,18 +91,18 @@ creates an xml-file `anafile` with all necessary parameters for the chosen sampl
 
 ## Usage
 
-In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [Ex2](./test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 
 ### Defining the stochastic dimensions
 
-The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_params_file.jl) 
+The following [source code](./test/ex2/generate_stoch_params_file.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/4cc3d0abfae7b2f15c0a53aa5b1207a6de8b0050/test/ex2/PossibleStochasticParameters.xml) in the working directory
+return an array of strings with [`OGS6-XML-pathes`](./src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](./test/ex2/PossibleStochasticParameters.xml) in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -123,11 +123,11 @@ where all parameters possible to select as stochastic parameter are mapped. Sinc
 ./media/medium/@id/0/properties/property/?porosity/value
 ./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
 ```
-are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/4cc3d0abfae7b2f15c0a53aa5b1207a6de8b0050/test/ex2/altered_PossibleStochasticParameters.xml) in the working directory.
+are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](./test/ex2/altered_PossibleStochasticParameters.xml) in the working directory.
 
 ### Defining the stochastic model
 
-The following [source code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex2/generate_stoch_model.jl) 
+The following [source code](./ex2/generate_stoch_model.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
@@ -152,7 +152,7 @@ stochasticmodelparams = generateStochasticOGSModell(
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
 ```
 
-generates two XML-files, [`StochasticOGSModelParams.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/a39ebe124aadefae6e194d275cfb2b96c10f736d/test/ex2/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex2/SampleMethodParams.xml), defining the stochastic model.
+generates two XML-files, [`StochasticOGSModelParams.xml`](./test/ex2/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex2/SampleMethodParams.xml), defining the stochastic model.
 
 
 
