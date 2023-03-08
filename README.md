@@ -27,7 +27,7 @@ This toolbox (will) heavily relies upon the following individual projects:
 
 - [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl)
 
-	A VTU library for reading and writing vtu files. In addition, all mathematical operators are provided needed for stochastic postprocessing. This results in the datatype `VTUFile` can be directly used with the sparse grid enabling interpolating complete OGS6 result files ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.04300)).
+	A VTU library for reading and writing vtu files. In addition, all mathematical operators are provided needed for stochastic postprocessing. This results in the datatype `VTUFile` can directly be used with the sparse grid, enabling interpolating complete OGS6 result files ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.04300)).
 
 - [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
 
@@ -84,12 +84,12 @@ creates an xml-file which defines the so-called `StochasticOGSModelParams`. It i
 - a `additionalprojecfilespath` where meshes and other files can be located which are copied in each individual folder for a OGS6-snapshot, 
 - the path to one or more `postprocfile`s, 
 - the stochpathes, generated with `generatePossibleStochasticParameters`, manipulated by the user, and loaded by the `loadStochasticParameters`-function,
-- a `outputpath`, where all snapshots will be stored,
+- an `outputpath`, where all snapshots will be stored,
 - a `stochmethod` (sparse grid or Monte-Carlo, where Monte-Carlo is not yet implemented),
 - the number of local workers `n_local_workers`, and, 
 - the filename `sogsfile` under which the model is stored as an xml-file. 
 
-This function also creates a file `user_function.jl` which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual calculations are generated and how the postprocessing results are handled.
+This function also creates a file `user_function.jl` which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual snaptshots are generated and how the postprocessing results are handled.
 
 The third and last function
 
@@ -113,7 +113,7 @@ In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2
 
 ### Defining the stochastic dimensions
 
-The following [source code](./test/ex2/generate_stoch_params_file.jl) 
+The following [lines of code](./test/ex2/generate_stoch_params_file.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
@@ -144,7 +144,7 @@ are selected. Thus, all other parameters are deleted from the file. The resultin
 
 ### Defining the stochastic model
 
-The following [source code](./test/ex2/generate_stoch_model.jl) 
+The following [code snippet](./test/ex2/generate_stoch_model.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
@@ -189,7 +189,7 @@ In the former, the two stochastic parameters are altered. The probability distri
 	/>
 </StochasticOGS6Parameter>
 ```
-Note that for efficiency, the normal distribution is rendered a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5%. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
+Note that for efficiency, the normal distribution is changed to a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5%. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
 
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png" width="350" height="350" />
@@ -208,9 +208,11 @@ The second file [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMeth
 - the number of maximal hierarchical level of the sparse grid `maxlvl=20`, and,
 - the minimum hierarchical surplus for the adaptive refinement `tol=100000.0`.
 
-Note, that the refinement tolerance was chosen as a large value since at the moment the reference value is the `norm(::VTUFile)` of the entire result file.
+Note, that the refinement tolerance was chosen as a large value since at the moment the reference value is the `LinearAlgebra.norm(::VTUFile)` of the entire result file.
 
 ### Sampling the model
+
+
 
 | | |
 |:-------------------------:|:-------------------------:|
