@@ -172,9 +172,10 @@ In the former, the two stochastic parameters are altered. The probability distri
 	/>
 </StochasticOGS6Parameter>
 ```
-Note, the parameters `lower_bound=0.15` and `upper_bound=0.60` 
+Note that for efficiency, the normal distribution is rendered a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`.
 
-![image](https://user-images.githubusercontent.com/100423479/223675895-2b38de22-b0eb-4fb9-ad42-abcc5d6a7f4f.png)
+<img src="https://user-images.githubusercontent.com/100423479/223675895-2b38de22-b0eb-4fb9-ad42-abcc5d6a7f4f.png" width="300" height="350" />
+
 
 
 | | |
