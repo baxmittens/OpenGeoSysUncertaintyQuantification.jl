@@ -174,6 +174,8 @@ In the former, the two stochastic parameters are altered. The probability distri
 ```
 Note, the parameters `lower_bound=0.15` and `upper_bound=0.60` 
 
+![image](https://user-images.githubusercontent.com/100423479/223675895-2b38de22-b0eb-4fb9-ad42-abcc5d6a7f4f.png)
+
 
 | | |
 |:-------------------------:|:-------------------------:|
