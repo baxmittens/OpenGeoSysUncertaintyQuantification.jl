@@ -131,7 +131,7 @@ The following [source code](./test/ex2/generate_stoch_model.jl)
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
-simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2023-02-23/bin/ogs"
+simcall="/path/to/ogs/bin/ogs"
 additionalprojecfilespath="./mesh"
 outputpath="./Res"
 postprocfiles=["PointHeatSource_ts_10_t_50000.000000.vtu"]
@@ -154,6 +154,7 @@ samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate
 
 generates two XML-files, [`StochasticOGSModelParams.xml`](./test/ex2/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex2/SampleMethodParams.xml), defining the stochastic model.
 
+Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](./test/ex2/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMethodParams.xml)
 
 
 | | |
