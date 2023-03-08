@@ -43,7 +43,7 @@ generatePossibleStochasticParameters(
 	keywords::Vector{String}=ogs_numeric_keyvals
 	)
 ```
-can be used to scan a existing `projectfile` for all existing possible stochastic parameter. What is considered a stochastic parameter is defined by the [`keywords`](https://github.com/baxmittens/OGSUQ.jl/blob/1b1d5d247299df4a69d90c5eec93cefb48e2d74b/src/OGSUQ/utils.jl#L2). This generates an xml-file `file` where all possible stochastic parameters are listed. 
+can be used to scan a existing `projectfile` for all existing possible stochastic parameter. What is considered a stochastic parameter is defined by the [`keywords`](./src/OGSUQ/utils.jl#L2). This generates an xml-file `file` where all possible stochastic parameters are listed. 
 
 The second funtion
 
@@ -91,7 +91,7 @@ creates an xml-file `anafile` with all necessary parameters for the chosen sampl
 
 ## Usage
 
-In this chapter, [Ex2](./test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 
 ### Defining the stochastic dimensions
@@ -102,7 +102,7 @@ using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with [`OGS6-XML-pathes`](./src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](./test/ex2/PossibleStochasticParameters.xml) in the working directory
+return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](./test/ex2/PossibleStochasticParameters.xml) in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
