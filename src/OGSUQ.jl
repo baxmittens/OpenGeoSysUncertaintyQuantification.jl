@@ -99,16 +99,16 @@ end
 
 function start!(ogsuqasg::OGSUQASG)
 	asg = ogsuqasg.asg
-	init_lvl = samplemethodparams.init_lvl
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
+	init_lvl = samplemethodparams.init_lvl
 	cpts = collect(asg)
-	for i = 1:samplemethodparams.init_lvl
+	for i = 1:init_lvl
 		append!(cpts,generate_next_level!(asg))
 	end
 	worker_ids = workers()
 	@time distributed_init_weights_inplace_ops!(asg, cpts, Main.fun, worker_ids)
-	tol =  ogsuqasg.ogsuqparams.samplemethodparams.tol
-	maxlvl =  ogsuqasg.ogsuqparams.samplemethodparams.maxlvl
+	tol =  samplemethodparams.tol
+	maxlvl =  samplemethodparams.maxlvl
 	tolrt = average_scaling_weight(asg, init_lvl) * tol
 	comparefct(rt) = tolrt <= rt # a<=b is abs.(a)<=abs.(b)
 	while true
