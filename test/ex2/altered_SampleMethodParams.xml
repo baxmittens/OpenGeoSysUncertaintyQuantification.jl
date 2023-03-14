@@ -5,7 +5,7 @@
 	 RT="VTUFile"
 	 init_lvl="4"
 	 maxlvl="12"
-	 tol="0.001"
+	 tol="0.1"
 	 file="altered_SampleMethodParams.xml"
 >
 	<Array
