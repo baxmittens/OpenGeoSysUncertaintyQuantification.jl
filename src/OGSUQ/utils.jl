@@ -132,7 +132,7 @@ function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 end
 
 import DistributedSparseGrids: AbstractCollocationPoint, AbstractHierarchicalCollocationPoint, AbstractHierarchicalSparseGrid
-function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseGridParams, _fun, tol) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
+function ASG(::AbstractHierarchicalSparseGrid{N,HCP}, samplemethodparams::SparseGridParams, _fun) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
 	pointprobs = SVector(samplemethodparams.pointprobs...)
 	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	cpts = Set{HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}}(collect(asg))
@@ -140,10 +140,13 @@ function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseG
 		union!(cpts,generate_next_level!(asg))
 	end
 	@time init_weights_inplace_ops!(asg, collect(cpts), _fun)
+	tol =  samplemethodparams.tol
+	tolrt = average_scaling_weight(asg, samplemethodparams.init_lvl) * tol
+	comparefct(rt) = tolrt <= rt # a<=b is abs.(a)<=abs.(b)
 	for i = 1:samplemethodparams.maxlvl
 		println("adaptive ref step $i")
 		# call generate_next_level! with tol=1e-5 and maxlevels=20
-		cpts = generate_next_level!(asg, tol, samplemethodparams.maxlvl)
+		cpts = generate_next_level!(asg, comparefct, samplemethodparams.maxlvl)
 		if isempty(cpts)
 			break
 		end
@@ -153,6 +156,6 @@ function ASG(::AbstractHierarchicalSparseGrid{N,HCP},samplemethodparams::SparseG
 	return asg
 end
 
-function ASG(ogsuqasg::OGSUQASG, _fun, tol)
-	return ASG(ogsuqasg.asg, ogsuqasg.ogsuqparams.samplemethodparams, _fun, tol)
+function ASG(ogsuqasg::OGSUQASG, _fun)
+	return ASG(ogsuqasg.asg, ogsuqasg.ogsuqparams.samplemethodparams, _fun)
 end

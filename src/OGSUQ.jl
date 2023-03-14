@@ -4,7 +4,7 @@ using XMLParser
 using Distributed
 using StaticArrays
 import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
-import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops
+import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops, average_scaling_weight
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath
@@ -99,6 +99,7 @@ end
 
 function start!(ogsuqasg::OGSUQASG)
 	asg = ogsuqasg.asg
+	init_lvl = samplemethodparams.init_lvl
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
 	cpts = collect(asg)
 	for i = 1:samplemethodparams.init_lvl
@@ -108,8 +109,10 @@ function start!(ogsuqasg::OGSUQASG)
 	@time distributed_init_weights_inplace_ops!(asg, cpts, Main.fun, worker_ids)
 	tol =  ogsuqasg.ogsuqparams.samplemethodparams.tol
 	maxlvl =  ogsuqasg.ogsuqparams.samplemethodparams.maxlvl
+	tolrt = average_scaling_weight(asg, init_lvl) * tol
+	comparefct(rt) = tolrt <= rt # a<=b is abs.(a)<=abs.(b)
 	while true
-  		cpts = generate_next_level!(asg, tol, maxlvl)
+  		cpts = generate_next_level!(asg, comparefct, maxlvl)
     	if isempty(cpts)
     		break
   		end
@@ -127,8 +130,7 @@ end
 function 𝔼(ogsuqasg::OGSUQASG)
 	retval_proto = deepcopy(first(ogsuqasg.asg).scaling_weight)
 	_exp_val_func(x,ID) = exp_val_func(x,ID,ogsuqasg,retval_proto)
-	tol = ogsuqasg.ogsuqparams.samplemethodparams.tol*5.0
-	asg = ASG(ogsuqasg, _exp_val_func,tol)
+	asg = ASG(ogsuqasg, _exp_val_func)
 	return integrate_inplace_ops(asg),asg
 end
 
@@ -150,8 +152,7 @@ end
 
 function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
-	tol = ogsuqasg.ogsuqparams.samplemethodparams.tol*1000.0
-	asg = ASG(ogsuqasg, _var_func,tol)
+	asg = ASG(ogsuqasg, _var_func)
 	return integrate_inplace_ops(asg),asg
 end
 
