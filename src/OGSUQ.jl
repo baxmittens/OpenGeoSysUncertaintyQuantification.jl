@@ -77,11 +77,14 @@ end
 #	params::OGSUQParams
 #end
 
+include("./OGSUQ/utils.jl")
+
 function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	N = ogsuqparams.samplemethodparams.N
 	CT = ogsuqparams.samplemethodparams.CT
 	RT = ogsuqparams.samplemethodparams.RT
 	pointprobs = SVector(ogsuqparams.samplemethodparams.pointprobs...)
+	create_files_and_dirs(ogsuqparams.stochasticmodelparams)
 	asg = init(AdaptiveHierarchicalSparseGrid{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	return OGSUQASG(ogsuqparams, asg)
 end
@@ -165,8 +168,6 @@ function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	asg = ASG(ogsuqasg, _var_func)
 	return integrate_inplace_ops(asg),asg
 end
-
-include("./OGSUQ/utils.jl")
 
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, 
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 

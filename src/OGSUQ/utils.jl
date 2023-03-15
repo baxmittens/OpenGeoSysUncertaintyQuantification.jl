@@ -28,6 +28,18 @@ function createUserFiles(outfile::String, sogsfile::String, templatefile::String
 	println("Function template file written to $outfile")
 end
 
+function create_files_and_dirs(sogs::StochasticOGSModelParams)
+	templatefile = joinpath(@__DIR__,"user_function_template.jl")
+	outfile = "./user_functions.jl"
+	if !isfile(outfile)
+		createUserFiles(outfile,sogs.file,templatefile)
+	end
+	if !isdir(ogs6pp.outputpath)
+		run(`mkdir $(ogs6pp.outputpath)`)
+		println("Created Resultfolder $(ogs6pp.outputpath)")
+	end
+end
+
 function generateStochasticOGSModell(
 	projectfile::String,
 	simcall::String,
@@ -56,19 +68,12 @@ function generateStochasticOGSModell(
 		push!(stochparams, StochasticOGS6Parameter(path,valspec,dist,lb,ub))
 	end
 
-	templatefile = joinpath(@__DIR__,"user_function_template.jl")
-	outfile = "./user_functions.jl"
-	createUserFiles(outfile,sogsfile,templatefile)
-
 	ogs6pp = OGS6ProjectParams(projectfile,simcall,additionalprojecfilespath,outputpath,postprocfile)
 	#sogs = OGSUQParams(ogs6pp,stochparams,stochmethod,n_local_workers,remote_workers,sogsfile)
 	sogs = StochasticOGSModelParams(ogs6pp,stochparams,stochmethod,n_local_workers,outfile,sogsfile)
 	#writeXML(Julia2XML(sogs), sogsfile)
 	write(sogsfile, Julia2XML(sogs))
-	if !isdir(ogs6pp.outputpath)
-		run(`mkdir $(ogs6pp.outputpath)`)
-		println("Created Resultfolder $(ogs6pp.outputpath)")
-	end
+	create_files_and_dirs(sogs)
 	return sogs
 end
 
