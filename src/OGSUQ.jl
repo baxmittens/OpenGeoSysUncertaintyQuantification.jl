@@ -97,6 +97,16 @@ function init(ogsuqparams::OGSUQParams)
 	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
 end
 
+function vtufile_comparefct(rt,tolrt,mintol)
+	nfields = length(tolrt.data.interp_data)
+	maxtols = map(i->max(maximum(tolrt.data.interp_data[i].dat),mintol),1:nfields) 
+	allsmall = true
+	for (maxtol,rtdat) in zip(maxtols,rt.data.interp_data)
+		allsmall *= all(rtdat.dat .<= maxtol)
+	end
+	return !allsmall
+end
+
 function start!(ogsuqasg::OGSUQASG)
 	asg = ogsuqasg.asg
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
@@ -110,7 +120,7 @@ function start!(ogsuqasg::OGSUQASG)
 	tol =  samplemethodparams.tol
 	maxlvl =  samplemethodparams.maxlvl
 	tolrt = average_scaling_weight(asg, init_lvl) * tol
-	comparefct(rt) = tolrt <= rt # a<=b is abs.(a)<=abs.(b)
+	comparefct(rt) = vtufile_comparefct(rt,tolrt,tol)
 	while true
   		cpts = generate_next_level!(asg, comparefct, maxlvl)
     	if isempty(cpts)
