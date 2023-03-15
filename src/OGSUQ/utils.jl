@@ -29,6 +29,7 @@ function createUserFiles(outfile::String, sogsfile::String, templatefile::String
 end
 
 function create_files_and_dirs(sogs::StochasticOGSModelParams)
+	ogs6pp = sogs.ogsparams
 	templatefile = joinpath(@__DIR__,"user_function_template.jl")
 	outfile = "./user_functions.jl"
 	if !isfile(outfile)
