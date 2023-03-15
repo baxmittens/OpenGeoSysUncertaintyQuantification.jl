@@ -84,14 +84,14 @@ function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	CT = ogsuqparams.samplemethodparams.CT
 	RT = ogsuqparams.samplemethodparams.RT
 	pointprobs = SVector(ogsuqparams.samplemethodparams.pointprobs...)
-	create_files_and_dirs(ogsuqparams.stochasticmodelparams)
 	asg = init(AdaptiveHierarchicalSparseGrid{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	return OGSUQASG(ogsuqparams, asg)
 end
 
 function init(ogsuqparams::OGSUQParams)
+	create_files_and_dirs(ogsuqparams.stochasticmodelparams)
 	actworker = nworkers()
-	if actworker < ogsuqparams.stochasticmodelparams.num_local_workers
+	if actworker < ogsuqparams.stochasticmodelparams.num_local_workers-1
 		naddprocs = ogsuqparams.stochasticmodelparams.num_local_workers-actworker
 		@info "add $addprocs procs"
 		addprocs(naddprocs)
