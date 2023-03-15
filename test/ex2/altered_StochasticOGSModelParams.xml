@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StochasticOGSModelParams
 	 samplemethod="AdaptiveHierarchicalSparseGrid"
-	 num_local_workers="30"
+	 num_local_workers="80"
 	 userfunctionfile="./user_functions.jl"
 	 file="altered_StochasticOGSModelParams.xml"
 >
@@ -26,27 +26,27 @@
 		<StochasticOGS6Parameter
 			 path="./media/medium/@id/0/properties/property/?porosity/value"
 			 valspec="1"
-			 lower_bound="0.15"
-			 upper_bound="0.60"
+			 lower_bound="0.1"
+			 upper_bound="0.8"
 		>
 			<Normal
 				 julia:type="Float64"
 				 julia:fieldname="dist"
-				 μ="0.375"
-				 σ="0.1"
+				 μ="0.45"
+				 σ="0.15"
 			/>
 		</StochasticOGS6Parameter>
 		<StochasticOGS6Parameter
 			 path="./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value"
 			 valspec="1"
-			 lower_bound="0.5"
-			 upper_bound="0.7"
+			 lower_bound="0.3"
+			 upper_bound="0.9"
 		>
 			<Normal
 				 julia:type="Float64"
 				 julia:fieldname="dist"
 				 μ="0.6"
-				 σ="0.05"
+				 σ="0.175"
 			/>
 		</StochasticOGS6Parameter>
 	</Array>
