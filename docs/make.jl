@@ -1,27 +1,29 @@
 import Pkg; Pkg.add("Documenter")
-Pkg.add("StaticArrays")
-Pkg.add("Colors")
-Pkg.add("PlotlyJS")
-Pkg.add("UnicodePlots")
-Pkg.add("FastGaussQuadrature")
-Pkg.add("ProgressMeter")
-Pkg.add("DistributedSparseGrids")
-Pkg.develop("DistributedSparseGrids")
+#Pkg.add("StaticArrays")
+#Pkg.add("Colors")
+#Pkg.add("PlotlyJS")
+#Pkg.add("UnicodePlots")
+#Pkg.add("FastGaussQuadrature")
+#Pkg.add("ProgressMeter")
+#Pkg.add("DistributedSparseGrids")
+#Pkg.develop("DistributedSparseGrids")
+Pkg.add(url="https://github.com/baxmittens/OGSUQ.jl.git")
+Pkg.develop("OGSUQ")
 
 #push!(LOAD_PATH,"../src/")
 #include("../src/DistributedSparseGrids.jl")
 
 using Documenter, DistributedSparseGrids
 makedocs(
-	sitename = "DistributedSparseGrids.jl",
-	modules = [DistributedSparseGrids],
+	sitename = "OgsUQ.jl",
+	modules = [OGSUQ],
 	pages = [
 		"Home" => "index.md"
 		"Library" => "lib/lib.md"
 	]
 	)
 deploydocs(
-    repo = "github.com/baxmittens/DistributedSparseGrids.jl.git"
+    repo = "github.com/baxmittens/OGSUQ.jl.git"
 )
 
 
