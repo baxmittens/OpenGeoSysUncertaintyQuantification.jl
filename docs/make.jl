@@ -19,7 +19,7 @@ makedocs(
 	modules = [OGSUQ],
 	pages = [
 		"Home" => "index.md"
-		"Library" => "lib/lib.md"
+		#"Library" => "lib/lib.md"
 	]
 	)
 deploydocs(
