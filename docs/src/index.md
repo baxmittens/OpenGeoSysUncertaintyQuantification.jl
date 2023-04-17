@@ -12,9 +12,9 @@ generatePossibleStochasticParameters(
 	keywords::Vector{String}=ogs_numeric_keyvals
 	)
 ```
-can be used to scan a existing `projectfile` for all existing possible stochastic parameter. What is considered a stochastic parameter is defined by the [`keywords`](./src/OGSUQ/utils.jl#L2). This generates an xml-file `file` where all possible stochastic parameters are listed. 
+scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](./src/OGSUQ/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
 
-The second funtion
+The second function
 
 ```julia
 generateStochasticOGSModell(
@@ -37,7 +37,7 @@ creates an xml-file which defines the so-called `StochasticOGSModelParams`. It i
 - the path to one or more `postprocfile`s, 
 - the stochpathes, generated with `generatePossibleStochasticParameters`, manipulated by the user, and loaded by the `loadStochasticParameters`-function,
 - an `outputpath`, where all snapshots will be stored,
-- a `stochmethod` (sparse grid or Monte-Carlo, where Monte-Carlo is not yet implemented),
+- a `stochmethod` (Sparse grid or Monte-Carlo, where Monte-Carlo is not yet implemented),
 - the number of local workers `n_local_workers`, and, 
 - the filename `sogsfile` under which the model is stored as an xml-file. 
 
@@ -192,11 +192,22 @@ loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, start
 	This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
 
 ```@raw html
-	| | |
-	|:-------------------------:|:-------------------------:|
-	|<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
-	| resulting sparse grid  | response surface |
+<table border="0"><tr>
+<td> 
+	<figure>
+		<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /><br>
+		<figcaption><em>resulting sparse grid</em></figcaption>
+	</figure>
+</td>
+<td> 
+	<figure>
+		<img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" /><br>
+		<figcaption><em>response surface</em></figcaption>
+	</figure>
+</td>
+</tr></table>
 ```
+
 
 - Computation of the expected value
 
