@@ -1,8 +1,8 @@
 # OGSUQ.jl
 
-## The general idea for the creation of a stochastic OGS6 project
+## The principle idea for the creation of a stochastic OGS6 project
 
-The general idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files. These files are human-readable and can be manually configured and duplicated for the use in other projects.
+The principle idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files which are used to define the stochastic OGS project. These files are human-readable and can be manually configured and duplicated for the use in other, or slightly altered, stochastic projects.
 
 The first function 
 ```julia
@@ -145,9 +145,11 @@ In the former, the two stochastic parameters are altered. The probability distri
 ```
 Note that for efficiency, the normal distribution is changed to a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5% for this example. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
 
+```@raw html
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png" width="350" height="350" />
 </p>
+```
 
 The second parameter, the thermal conductivity, is set up as a truncated normal distribution with mean `μ=0.6`, standard deviation `σ=0.05`, `lower_bound=0.5`, and, `upper_bound=0.7`. The multivariate truncated normal distribution resulting from the convolution of both one-dimensional distributions is pictured below. Note, that the distribution has been transformed to the domain $[-1,1]^2$ of the [sparse grid](https://github.com/baxmittens/DistributedSparseGrids.jl).
 
@@ -189,11 +191,12 @@ loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, start
 	
 	This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
 
+```@raw html
 	| | |
 	|:-------------------------:|:-------------------------:|
 	|<img src="https://user-images.githubusercontent.com/100423479/223154558-4b94d7a2-e93b-45ef-9783-11437ae23b35.png" width="350" height="300" /> |  <img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" />|
 	| resulting sparse grid  | response surface |
-
+```
 
 - Computation of the expected value
 
