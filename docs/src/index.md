@@ -201,7 +201,7 @@ loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, start
 </td>
 <td> 
 	<figure>
-		<img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="300" height="300" /><br>
+		<img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="350" height="350" /><br>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
