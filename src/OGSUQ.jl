@@ -1,6 +1,7 @@
 module OGSUQ
 
 using XMLParser
+import XMLParser: Julia2XML
 using Distributed
 using StaticArrays
 import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
