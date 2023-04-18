@@ -206,7 +206,7 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 </td>
 <td> 
 	<figure>
-		<img src="./assets/response_surface_expval.png" width="350" height="300" /><br>
+		<img src="./assets/response_surface.png" width="350" height="300" /><br>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
@@ -234,18 +234,67 @@ write(expval)
 </td>
 <td> 
 	<figure>
-		<img src="./assets/response_surface.png" width="350" height="300" /><br>
+		<img src="./assets/response_surface_expval.png" width="350" height="300" /><br>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
 </tr></table>
 ```
 
+```@raw html
+<table border="0"><tr>
+<td> 
+	<figure>
+		<img src="./assets/expval_press.PNG" width="350" height="300" /><br>
+		<figcaption><em>resulting sparse grid</em></figcaption>
+	</figure>
+</td>
+<td> 
+	<figure>
+		<img src="./assets/expval_temp.PNG" width="350" height="300" /><br>
+		<figcaption><em>response surface</em></figcaption>
+	</figure>
+</td>
+</tr></table>
+
 ### Computation of the variance
 
 ```julia
 varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
 ```
+
+```@raw html
+<table border="0"><tr>
+<td> 
+	<figure>
+		<img src="./assets/asg_varval.png" width="350" height="300" /><br>
+		<figcaption><em>resulting sparse grid</em></figcaption>
+	</figure>
+</td>
+<td> 
+	<figure>
+		<img src="./assets/response_surface_varval.png" width="350" height="300" /><br>
+		<figcaption><em>response surface</em></figcaption>
+	</figure>
+</td>
+</tr></table>
+```
+
+```@raw html
+<table border="0"><tr>
+<td> 
+	<figure>
+		<img src="./assets/varval_press.PNG" width="350" height="300" /><br>
+		<figcaption><em>resulting sparse grid</em></figcaption>
+	</figure>
+</td>
+<td> 
+	<figure>
+		<img src="./assets/varval_temp.PNG" width="350" height="300" /><br>
+		<figcaption><em>response surface</em></figcaption>
+	</figure>
+</td>
+</tr></table>
 
 
 ## Contributions, report bugs and support
