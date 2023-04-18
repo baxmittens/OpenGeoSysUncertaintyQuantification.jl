@@ -8,13 +8,13 @@ An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.
 
 [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hdydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge.
 
-In simulation-aided planning of safety-related projects, the effects of these uncertainties on the results must be assessed. 
+In simulation-aided planning of safety-related projects, the effects of those uncertainties on the results must be assessed. 
 This toolbox is intended to provide all the necessary methods to quantify the uncertainties in a validly configured deterministic OGS6 simulation. 
 Special care is taken to ensure reliable and accurate determination of the stochastic moments even when a large amount of data is generated for individual calculations.
 
-The current environment for using this toolbox is individual servers. This means additional local workers are added via the `distributed.addprocs` method. This can be easily extended for the use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or the implementation of a mapping of executed snapshots to servers.
+The current environment for using this toolbox is individual servers. This means additional local workers are added via the `distributed.addprocs` method. This can be easily extended for the use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or the implementation of a mapping of executed snapshots to individual servers.
 
-This toolbox heavily relies upon the following individual projects:
+This toolbox heavily relies upon the following projects:
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) 
 	
@@ -48,6 +48,10 @@ However, this project could serve as a basis for creating functionalities for ge
 **Although in a relatively advanced stage of development, the project should not be used by anyone at this time.**
 
 ## Install
+
+## Usage
+
+For more information, see the [documentation](docs-dev-url).
 
 ## Implemented features
 
