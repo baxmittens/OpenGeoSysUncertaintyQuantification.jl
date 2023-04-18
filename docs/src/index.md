@@ -19,7 +19,7 @@ generatePossibleStochasticParameters(
 	keywords::Vector{String}=ogs_numeric_keyvals
 	)
 ```
-scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](../../src/OGSUQ/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
+scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](../src/OGSUQ/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
 
 The second function
 
@@ -130,9 +130,9 @@ stochasticmodelparams = generateStochasticOGSModell(
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
 ```
 
-generates two XML-files, [`StochasticOGSModelParams.xml`](./test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex1/SampleMethodParams.xml), defining the stochastic model.
+generates two XML-files, [`StochasticOGSModelParams.xml`](../../test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](../../test/ex1/SampleMethodParams.xml), defining the stochastic model.
 
-Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](./test/ex1/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](./test/ex1/altered_SampleMethodParams.xml).
+Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](../../test/ex1/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](../../test/ex1/altered_SampleMethodParams.xml).
 
 In the former, the two stochastic parameters are altered. The probability distribution of the porosity is changed from `Uniform` to `Normal` with mean `μ=0.375` and standard deviation `σ=0.1`.
 ```xml
@@ -166,7 +166,7 @@ The second parameter, the thermal conductivity, is set up as a truncated normal 
 </p>
 ```
 
-The second file [`altered_SampleMethodParams.xml`](./test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
+The second file [`altered_SampleMethodParams.xml`](../../test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
 - the number of dimensions `N=2`,
 - the return type `RT="VTUFile"` (see [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl))
 - the number of initial hierachical level of the sparse grid `init_lvl=4`,
@@ -175,7 +175,7 @@ The second file [`altered_SampleMethodParams.xml`](./test/ex1/altered_SampleMeth
 
 ### Sampling the model
 
-The following [lines of code](./test/ex1/start.jl)
+The following [lines of code](../../test/ex1/start.jl)
 
 ```julia
 using OGSUQ
