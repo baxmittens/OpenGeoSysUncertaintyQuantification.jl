@@ -74,11 +74,10 @@ samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate
 	<img src="https://user-images.githubusercontent.com/100423479/223678210-58ebf8c4-731a-4a5e-9037-693f80d431b4.png" width="350" height="350" />
 </p><p>The second parameter, the thermal conductivity, is set up as a truncated normal distribution with mean <code>μ=0.6</code>, standard deviation <code>σ=0.05</code>, <code>lower_bound=0.5</code>, and, <code>upper_bound=0.7</code>. The multivariate truncated normal distribution resulting from the convolution of both one-dimensional distributions is pictured below. Note, that the distribution has been transformed to the domain <span>$[-1,1]^2$</span> of the <a href="https://github.com/baxmittens/DistributedSparseGrids.jl">sparse grid</a>.</p><p align="center">
 	<img src="https://user-images.githubusercontent.com/100423479/223682880-2be481cc-986a-4f00-a47a-042d0b0684e5.png" width="400" height="250" />
-</p><p>The second file <a href="test/ex1/altered_SampleMethodParams.xml"><code>altered_SampleMethodParams.xml</code></a> defines the sample method parameters such as</p><ul><li>the number of dimensions <code>N=2</code>,</li><li>the return type <code>RT=&quot;VTUFile&quot;</code> (see <a href="https://github.com/baxmittens/VTUFileHandler.jl">VTUFileHandler.jl</a>)</li><li>the number of initial hierachical level of the sparse grid <code>init_lvl=4</code>,</li><li>the number of maximal hierarchical level of the sparse grid <code>maxlvl=20</code>, and,</li><li>the minimum hierarchical surplus for the adaptive refinement <code>tol=100000.0</code>.</li></ul><p>Note, that the refinement tolerance was chosen as a large value since at the moment the reference value is the <code>LinearAlgebra.norm(::VTUFile)</code> of the entire result file.</p><h3 id="Sampling-the-model"><a class="docs-heading-anchor" href="#Sampling-the-model">Sampling the model</a><a id="Sampling-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Sampling-the-model" title="Permalink"></a></h3><p>The following <a href="test/ex1/start.jl">lines of code</a></p><pre><code class="language-julia hljs">using OGSUQ
+</p><p>The second file <a href="test/ex1/altered_SampleMethodParams.xml"><code>altered_SampleMethodParams.xml</code></a> defines the sample method parameters such as</p><ul><li>the number of dimensions <code>N=2</code>,</li><li>the return type <code>RT=&quot;VTUFile&quot;</code> (see <a href="https://github.com/baxmittens/VTUFileHandler.jl">VTUFileHandler.jl</a>)</li><li>the number of initial hierachical level of the sparse grid <code>init_lvl=4</code>,</li><li>the number of maximal hierarchical level of the sparse grid <code>maxlvl=20</code>, and,</li><li>the minimum hierarchical surplus for the adaptive refinement <code>tol=0.01</code>.</li></ul><h3 id="Sampling-the-model"><a class="docs-heading-anchor" href="#Sampling-the-model">Sampling the model</a><a id="Sampling-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Sampling-the-model" title="Permalink"></a></h3><p>The following <a href="test/ex1/start.jl">lines of code</a></p><pre><code class="language-julia hljs">using OGSUQ
 ogsuqparams = OGSUQParams(&quot;altered_StochasticOGSModelParams.xml&quot;, &quot;altered_SampleMethodParams.xml&quot;)
 ogsuqasg = OGSUQ.init(ogsuqparams)
-OGSUQ.start!(ogsuqasg)
-expval,asg_expval = OGSUQ.𝔼(ogsuqasg)</code></pre><p>load the parameters <code>ogsuqparams</code>, initializes the model <code>ogsuqasg</code>, and, starts the sampling procedure. Finally the expected value is integrated.</p><ul><li>Initializing the model <code>OGSUQ.init(ogsuqparams)</code> consists of two steps</li></ul><pre><code class="nohighlight hljs">1. Adding all local workers (in this case 50 local workers)
+OGSUQ.start!(ogsuqasg)</code></pre><p>load the parameters <code>ogsuqparams</code>, initializes the model <code>ogsuqasg</code>, and, starts the sampling procedure. Finally the expected value is integrated.</p><ul><li>Initializing the model <code>OGSUQ.init(ogsuqparams)</code> consists of two steps</li></ul><pre><code class="nohighlight hljs">1. Adding all local workers (in this case 50 local workers)
 2. Initializing the adaptive sparse grid.</code></pre><ul><li>Starting the sampling procedure <code>OGSUQ.start!(ogsuqasg)</code> first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement. This first stage results in an so-called <em>surrogate model</em> of the physical domain defined by the boundaries of the stochastic parameters</li></ul><table border="0"><tr>
 <td> 
 	<figure>
@@ -92,10 +91,10 @@ expval,asg_expval = OGSUQ.𝔼(ogsuqasg)</code></pre><p>load the parameters <cod
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
-</tr></table><h3 id="Computation-of-the-expected-value"><a class="docs-heading-anchor" href="#Computation-of-the-expected-value">Computation of the expected value</a><a id="Computation-of-the-expected-value-1"></a><a class="docs-heading-anchor-permalink" href="#Computation-of-the-expected-value" title="Permalink"></a></h3><pre><code class="language-julia hljs">import VTUFileHandler
+</tr></table><h3 id="Computation-of-the-expected-value"><a class="docs-heading-anchor" href="#Computation-of-the-expected-value">Computation of the expected value</a><a id="Computation-of-the-expected-value-1"></a><a class="docs-heading-anchor-permalink" href="#Computation-of-the-expected-value" title="Permalink"></a></h3><p>The expected value of an stochastic OGS project can be computed by:</p><pre><code class="language-julia hljs">import VTUFileHandler
 expval,asg_expval = OGSUQ.𝔼(ogsuqasg);
 VTUFileHandler.rename!(expval,&quot;expval_heatpointsource.vtu&quot;)
-write(expval)</code></pre><table border="0"><tr>
+write(expval)</code></pre><p>Hereby, the physical surrogate model, generated by the sampling of the model, is weighted against the pdf of each stochastic dimension. The resulting sparse grid and the response function (by taking the <code>LinearAlgebra.norm(::VTUFile)</code>) can be seen below.</p><table border="0"><tr>
 <td> 
 	<figure>
 		<img src="./assets/asg_expval.png" width="350" height="300" /><br>
@@ -108,22 +107,22 @@ write(expval)</code></pre><table border="0"><tr>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
-</tr></table><table border="0"><tr>
+</tr></table><p>By integrating over the domain the expected value is computed. Below the pressure field and the temperature field are shown.</p><table border="0"><tr>
 <td> 
 	<figure>
 		<img src="./assets/expval_press.PNG" width="350" height="300" /><br>
-		<figcaption><em>expected value pressure field</em></figcaption>
+		<figcaption><em>expected value: pressure field</em></figcaption>
 	</figure>
 </td>
 <td> 
 	<figure>
 		<img src="./assets/expval_temp.PNG" width="350" height="300" /><br>
-		<figcaption><em>expected value temperature field</em></figcaption>
+		<figcaption><em>expected value: temperature field</em></figcaption>
 	</figure>
 </td>
-</tr></table><h3 id="Computation-of-the-variance"><a class="docs-heading-anchor" href="#Computation-of-the-variance">Computation of the variance</a><a id="Computation-of-the-variance-1"></a><a class="docs-heading-anchor-permalink" href="#Computation-of-the-variance" title="Permalink"></a></h3><pre><code class="language-julia hljs">varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
+</tr></table><h3 id="Computation-of-the-variance"><a class="docs-heading-anchor" href="#Computation-of-the-variance">Computation of the variance</a><a id="Computation-of-the-variance-1"></a><a class="docs-heading-anchor-permalink" href="#Computation-of-the-variance" title="Permalink"></a></h3><p>The variance can be computed by:</p><pre><code class="language-julia hljs">varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
 VTUFileHandler.rename!(varval,&quot;varval_heatpointsource.vtu&quot;)
-write(varval)</code></pre><table border="0"><tr>
+write(varval)</code></pre><p>Again, the physical surrogate is used to compute the variance on another sparse grid. Below the resulting sparse grid and the response function is displayed. Note that despite the complexity of the response function, it is captured efficiently by the adaptive sparse grid.</p><table border="0"><tr>
 <td> 
 	<figure>
 		<img src="./assets/asg_varval.png" width="350" height="300" /><br>
@@ -136,17 +135,17 @@ write(varval)</code></pre><table border="0"><tr>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
-</tr></table><table border="0"><tr>
+</tr></table><p>As above, the variance can be computed by integrating over the stochastic domain. Below the variance of the pressure field and temperature field is displayed. </p><table border="0"><tr>
 <td> 
 	<figure>
 		<img src="./assets/varval_press.PNG" width="350" height="300" /><br>
-		<figcaption><em>variance pressure field</em></figcaption>
+		<figcaption><em>variance: pressure field</em></figcaption>
 	</figure>
 </td>
 <td> 
 	<figure>
 		<img src="./assets/varval_temp.PNG" width="350" height="300" /><br>
-		<figcaption><em>variance temperature field</em></figcaption>
+		<figcaption><em>variance: temperature field</em></figcaption>
 	</figure>
 </td>
-</tr></table><h2 id="Contributions,-report-bugs-and-support"><a class="docs-heading-anchor" href="#Contributions,-report-bugs-and-support">Contributions, report bugs and support</a><a id="Contributions,-report-bugs-and-support-1"></a><a class="docs-heading-anchor-permalink" href="#Contributions,-report-bugs-and-support" title="Permalink"></a></h2><p>Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on <a href="https://github.com/baxmittens/VTUFileHandler.jl">GitHub</a>.</p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Tuesday 18 April 2023 11:29">Tuesday 18 April 2023</span>. Using Julia version 1.6.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</tr></table><h2 id="Contributions,-report-bugs-and-support"><a class="docs-heading-anchor" href="#Contributions,-report-bugs-and-support">Contributions, report bugs and support</a><a id="Contributions,-report-bugs-and-support-1"></a><a class="docs-heading-anchor-permalink" href="#Contributions,-report-bugs-and-support" title="Permalink"></a></h2><p>Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on <a href="https://github.com/baxmittens/OGSUQ.jl">GitHub</a>.</p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Tuesday 18 April 2023 11:50">Tuesday 18 April 2023</span>. Using Julia version 1.6.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
