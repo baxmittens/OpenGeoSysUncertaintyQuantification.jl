@@ -246,13 +246,13 @@ write(expval)
 <td> 
 	<figure>
 		<img src="./assets/expval_press.PNG" width="350" height="300" /><br>
-		<figcaption><em>resulting sparse grid</em></figcaption>
+		<figcaption><em>expected value pressure field</em></figcaption>
 	</figure>
 </td>
 <td> 
 	<figure>
 		<img src="./assets/expval_temp.PNG" width="350" height="300" /><br>
-		<figcaption><em>response surface</em></figcaption>
+		<figcaption><em>expected value temperature field</em></figcaption>
 	</figure>
 </td>
 </tr></table>
@@ -288,13 +288,13 @@ write(varval)
 <td> 
 	<figure>
 		<img src="./assets/varval_press.PNG" width="350" height="300" /><br>
-		<figcaption><em>resulting sparse grid</em></figcaption>
+		<figcaption><em>variance pressure field</em></figcaption>
 	</figure>
 </td>
 <td> 
 	<figure>
 		<img src="./assets/varval_temp.PNG" width="350" height="300" /><br>
-		<figcaption><em>response surface</em></figcaption>
+		<figcaption><em>variance temperature field</em></figcaption>
 	</figure>
 </td>
 </tr></table>
