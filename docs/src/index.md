@@ -60,18 +60,18 @@ creates an xml-file `anafile` with all necessary parameters for the chosen sampl
 
 ## Usage
 
-In this chapter, [Ex2](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex2) is taken a an example. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [Example 1](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex1) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 
 ### Defining the stochastic dimensions
 
-The following [lines of code](./test/ex2/generate_stoch_params_file.jl) 
+The following [lines of code](./test/ex1/generate_stoch_params_file.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](./test/ex2/PossibleStochasticParameters.xml) in the working directory
+return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](./test/ex1/PossibleStochasticParameters.xml) in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -92,11 +92,11 @@ where all parameters possible to select as stochastic parameter are mapped. Sinc
 ./media/medium/@id/0/properties/property/?porosity/value
 ./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
 ```
-are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](./test/ex2/altered_PossibleStochasticParameters.xml) in the working directory.
+are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](./test/ex1/altered_PossibleStochasticParameters.xml) in the working directory.
 
 ### Defining the stochastic model
 
-The following [code snippet](./test/ex2/generate_stoch_model.jl) 
+The following [code snippet](./test/ex1/generate_stoch_model.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
@@ -123,9 +123,9 @@ stochasticmodelparams = generateStochasticOGSModell(
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
 ```
 
-generates two XML-files, [`StochasticOGSModelParams.xml`](./test/ex2/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex2/SampleMethodParams.xml), defining the stochastic model.
+generates two XML-files, [`StochasticOGSModelParams.xml`](./test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](./test/ex1/SampleMethodParams.xml), defining the stochastic model.
 
-Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](./test/ex2/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMethodParams.xml).
+Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](./test/ex1/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](./test/ex1/altered_SampleMethodParams.xml).
 
 In the former, the two stochastic parameters are altered. The probability distribution of the porosity is changed from `Uniform` to `Normal` with mean `μ=0.375` and standard deviation `σ=0.1`.
 ```xml
@@ -159,7 +159,7 @@ The second parameter, the thermal conductivity, is set up as a truncated normal 
 </p>
 ```
 
-The second file [`altered_SampleMethodParams.xml`](./test/ex2/altered_SampleMethodParams.xml) defines the sample method parameters such as
+The second file [`altered_SampleMethodParams.xml`](./test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
 - the number of dimensions `N=2`,
 - the return type `RT="VTUFile"` (see [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl))
 - the number of initial hierachical level of the sparse grid `init_lvl=4`,
@@ -170,7 +170,7 @@ Note, that the refinement tolerance was chosen as a large value since at the mom
 
 ### Sampling the model
 
-The following [lines of code](./test/ex2/start.jl)
+The following [lines of code](./test/ex1/start.jl)
 
 ```julia
 using OGSUQ
@@ -180,15 +180,13 @@ OGSUQ.start!(ogsuqasg)
 expval,asg_expval = OGSUQ.𝔼(ogsuqasg)
 ```
 
-loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts the sampling procedure. Finally the expected value is integrated.
+load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts the sampling procedure. Finally the expected value is integrated.
 
 - Initializing the model `OGSUQ.init(ogsuqparams)` consists of two steps
-	
 	1. Adding all local workers (in this case 50 local workers)
 	2. Initializing the adaptive sparse grid.
 
 - Starting the sampling procedure `OGSUQ.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement.
-	
 	This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
 
 ```@raw html
@@ -201,7 +199,7 @@ loads the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, start
 </td>
 <td> 
 	<figure>
-		<img src="https://user-images.githubusercontent.com/100423479/223125844-276bcb9b-8ce5-4072-9e20-11f6a3e67d7b.png" width="350" height="350" /><br>
+		<img src="./assets/response_surface.png" width="350" height="350" /><br>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
