@@ -182,12 +182,12 @@ expval,asg_expval = OGSUQ.𝔼(ogsuqasg)
 
 load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts the sampling procedure. Finally the expected value is integrated.
 
-- Initializing the model `OGSUQ.init(ogsuqparams)` consists of two steps
-	1. Adding all local workers (in this case 50 local workers)
-	2. Initializing the adaptive sparse grid.
+* Initializing the model `OGSUQ.init(ogsuqparams)` consists of two steps
+	
+    1. Adding all local workers (in this case 50 local workers)
+    2. Initializing the adaptive sparse grid.
 
-- Starting the sampling procedure `OGSUQ.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement.
-	This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
+* Starting the sampling procedure `OGSUQ.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement. This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
 
 ```@raw html
 <table border="0"><tr>
@@ -199,7 +199,7 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 </td>
 <td> 
 	<figure>
-		<img src="./assets/response_surface.png" width="350" height="350" /><br>
+		<img src="./assets/response_surface.png" width="350" height="300" /><br>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
