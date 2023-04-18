@@ -256,11 +256,14 @@ write(expval)
 	</figure>
 </td>
 </tr></table>
+```
 
 ### Computation of the variance
 
 ```julia
 varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
+VTUFileHandler.rename!(varval,"varval_heatpointsource.vtu")
+write(varval)
 ```
 
 ```@raw html
@@ -295,7 +298,7 @@ varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
 	</figure>
 </td>
 </tr></table>
-
+```
 
 ## Contributions, report bugs and support
 
