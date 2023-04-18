@@ -1,5 +1,12 @@
 # OGSUQ.jl
 
+## Contents
+
+```@contents
+Pages = ["index.md"]
+Depth = 5
+```
+
 ## The principle idea for the creation of a stochastic OGS6 project
 
 The principle idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files which are used to define the stochastic OGS project. These files are human-readable and can be manually configured and duplicated for the use in other, or slightly altered, stochastic projects.
@@ -199,7 +206,7 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 </td>
 <td> 
 	<figure>
-		<img src="./assets/response_surface.png" width="350" height="300" /><br>
+		<img src="./assets/response_surface_expval.png" width="350" height="300" /><br>
 		<figcaption><em>response surface</em></figcaption>
 	</figure>
 </td>
@@ -209,6 +216,36 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 
 
 ### Computation of the expected value
+
+```julia
+import VTUFileHandler
+expval,asg_expval = OGSUQ.𝔼(ogsuqasg);
+VTUFileHandler.rename!(expval,"expval_heatpointsource.vtu")
+write(expval)
+```
+
+```@raw html
+<table border="0"><tr>
+<td> 
+	<figure>
+		<img src="./assets/asg_expval.png" width="350" height="300" /><br>
+		<figcaption><em>resulting sparse grid</em></figcaption>
+	</figure>
+</td>
+<td> 
+	<figure>
+		<img src="./assets/response_surface.png" width="350" height="300" /><br>
+		<figcaption><em>response surface</em></figcaption>
+	</figure>
+</td>
+</tr></table>
+```
+
+### Computation of the variance
+
+```julia
+varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
+```
 
 
 ## Contributions, report bugs and support
