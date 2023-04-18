@@ -51,7 +51,7 @@ However, this project could serve as a basis for creating functionalities for ge
 
 ## Usage
 
-For more information, see the [documentation](docs-dev-url).
+For more information, see the [documentation](https://baxmittens.github.io/OGSUQ.jl/dev/).
 
 ## Implemented features
 
