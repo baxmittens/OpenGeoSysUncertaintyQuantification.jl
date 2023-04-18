@@ -12,7 +12,7 @@ generatePossibleStochasticParameters(
 	keywords::Vector{String}=ogs_numeric_keyvals
 	)
 ```
-scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](./src/OGSUQ/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
+scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](../../src/OGSUQ/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
 
 The second function
 
@@ -65,13 +65,13 @@ In this chapter, [Example 1](https://github.com/baxmittens/OGSUQ.jl/tree/main/te
 
 ### Defining the stochastic dimensions
 
-The following [lines of code](./test/ex1/generate_stoch_params_file.jl) 
+The following [lines of code](../../test/ex1/generate_stoch_params_file.jl) 
 ```julia
 using OGSUQ
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](./test/ex1/PossibleStochasticParameters.xml) in the working directory
+return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](../../test/ex1/PossibleStochasticParameters.xml) in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -207,7 +207,8 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 ```
 
 
-- Computation of the expected value
+
+### Computation of the expected value
 
 
 ## Contributions, report bugs and support
