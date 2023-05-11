@@ -174,6 +174,6 @@ end
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, 
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
-	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMFFile
+	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File
 
 end # module
