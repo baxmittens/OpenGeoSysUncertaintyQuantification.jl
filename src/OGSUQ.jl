@@ -102,11 +102,21 @@ function init(ogsuqparams::OGSUQParams)
 	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
 end
 
-function vtufile_comparefct(rt,tolrt,mintol)
+function scalarwise_comparefct(rt::VTUFile,tolrt,mintol)
 	nfields = length(tolrt.data.interp_data)
 	maxtols = map(i->max(maximum(tolrt.data.interp_data[i].dat),mintol),1:nfields) 
 	allsmall = true
 	for (maxtol,rtdat) in zip(maxtols,rt.data.interp_data)
+		allsmall *= all(rtdat.dat .<= maxtol)
+	end
+	return !allsmall
+end
+
+function scalarwise_comparefct(rt::XDMF3File,tolrt,mintol)
+	nfields = length(xdmf.idata.fields)
+	maxtols = map(i->max(maximum(tolrt.idata.fields[i].dat),mintol),1:nfields) 
+	allsmall = true
+	for (maxtol,rtdat) in zip(maxtols,rt.idata.fields)
 		allsmall *= all(rtdat.dat .<= maxtol)
 	end
 	return !allsmall
@@ -125,7 +135,7 @@ function start!(ogsuqasg::OGSUQASG)
 	tol =  samplemethodparams.tol
 	maxlvl =  samplemethodparams.maxlvl
 	tolrt = average_scaling_weight(asg, init_lvl) * tol
-	comparefct(rt) = vtufile_comparefct(rt,tolrt,tol)
+	comparefct(rt) = scalarwise_comparefct(rt,tolrt,tol)
 	while true
   		cpts = generate_next_level!(asg, comparefct, maxlvl)
     	if isempty(cpts)
