@@ -31,7 +31,8 @@ end
 function create_files_and_dirs(sogs::StochasticOGSModelParams)
 	ogs6pp = sogs.ogsparams
 	templatefile = joinpath(@__DIR__,"user_function_template.jl")
-	outfile = "./user_functions.jl"
+	#outfile = "./user_functions.jl"
+	outfile = sogs.userfunctionfile
 	if !isfile(outfile)
 		createUserFiles(outfile,sogs.file,templatefile)
 	end
@@ -50,6 +51,7 @@ function generateStochasticOGSModell(
 	outputpath="./Res",
 	stochmethod=AdaptiveHierarchicalSparseGrid,
 	n_local_workers=50,
+	userfunctionfile="./user_functions.jl",
 	sogsfile="StochasticOGSModelParams.xml"
 	)
 
@@ -71,7 +73,7 @@ function generateStochasticOGSModell(
 
 	ogs6pp = OGS6ProjectParams(projectfile,simcall,additionalprojecfilespath,outputpath,postprocfile)
 	#sogs = OGSUQParams(ogs6pp,stochparams,stochmethod,n_local_workers,remote_workers,sogsfile)
-	sogs = StochasticOGSModelParams(ogs6pp,stochparams,stochmethod,n_local_workers,outfile,sogsfile)
+	sogs = StochasticOGSModelParams(ogs6pp,stochparams,stochmethod,n_local_workers,userfunctionfile,sogsfile)
 	#writeXML(Julia2XML(sogs), sogsfile)
 	write(sogsfile, Julia2XML(sogs))
 	create_files_and_dirs(sogs)
