@@ -113,7 +113,7 @@ function scalarwise_comparefct(rt::VTUFile,tolrt,mintol)
 end
 
 function scalarwise_comparefct(rt::XDMF3File,tolrt,mintol)
-	nfields = length(xdmf.idata.fields)
+	nfields = length(tolrt.idata.fields)
 	maxtols = map(i->max(maximum(tolrt.idata.fields[i].dat),mintol),1:nfields) 
 	allsmall = true
 	for (maxtol,rtdat) in zip(maxtols,rt.idata.fields)
