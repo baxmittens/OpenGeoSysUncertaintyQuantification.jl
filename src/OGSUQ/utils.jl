@@ -150,7 +150,7 @@ function ASG(::AbstractHierarchicalSparseGrid{N,HCP}, samplemethodparams::Sparse
 	@time init_weights_inplace_ops!(asg, collect(cpts), _fun)
 	tol =  samplemethodparams.tol
 	tolrt = average_scaling_weight(asg, samplemethodparams.init_lvl) * tol
-	comparefct(rt) = vtufile_comparefct(rt,tolrt,tol)
+	comparefct(rt) = scalarwise_comparefct(rt,tolrt,tol)
 	for i = 1:samplemethodparams.maxlvl
 		println("adaptive ref step $i")
 		# call generate_next_level! with tol=1e-5 and maxlevels=20
