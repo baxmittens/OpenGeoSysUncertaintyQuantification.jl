@@ -4,6 +4,7 @@ using XMLParser
 import XMLParser: Julia2XML
 using Distributed
 using StaticArrays
+using XDMFFileHandler
 import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops, average_scaling_weight
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
@@ -173,6 +174,6 @@ end
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, 
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
-	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath
+	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMFFile
 
 end # module
