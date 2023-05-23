@@ -122,6 +122,16 @@ function scalarwise_comparefct(rt::XDMF3File,tolrt,mintol)
 	return !allsmall
 end
 
+function scalarwise_comparefct(rt::XDMFData,tolrt,mintol)
+	nfields = length(tolrt.fields)
+	maxtols = map(i->max(maximum(tolrt.fields[i].dat),mintol),1:nfields) 
+	allsmall = true
+	for (maxtol,rtdat) in zip(maxtols,rt.fields)
+		allsmall *= all(rtdat.dat .<= maxtol)
+	end
+	return !allsmall
+end
+
 function start!(ogsuqasg::OGSUQASG)
 	asg = ogsuqasg.asg
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
