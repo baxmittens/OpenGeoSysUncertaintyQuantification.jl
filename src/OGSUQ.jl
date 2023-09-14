@@ -62,12 +62,7 @@ mutable struct MonteCarloParams <: SampleMethodParams
 	tol::Float64
 	file::String
 end
-#mutable struct MCAnalysis{DIM,MCT,RT} <: StochasticAnalysis
-#	mc::Union{Nothing,MonteCarlo{DIM,MCT,RT}}
-#	nshots::Int
-#	funfile::String
-#	file::Union{Nothing,String}
-#end
+
 filename(a::SampleMethodParams) = a.file
 
 mutable struct OGSUQParams
@@ -88,6 +83,7 @@ end
 
 mutable struct OGSUQMC
 	params::OGSUQParams
+	mc::MonteCarlo
 end
 
 include("./OGSUQ/utils.jl")
@@ -99,6 +95,16 @@ function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	pointprobs = SVector(ogsuqparams.samplemethodparams.pointprobs...)
 	asg = init(AdaptiveHierarchicalSparseGrid{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
 	return OGSUQASG(ogsuqparams, asg)
+end
+
+function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
+	N = ogsuqparams.samplemethodparams.N
+	CT = ogsuqparams.samplemethodparams.CT
+	RT = ogsuqparams.samplemethodparams.RT
+	nshots = ogsuqparams.samplemethodparams.nshots
+	tol = ogsuqparams.samplemethodparams.tol
+	mc = MonteCarlo(Val(N), CT, RT, n, tol, Main.fun)
+	return OGSUQMC(ogsuqparams, mc)
 end
 
 function init(ogsuqparams::OGSUQParams)
