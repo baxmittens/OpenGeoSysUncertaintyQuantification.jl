@@ -103,7 +103,7 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	RT = ogsuqparams.samplemethodparams.RT
 	nshots = ogsuqparams.samplemethodparams.nshots
 	tol = ogsuqparams.samplemethodparams.tol
-	mc = MonteCarlo(Val(N), CT, RT, n, tol, Main.fun)
+	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, Main.fun)
 	return OGSUQMC(ogsuqparams, mc)
 end
 
