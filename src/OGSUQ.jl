@@ -53,6 +53,14 @@ mutable struct SparseGridParams <: SampleMethodParams
 	tol::Float64
 	file::String
 end
+
+mutable struct MonteCarloParams <: SampleMethodParams
+	N::Int
+	CT::Type
+	RT::Type
+	tol::Float64
+	file::String
+end
 #mutable struct MCAnalysis{DIM,MCT,RT} <: StochasticAnalysis
 #	mc::Union{Nothing,MonteCarlo{DIM,MCT,RT}}
 #	nshots::Int

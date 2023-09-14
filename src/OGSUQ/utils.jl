@@ -83,12 +83,23 @@ end
 function generateSampleMethodModel(::Type{AdaptiveHierarchicalSparseGrid}, sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
 	N = length(sogs.stochparams)
 	CT = Float64
-	RT = VTUFile
+	RT = XDMF3File
 	pointprobs = Int[1 for i = 1:N]
 	init_lvl = N+1
 	maxlvl = 20
 	tol = 1e-2
 	smparams = SparseGridParams(N,CT,RT,pointprobs,init_lvl,maxlvl,tol,anafile)
+	#writeXML(Julia2XML(smparams), anafile)
+	write(anafile, Julia2XML(smparams))
+	return smparams
+end
+
+function generateSampleMethodModel(::Type{MonteCarlo}, sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
+	N = length(sogs.stochparams)
+	CT = Float64
+	RT = XDMF3File
+	tol = 1e-2
+	smparams = MonteCarloParams(N,CT,RT,tol,anafile)
 	#writeXML(Julia2XML(smparams), anafile)
 	write(anafile, Julia2XML(smparams))
 	return smparams
