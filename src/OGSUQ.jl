@@ -12,6 +12,8 @@ import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 import LinearAlgebra: mul!
+using DistributedMonteCarlo
+import DistributedMonteCarlo: MonteCarlo
 
 mutable struct OGS6ProjectParams
 	projectfile::String
@@ -75,9 +77,9 @@ mutable struct OGSUQASG
 	asg::AdaptiveHierarchicalSparseGrid
 end
 
-#mutable struct OGSUQMC
-#	params::OGSUQParams
-#end
+mutable struct OGSUQMC
+	params::OGSUQParams
+end
 
 include("./OGSUQ/utils.jl")
 
@@ -178,11 +180,11 @@ function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
 	asg = ogsuqasg.asg
 	ret = similar(exp_val)
 	interpolate!(ret,asg,x)
-	#minus!(ret,exp_val)
-	#pow!(ret,2.0)
-	#mul!(ret,pdf(stochparams, x))
-	return ((ret-exp_val)^2)*pdf(stochparams, x)
-	#return ret
+	minus!(ret,exp_val)
+	pow!(ret,2.0)
+	mul!(ret,pdf(stochparams, x))
+	#return ((ret-exp_val)^2)*pdf(stochparams, x)
+	return ret
 end
 
 function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
@@ -194,6 +196,6 @@ end
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, 
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
-	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData
+	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo
 
 end # module
