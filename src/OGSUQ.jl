@@ -58,6 +58,7 @@ mutable struct MonteCarloParams <: SampleMethodParams
 	N::Int
 	CT::Type
 	RT::Type
+	nshots::Int
 	tol::Float64
 	file::String
 end

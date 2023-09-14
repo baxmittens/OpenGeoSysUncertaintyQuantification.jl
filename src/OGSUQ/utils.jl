@@ -99,7 +99,8 @@ function generateSampleMethodModel(::Type{MonteCarlo}, sogs::StochasticOGSModelP
 	CT = Float64
 	RT = XDMF3File
 	tol = 1e-2
-	smparams = MonteCarloParams(N,CT,RT,tol,anafile)
+	nshots = 100
+	smparams = MonteCarloParams(N,CT,RT,nshots,tol,anafile)
 	#writeXML(Julia2XML(smparams), anafile)
 	write(anafile, Julia2XML(smparams))
 	return smparams
