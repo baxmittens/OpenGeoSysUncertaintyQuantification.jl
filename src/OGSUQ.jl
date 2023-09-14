@@ -208,9 +208,9 @@ function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	return integrate_inplace_ops(asg),asg
 end
 
-export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, 
+export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams,
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
-	OGSUQASG, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
+	OGSUQASG, OGSUQMC, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
 	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo
 
 end # module
