@@ -13,7 +13,7 @@ import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getEleme
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 import LinearAlgebra: mul!
 using DistributedMonteCarlo
-import DistributedMonteCarlo: MonteCarlo
+import DistributedMonteCarlo: MonteCarlo, distributed_𝔼
 
 mutable struct OGS6ProjectParams
 	projectfile::String
@@ -171,6 +171,11 @@ function start!(ogsuqasg::OGSUQASG)
   		end
   		distributed_init_weights_inplace_ops!(asg, collect(cpts), Main.fun, worker_ids)
 	end
+	return nothing
+end
+
+function start!(ogsuqasg::OGSUQMC)
+	return nothing
 end
 
 function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
@@ -179,6 +184,12 @@ function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
 	#mul!(ret,pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x))
 	return ret*pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x)
 end
+
+function 𝔼(ogsuqmc::OGSUQMC)
+	worker_ids = workers()
+	return distributed_𝔼(ogsuqmc.mc, Main.fun, worker_ids)
+end
+
 
 function 𝔼(ogsuqasg::OGSUQASG)
 	retval_proto = deepcopy(first(ogsuqasg.asg).scaling_weight)
