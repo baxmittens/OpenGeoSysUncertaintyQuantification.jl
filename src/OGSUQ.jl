@@ -13,7 +13,7 @@ import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getEleme
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 import LinearAlgebra: mul!
 using DistributedMonteCarlo
-import DistributedMonteCarlo: MonteCarlo, distributed_𝔼
+import DistributedMonteCarlo: MonteCarlo, distributed_𝔼, distributed_var
 
 mutable struct OGS6ProjectParams
 	projectfile::String
@@ -220,6 +220,10 @@ function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
 	asg = ASG(ogsuqasg, _var_func)
 	return integrate_inplace_ops(asg),asg
+end
+
+function var(ogsuqmc::OGSUQMC, exp_val::RT) where {RT}
+	return distributed_var(ogsuqmc.mc, Main.fun, exp_val, workers())
 end
 
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams,
