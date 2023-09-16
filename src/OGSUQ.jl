@@ -175,8 +175,8 @@ function start!(ogsuqasg::OGSUQASG)
 	return nothing
 end
 
-function start!(ogsuqasg::OGSUQMC)
-	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqasg.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
+function start!(ogsuqmc::OGSUQMC)
+	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
 	return nothing
 end
 
