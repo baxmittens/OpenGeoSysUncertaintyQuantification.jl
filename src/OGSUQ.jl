@@ -82,7 +82,7 @@ mutable struct OGSUQASG
 end
 
 mutable struct OGSUQMC
-	params::OGSUQParams
+	ogsuqparams::OGSUQParams
 	mc::MonteCarlo
 end
 
