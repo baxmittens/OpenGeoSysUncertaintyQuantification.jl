@@ -123,10 +123,9 @@ end
 function CPtoStoch(x,stoparam)
 	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 end
-
-#function CTtoStoParam(x,stoparam)
-#	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
-#end
+function StochtoCP(x,stoparam)
+	return lin_func(x, stoparam.lower_bound, -1.0, stoparam.upper_bound, 1.0)
+end
 
 function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOGS6Parameter, x, user_func::Function,cptostoch::Function=CPtoStoch)
 	vals = getElementbyPath(modeldef, stoparam.path)

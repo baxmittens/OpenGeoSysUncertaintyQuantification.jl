@@ -103,7 +103,7 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	RT = ogsuqparams.samplemethodparams.RT
 	nshots = ogsuqparams.samplemethodparams.nshots
 	tol = ogsuqparams.samplemethodparams.tol
-	randf() = map(x->rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist),1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), gsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf)
 	return OGSUQMC(ogsuqparams, mc)
 end
