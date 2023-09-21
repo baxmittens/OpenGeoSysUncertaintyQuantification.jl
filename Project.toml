@@ -19,3 +19,5 @@ DistributedMonteCarlo = "1911db96-88a4-4c72-b932-f455b4e9470b"
 
 [compat]
 julia = "1"
+XDMFFileHandler = "0.0.1"
+DistributedMonteCarlo = "0.1"

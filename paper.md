@@ -28,6 +28,11 @@ In simulation-aided design of saftey-related projects, the effects of uncertaint
 
 # Statement of need
 
+Stability verifications for large structures can often only be carried out with the help of numerical simulations. A particularly difficult example is the safe storage of highly radioactive waste in subsurface repositories. These are usually planned at depths of several hundred meters. The heat radiated by the fuel rods can influence thermal-hydraulic-mechanical processes down to depths of several kilometers. Numerical simulations are needed to ensure site safety. Because of the outstanding interest in the safety of these repositories, the uncertainties are also given special attention.
+
+
+
+
 [@kolditz2012opengeosys]
 
 # References
