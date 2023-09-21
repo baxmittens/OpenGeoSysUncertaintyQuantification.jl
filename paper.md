@@ -28,5 +28,6 @@ In simulation-aided design of saftey-related projects, the effects of uncertaint
 
 # Statement of need
 
+[@kolditz2012opengeosys]
 
 # References
