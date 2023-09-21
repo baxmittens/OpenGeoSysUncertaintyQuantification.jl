@@ -1,5 +1,5 @@
 ---
-title: 'DistributedSparseGrids.jl: A Julia library implementing an Adaptive Sparse Grid collocation method'
+title: 'OGSUQ.jl: a Julia library implementing an uncertainty quantification toolbox for OpenGeoSys'
 tags:
   - Julia
   - stochastics
@@ -24,7 +24,7 @@ bibliography: paper.bib
 
 # Abstract
 
-Numerical integration or interpolation of high-dimensional functions is subject to the curse of dimensionality on full tensor grids. One remedy to this problem is sparse grid approximations. The additional construction effort is often worth spending, especially for underlying functions whose evaluation is time-consuming. In the following, a Julia implementation of a local Lagrangian adaptive hierarchical sparse grid collocation method is presented, which is suitable for memory-heavy objects generated on distributed workers.
+In simulation-aided design of saftey-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hdydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OGSUQ.jl](https://github.com/baxmittens/OGSUQ.jl) is a Julia library which provides all the necessary methods to quantify uncertainties in a validly configured deterministic OGS6 modell.
 
 # Statement of need
 
