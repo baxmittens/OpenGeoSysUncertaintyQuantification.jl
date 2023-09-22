@@ -71,6 +71,10 @@ Features added withing OGSUQ.jl:
 
 # Further development
 
+The next steps in the further development are primarily related to stochastic postprocessing and the representation thereof. Two examples are confidence intervals and the meaningful reduction of high-dimensional results. 
+
 # Acknowledgements
+
+The author would like to acknowledge the `Bundesanstalt für Geowissenschaften und Rohstoffe` (Federal Institute for Geosciences and Natural Resources).
 
 # References
