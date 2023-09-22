@@ -61,4 +61,16 @@ Most of all functionalities of this package are outsourced into independent juli
   Analogous to the above for the XDMF result file format. Provides the datatype `XDMF3File` compatible with stochastic post-processing.
 
 
+Features added withing OGSUQ.jl:
+
+- Setup of stochastic OGS6 projects (see [docs](https://baxmittens.github.io/OGSUQ.jl/dev/)).
+
+- Definition of input parameters and (truncated) input distributions via [Distributions.jl](https://github.com/JuliaStats/Distributions.jl).
+
+- Computation of expected value and variance
+
+# Further development
+
+# Acknowledgements
+
 # References
