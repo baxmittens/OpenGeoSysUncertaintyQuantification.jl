@@ -36,5 +36,29 @@ The OpenGeoSys community commonly uses Python, however for this project Julia wa
 
 To this date, there is no uncertainty quantification toolbox for OpenGeoSys, neither in Python nor in the Julia language. 
 
+# Features
+
+Most of all functionalities of this package are outsourced into independent julia packagages to maintain their generic character. Therefore, OGSUQ.jl serves as an umbrella project for the following projects:
+
+- [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids]
+  
+  A library implementing an Adaptive Sparse Grid collocation method for integrating memory-heavy objects generated on distributed workers ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.05003)).
+
+- [DistributedMonteCarlo.jl](https://github.com/baxmittens/DistributedMonteCarlo.jl)
+
+  A library implementing a Monte Carlo method for integrating memory-heavy objects generated on distributed workers.
+
+- [Ogs6InputFileHandler.jl](https://github.com/baxmittens/Ogs6InputFileHandler.jl) 
+
+  A simple OGS6 input file handler.
+
+- [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl) [@bittens2022vtufilehandler]
+
+  A VTU library for reading and writing vtu files. In addition, all mathematical operators are provided needed for stochastic postprocessing. This results in the datatype `VTUFile` can directly be used with the adaptive sparse grid or in a monte carlo analysis, enabling interpolation and integration for sets of OGS6 results ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.04300)).
+
+- [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
+
+  Analogous to the above for the XDMF result file format. Provides the datatype `XDMF3File` compatible with stochastic post-processing.
+
 
 # References
