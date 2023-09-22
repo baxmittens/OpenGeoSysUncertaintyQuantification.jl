@@ -38,7 +38,7 @@ To this date, there is no uncertainty quantification toolbox for OpenGeoSys, nei
 
 # Features
 
-Most of all functionalities of this package are outsourced into independent julia packagages to maintain their generic character. Therefore, OGSUQ.jl serves as an umbrella project for the following projects:
+Most of all functionalities of this package are outsourced into independent julia packages to maintain their generic character. Therefore, OGSUQ.jl serves as an umbrella project for the following projects:
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids]
   
@@ -75,6 +75,6 @@ The next steps in the further development are primarily related to stochastic po
 
 # Acknowledgements
 
-The author would like to acknowledge the `Bundesanstalt für Geowissenschaften und Rohstoffe` (Federal Institute for Geosciences and Natural Resources).
+The author would like to acknowledge the `Bundesanstalt für Geowissenschaften und Rohstoffe` (Federal Institute for Geosciences and Natural Resources, [BGR](https://www.bgr.bund.de/EN/)) for distributing time and resources for the development of this software project.
 
 # References
