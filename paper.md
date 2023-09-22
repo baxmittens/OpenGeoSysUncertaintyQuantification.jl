@@ -42,7 +42,7 @@ Most of all functionalities of this package are outsourced into independent juli
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids]
   
-  A library implementing an Adaptive Sparse Grid collocation method for integrating memory-heavy objects generated on distributed workers ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.05003)).
+  A library implementing an Adaptive Sparse Grid collocation method for integrating memory-heavy objects generated on distributed workers.
 
 - [DistributedMonteCarlo.jl](https://github.com/baxmittens/DistributedMonteCarlo.jl)
 
@@ -54,7 +54,7 @@ Most of all functionalities of this package are outsourced into independent juli
 
 - [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl) [@bittens2022vtufilehandler]
 
-  A VTU library for reading and writing vtu files. In addition, all mathematical operators are provided needed for stochastic postprocessing. This results in the datatype `VTUFile` can directly be used with the adaptive sparse grid or in a monte carlo analysis, enabling interpolation and integration for sets of OGS6 results ([JOSS paper](https://joss.theoj.org/papers/10.21105/joss.04300)).
+  A VTU library for reading and writing vtu files. In addition, all mathematical operators are provided needed for stochastic postprocessing. This results in the datatype `VTUFile` can directly be used with the adaptive sparse grid or in a monte carlo analysis, enabling interpolation and integration for sets of OGS6 results.
 
 - [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
 
