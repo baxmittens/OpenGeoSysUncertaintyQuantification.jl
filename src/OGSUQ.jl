@@ -1,4 +1,4 @@
-ymodule OGSUQ
+module OGSUQ
 
 using XMLParser
 import XMLParser: Julia2XML
