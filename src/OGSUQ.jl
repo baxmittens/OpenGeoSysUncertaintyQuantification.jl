@@ -158,7 +158,7 @@ function start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
 	if refinetohyperedges
 		hyperedgelevel = ogsuqasg.ogsuqparams.samplemethodparams.N+1
 		refineedges!(asg, hyperedgelevel)
-		cptss = collect(asg)
+		cpts = collect(asg)
 	else
 		cpts = collect(asg)
 		for i = 1:init_lvl
