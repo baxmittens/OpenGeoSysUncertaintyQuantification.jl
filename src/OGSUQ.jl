@@ -151,13 +151,19 @@ function scalarwise_comparefct(rt::XDMFData,tolrt,mintol)
 	return !allsmall
 end
 
-function start!(ogsuqasg::OGSUQASG)
+function start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
 	asg = ogsuqasg.asg
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
 	init_lvl = samplemethodparams.init_lvl
-	cpts = collect(asg)
-	for i = 1:init_lvl
-		append!(cpts,generate_next_level!(asg))
+	if refinetohyperedges
+		hyperedgelevel = ogsuqmc.ogsuqparams.samplemethodparams.N+1
+		refineedges!(asg, hyperedgelevel)
+		cptss = collect(asg)
+	else
+		cpts = collect(asg)
+		for i = 1:init_lvl
+			append!(cpts,generate_next_level!(asg))
+		end
 	end
 	worker_ids = workers()
 	@time distributed_init_weights_inplace_ops!(asg, cpts, Main.fun, worker_ids)

@@ -178,3 +178,31 @@ end
 function ASG(ogsuqasg::OGSUQASG, _fun)
 	return ASG(ogsuqasg.asg, ogsuqasg.ogsuqparams.samplemethodparams, _fun)
 end
+
+using DistributedSparseGrids
+import DistributedSparseGrids: refine!
+using StaticArrays 
+
+function getnextedgecpts(asg)
+	nl = DistributedSparseGrids.numlevels(asg)
+	cpts = filter(x->DistributedSparseGrids.level(x)==nl,collect(asg))
+	if nl > 1
+		filter!(cpt->all(cpt.cpt.coords .== 0.0 .|| cpt.cpt.coords .== 1.0 .|| cpt.cpt.coords .== -1.0), cpts)
+	end
+	return cpts
+end
+
+function refineedges!(asg, nlvl=3)
+	for i = 1:nlvl-1
+		cpts = getnextedgecpts(asg)
+		map(x->refine!(asg,x),cpts)
+	end
+end
+
+function gethyperedges(asg::DistributedSparseGrids.AdaptiveHierarchicalSparseGrid{N}) where N
+	cpts = filter(x->DistributedSparseGrids.level(x)==N+1,collect(asg))
+	if nl > 1
+		filter!(cpt->all(cpt.cpt.coords .== 1.0 .|| cpt.cpt.coords .== -1.0), cpts)
+	end
+	return cpts
+end
