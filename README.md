@@ -56,7 +56,7 @@ Pkg.add("OGSUQ")
 
 ## Usage
 
-For more information, see the [documentation](https://baxmittens.github.io/OGSUQ.jl/dev/).
+See the [docs](https://baxmittens.github.io/OGSUQ.jl/dev/).
 
 
 ## Contributions, report bugs and support
