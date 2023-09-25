@@ -45,7 +45,7 @@ However, this project could serve as a basis for creating functionalities for ge
 
 ## Current state of development
 
-the package is currently under active development. If you encounter problems while using it (which is to be expected), feel free to open an issue here.
+the package is currently under active development. If you encounter problems while using it (which is to be expected), feel free to open an issue.
 
 ## Install
 
