@@ -45,15 +45,19 @@ However, this project could serve as a basis for creating functionalities for ge
 
 ## Current state of development
 
-**Although in a relatively advanced stage of development, the project should not be used by anyone at this time.**
+the package is currently under active development. If you encounter problems while using it (which is to be expected), feel free to open an issue here.
 
 ## Install
+
+````julia
+import Pkg
+Pkg.add("OGSUQ")
+```
 
 ## Usage
 
 For more information, see the [documentation](https://baxmittens.github.io/OGSUQ.jl/dev/).
 
-## Implemented features
 
 ## Contributions, report bugs and support
 
