@@ -49,7 +49,7 @@ the package is currently under active development. If you encounter problems whi
 
 ## Install
 
-````julia
+```julia
 import Pkg
 Pkg.add("OGSUQ")
 ```
