@@ -66,9 +66,9 @@ function generateStochasticOGSModell(
 		val = parse(Float64,splitstr[valspec])
 		println(path)
 		println(val)
-		dist = Uniform(val-val/10,val+val/10)
-		lb = val-val/10
-		ub = val+val/10
+		lb = val-abs(val/10)
+		ub = val+abs(val/10)
+		dist = Uniform(lb,ub)
 		user_function = x->x
 		push!(stochparams, StochasticOGS6Parameter(path,valspec,dist,lb,ub))
 	end
