@@ -146,7 +146,7 @@ function init(::Type{MonteCarloSobol}, ogsuqparams::OGSUQParams)
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarloSobol(Val(N), CT, RT, nshots, tol, randf,restartpath)
-	return OGSUQMC(ogsuqparams, mc)
+	return OGSUQMCSobol(ogsuqparams, mc)
 end
 
 function init(ogsuqparams::OGSUQParams)
