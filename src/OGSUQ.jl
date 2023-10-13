@@ -118,6 +118,33 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	RT = ogsuqparams.samplemethodparams.RT
 	nshots = ogsuqparams.samplemethodparams.nshots
 	tol = ogsuqparams.samplemethodparams.tol
+	restartpath = ogsuqparams.samplemethodparams.restartpath
+	pathA = joinpath(ogsuqparams.samplemethodparams.restartpath,"A")
+	pathB = joinpath(ogsuqparams.samplemethodparams.restartpath,"B")
+	pathA_B = joinpath(ogsuqparams.samplemethodparams.restartpath,"A_B")
+	if !ispath(pathA)
+		mkdir(pathA)
+	end	
+	if !ispath(pathB)
+		mkdir(pathB)
+	end	
+	if !ispath(pathA_B)
+		mkdir(pathA_B)
+	end	
+	#@todo include truncated for normal distribution
+	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	mc = MonteCarloSobol(Val(N), CT, RT, nshots, tol, randf, restartpath)
+	return OGSUQMC(ogsuqparams, mc)
+end
+
+function init(::Type{MonteCarloSobol}, ogsuqparams::OGSUQParams)
+	N = ogsuqparams.samplemethodparams.N
+	CT = ogsuqparams.samplemethodparams.CT
+	RT = ogsuqparams.samplemethodparams.RT
+	nshots = ogsuqparams.samplemethodparams.nshots
+	tol = ogsuqparams.samplemethodparams.tol
+	restartpath = ogsuqparams.samplemethodparams.restartpath
+
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf)
@@ -202,8 +229,7 @@ function start!(ogsuqmc::OGSUQMC)
 end
 
 function start!(ogsuqmc::OGSUQMCSobol)
-	#DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
-	#return nothing
+	return DistributedMonteCarlo.distributed_Sobol_Vars(ogsuqmc.mc, Main.fun, workers())
 end
 
 function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
