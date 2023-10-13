@@ -64,6 +64,8 @@ function generateStochasticOGSModell(
 		splitstr = split(vals.content[1])
 		valspec = 1
 		val = parse(Float64,splitstr[valspec])
+		println(path)
+		println(val)
 		dist = Uniform(val-val/10,val+val/10)
 		lb = val-val/10
 		ub = val+val/10
@@ -120,6 +122,7 @@ function lin_func(x,xmin,ymin,xmax,ymax)
 	b = ymax-a*xmax
 	return a*x+b
 end
+
 function CPtoStoch(x,stoparam)
 	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 end
@@ -201,6 +204,7 @@ end
 
 function gethyperedges(asg::DistributedSparseGrids.AdaptiveHierarchicalSparseGrid{N}) where N
 	cpts = filter(x->DistributedSparseGrids.level(x)==N+1,collect(asg))
+	nl = DistributedSparseGrids.numlevels(asg)
 	if nl > 1
 		filter!(cpt->all(cpt.cpt.coords .== 1.0 .|| cpt.cpt.coords .== -1.0), cpts)
 	end
