@@ -120,7 +120,7 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	tol = ogsuqparams.samplemethodparams.tol
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
-	mc = MonteCarloSobol(Val(N), CT, RT, nshots, tol, randf, restartpath)
+	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf)
 	return OGSUQMC(ogsuqparams, mc)
 end
 
@@ -143,10 +143,9 @@ function init(::Type{MonteCarloSobol}, ogsuqparams::OGSUQParams)
 	if !ispath(pathA_B)
 		mkdir(pathA_B)
 	end	
-
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
-	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf)
+	mc = MonteCarloSobol(Val(N), CT, RT, nshots, tol, randf,restartpath)
 	return OGSUQMC(ogsuqparams, mc)
 end
 
