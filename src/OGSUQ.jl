@@ -63,6 +63,16 @@ mutable struct MonteCarloParams <: SampleMethodParams
 	file::String
 end
 
+mutable struct MonteCarloSobolParams <: SampleMethodParams
+	N::Int
+	CT::Type
+	RT::Type
+	nshots::Int
+	tol::Float64
+	file::String
+	restartpath::String
+end
+
 filename(a::SampleMethodParams) = a.file
 
 mutable struct OGSUQParams
@@ -84,6 +94,11 @@ end
 mutable struct OGSUQMC
 	ogsuqparams::OGSUQParams
 	mc::MonteCarlo
+end
+
+mutable struct OGSUQMCSobol
+	ogsuqparams::OGSUQParams
+	mc::MonteCarloSobol
 end
 
 include("./OGSUQ/utils.jl")
@@ -186,6 +201,11 @@ function start!(ogsuqmc::OGSUQMC)
 	return nothing
 end
 
+function start!(ogsuqmc::OGSUQMCSobol)
+	#DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
+	#return nothing
+end
+
 function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
 	ret = similar(retval_proto)
 	interpolate!(ret,ogsuqasg.asg, x)
@@ -232,9 +252,9 @@ function var(ogsuqmc::OGSUQMC, exp_val::RT) where {RT}
 	return distributed_var(ogsuqmc.mc, Main.fun, exp_val, workers())
 end
 
-export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams,
+export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams, MonteCarloSobolParams,
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
-	OGSUQASG, OGSUQMC, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
-	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo
+	OGSUQASG, OGSUQMC, OGSUQMCSobol, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
+	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol
 
 end # module
