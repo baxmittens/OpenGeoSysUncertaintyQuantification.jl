@@ -115,7 +115,7 @@ function generateSampleMethodModel(::Type{MonteCarloSobol}, sogs::StochasticOGSM
 	tol = 1e-2
 	nshots = 100
 	restartpath = "./Res"
-	smparams = MonteCarloParams(N,CT,RT,nshots,tol,anafile,restartpath)
+	smparams = MonteCarloSobolParams(N,CT,RT,nshots,tol,anafile,restartpath)
 	#writeXML(Julia2XML(smparams), anafile)
 	write(anafile, Julia2XML(smparams))
 	return smparams
