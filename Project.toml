@@ -19,11 +19,11 @@ DistributedMonteCarlo = "1911db96-88a4-4c72-b932-f455b4e9470b"
 
 [compat]
 julia = "1"
-XDMFFileHandler = "0.1"
+XDMFFileHandler = "0.0.1"
 DistributedMonteCarlo = "0.1"
 DistributedSparseGrids = "0.1, 0.2"
 StaticArrays = "^1.4.4"
-XMLParser = "0.1, 0.2"
+XMLParser = "0.2"
 Ogs6InputFileHandler = "0.0.1"
 VTUFileHandler = "0.1, 0.2"
 Distributions = "0.25"
