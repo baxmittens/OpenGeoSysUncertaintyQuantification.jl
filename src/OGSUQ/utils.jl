@@ -120,6 +120,18 @@ function generateSampleMethodModel(::Type{MonteCarloSobol}, sogs::StochasticOGSM
 	return smparams
 end
 
+function generateSampleMethodModel(::Type{MonteCarloMorris}, sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
+	N = length(sogs.stochparams)
+	CT = Float64
+	RT = XDMF3File
+	tol = 1e-2
+	nshots = 100
+	smparams = MonteCarloMorrisParams(N,CT,RT,nshots,anafile)
+	#writeXML(Julia2XML(smparams), anafile)
+	write(anafile, Julia2XML(smparams))
+	return smparams
+end
+
 function generateSampleMethodModel(sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
 	return generateSampleMethodModel(sogs.samplemethod, sogs, anafile)
 end

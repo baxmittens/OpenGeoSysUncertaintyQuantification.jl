@@ -72,6 +72,14 @@ mutable struct MonteCarloSobolParams <: SampleMethodParams
 	file::String
 end
 
+mutable struct MonteCarloMorrisParams <: SampleMethodParams
+	N::Int
+	CT::Type
+	RT::Type
+	ntrajectories::Int
+	file::String
+end
+
 filename(a::SampleMethodParams) = a.file
 
 mutable struct OGSUQParams
@@ -98,6 +106,11 @@ end
 mutable struct OGSUQMCSobol
 	ogsuqparams::OGSUQParams
 	mc::MonteCarloSobol
+end
+
+mutable struct OGSUQMCMorris
+	ogsuqparams::OGSUQParams
+	mc::MonteCarloMorris
 end
 
 include("./OGSUQ/utils.jl")
@@ -145,6 +158,17 @@ function init(::Type{MonteCarloSobol}, ogsuqparams::OGSUQParams)
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarloSobol(Val(N), CT, RT, nshots, tol, randf)
 	return OGSUQMCSobol(ogsuqparams, mc)
+end
+
+function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
+	N = ogsuqparams.samplemethodparams.N
+	CT = ogsuqparams.samplemethodparams.CT
+	RT = ogsuqparams.samplemethodparams.RT
+	nhots = ogsuqparams.samplemethodparams.nshots
+	#@todo include truncated for normal distribution
+	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	mc = MonteCarloMorris(Val(N), CT, RT, nshots, randf)
+	return OGSUQMC(ogsuqparams, mc)
 end
 
 function init(ogsuqparams::OGSUQParams)
@@ -227,6 +251,11 @@ end
 function start!(ogsuqmc::OGSUQMCSobol)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
 	return DistributedMonteCarlo.distributed_Sobol_Vars(ogsuqmc.mc, Main.fun, workers())
+end
+
+function start!(ogsuqmc::OGSUQMCMorris)
+	#DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
+	return DistributedMonteCarlo.distributed_means(ogsuqmc.mc, Main.fun, workers())
 end
 
 function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
