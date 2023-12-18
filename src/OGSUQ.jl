@@ -168,7 +168,7 @@ function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarloMorris(Val(N), CT, RT, ntrajectories, randf)
-	return OGSUQMC(ogsuqparams, mc)
+	return OGSUQMCMorris(ogsuqparams, mc)
 end
 
 function init(ogsuqparams::OGSUQParams)
