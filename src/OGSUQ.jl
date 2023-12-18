@@ -164,10 +164,10 @@ function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
 	N = ogsuqparams.samplemethodparams.N
 	CT = ogsuqparams.samplemethodparams.CT
 	RT = ogsuqparams.samplemethodparams.RT
-	nhots = ogsuqparams.samplemethodparams.nshots
+	ntrajectories = ogsuqparams.samplemethodparams.ntrajectories
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
-	mc = MonteCarloMorris(Val(N), CT, RT, nshots, randf)
+	mc = MonteCarloMorris(Val(N), CT, RT, ntrajectories, randf)
 	return OGSUQMC(ogsuqparams, mc)
 end
 
