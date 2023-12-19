@@ -254,7 +254,7 @@ function start!(ogsuqmc::OGSUQMCSobol)
 end
 
 function start!(ogsuqmc::OGSUQMCMorris)
-	#DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
+	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
 	return DistributedMonteCarlo.distributed_means(ogsuqmc.mc, Main.fun, workers())
 end
 
