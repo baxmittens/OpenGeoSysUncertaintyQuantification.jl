@@ -171,7 +171,7 @@ function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarloMorris(Val(N), CT, RT, ntrajectories, randf)
 	if lhs_sampling
-		error()
+		DistributedMonteCarlo.lhs_sampling!(mc) 
 	end
 	return OGSUQMCMorris(ogsuqparams, mc)
 end
