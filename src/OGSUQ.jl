@@ -77,6 +77,7 @@ mutable struct MonteCarloMorrisParams <: SampleMethodParams
 	CT::Type
 	RT::Type
 	ntrajectories::Int
+	lhs_sampling::Bool
 	file::String
 end
 
@@ -165,9 +166,13 @@ function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
 	CT = ogsuqparams.samplemethodparams.CT
 	RT = ogsuqparams.samplemethodparams.RT
 	ntrajectories = ogsuqparams.samplemethodparams.ntrajectories
+	lhs_sampling = ogsuqparams.samplemethodparams.lhs_sampling
 	#@todo include truncated for normal distribution
 	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
 	mc = MonteCarloMorris(Val(N), CT, RT, ntrajectories, randf)
+	if lhs_sampling
+		error()
+	end
 	return OGSUQMCMorris(ogsuqparams, mc)
 end
 

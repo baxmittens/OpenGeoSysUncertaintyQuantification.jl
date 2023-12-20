@@ -126,7 +126,8 @@ function generateSampleMethodModel(::Type{MonteCarloMorris}, sogs::StochasticOGS
 	RT = XDMF3File
 	tol = 1e-2
 	nshots = 100
-	smparams = MonteCarloMorrisParams(N,CT,RT,nshots,anafile)
+	lhs_sampling = false
+	smparams = MonteCarloMorrisParams(N,CT,RT,nshots,lhs_sampling,anafile)
 	#writeXML(Julia2XML(smparams), anafile)
 	write(anafile, Julia2XML(smparams))
 	return smparams
