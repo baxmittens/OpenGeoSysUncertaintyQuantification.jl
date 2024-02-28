@@ -1,4 +1,4 @@
-# OGSUQ
+# OpenGeoSysUncertaintyQuantification
 
 [![][docs-dev-img]][docs-dev-url]
 
