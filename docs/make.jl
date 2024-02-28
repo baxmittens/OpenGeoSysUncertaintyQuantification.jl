@@ -15,7 +15,7 @@ Pkg.develop(url="https://github.com/baxmittens/OpenGeoSysUncertaintyQuantificati
 
 using Documenter, OpenGeoSysUncertaintyQuantification
 makedocs(
-	sitename = "OgsUQ.jl",
+	sitename = "OpenGeoSysUncertaintyQuantification.jl",
 	modules = [OpenGeoSysUncertaintyQuantification],
 	pages = [
 		"Home" => "index.md"
