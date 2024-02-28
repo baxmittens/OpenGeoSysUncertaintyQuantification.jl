@@ -1,4 +1,4 @@
-# OGSUQ.jl
+# OpenGeoSysUncertaintyQuantification.jl
 
 ## Contents
 
@@ -19,7 +19,7 @@ generatePossibleStochasticParameters(
 	keywords::Vector{String}=ogs_numeric_keyvals
 	)
 ```
-scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](https://github.com/baxmittens/OGSUQ.jl/blob/main/src/OGSUQ/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
+scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/src/OpenGeoSysUncertaintyQuantification/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
 
 The second function
 
@@ -67,18 +67,18 @@ creates an xml-file `anafile` with all necessary parameters for the chosen sampl
 
 ## Usage
 
-In this chapter, [Example 1](https://github.com/baxmittens/OGSUQ.jl/tree/main/test/ex1) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [Example 1](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/tree/main/test/ex1) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 
 ### Defining the stochastic dimensions
 
-The following [lines of code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/generate_stoch_params_file.jl) 
+The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/generate_stoch_params_file.jl) 
 ```julia
-using OGSUQ
+using OpenGeoSysUncertaintyQuantification
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
 ```
-return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/PossibleStochasticParameters.xml) in the working directory
+return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/PossibleStochasticParameters.xml) in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -99,13 +99,13 @@ where all parameters possible to select as stochastic parameter are mapped. Sinc
 ./media/medium/@id/0/properties/property/?porosity/value
 ./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
 ```
-are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/altered_PossibleStochasticParameters.xml) in the working directory.
+are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_PossibleStochasticParameters.xml) in the working directory.
 
 ### Defining the stochastic model
 
-The following [code snippet](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/generate_stoch_model.jl) 
+The following [code snippet](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/generate_stoch_model.jl) 
 ```julia
-using OGSUQ
+using OpenGeoSysUncertaintyQuantification
 projectfile="./project/point_heat_source_2D.prj"
 simcall="/path/to/ogs/bin/ogs"
 additionalprojecfilespath="./mesh"
@@ -130,9 +130,9 @@ stochasticmodelparams = generateStochasticOGSModell(
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
 ```
 
-generates two XML-files, [`StochasticOGSModelParams.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/SampleMethodParams.xml), defining the stochastic model.
+generates two XML-files, [`StochasticOGSModelParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/SampleMethodParams.xml), defining the stochastic model.
 
-Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/altered_SampleMethodParams.xml).
+Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_SampleMethodParams.xml).
 
 In the former, the two stochastic parameters are altered. The probability distribution of the porosity is changed from `Uniform` to `Normal` with mean `μ=0.375` and standard deviation `σ=0.1`.
 ```xml
@@ -166,7 +166,7 @@ The second parameter, the thermal conductivity, is set up as a truncated normal 
 </p>
 ```
 
-The second file [`altered_SampleMethodParams.xml`](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
+The second file [`altered_SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
 - the number of dimensions `N=2`,
 - the return type `RT="VTUFile"` (see [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl))
 - the number of initial hierachical level of the sparse grid `init_lvl=4`,
@@ -175,23 +175,23 @@ The second file [`altered_SampleMethodParams.xml`](https://github.com/baxmittens
 
 ### Sampling the model
 
-The following [lines of code](https://github.com/baxmittens/OGSUQ.jl/blob/main/test/ex1/start.jl)
+The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/start.jl)
 
 ```julia
-using OGSUQ
-ogsuqparams = OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
-ogsuqasg = OGSUQ.init(ogsuqparams)
-OGSUQ.start!(ogsuqasg)
+import OpenGeoSysUncertaintyQuantification
+ogsuqparams = OpenGeoSysUncertaintyQuantification.OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
+ogsuqasg = OpenGeoSysUncertaintyQuantification.init(ogsuqparams)
+OpenGeoSysUncertaintyQuantification.start!(ogsuqasg)
 ```
 
 load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts the sampling procedure. Finally the expected value is integrated.
 
-* Initializing the model `OGSUQ.init(ogsuqparams)` consists of two steps
+* Initializing the model `OpenGeoSysUncertaintyQuantification.init(ogsuqparams)` consists of two steps
 	
     1. Adding all local workers (in this case 50 local workers)
     2. Initializing the adaptive sparse grid.
 
-* Starting the sampling procedure `OGSUQ.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement. This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
+* Starting the sampling procedure `OpenGeoSysUncertaintyQuantification.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement. This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
 
 ```@raw html
 <table border="0"><tr>
@@ -217,7 +217,7 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 The expected value of an stochastic OGS project can be computed by:
 ```julia
 import VTUFileHandler
-expval,asg_expval = OGSUQ.𝔼(ogsuqasg);
+expval,asg_expval = OpenGeoSysUncertaintyQuantification.𝔼(ogsuqasg);
 VTUFileHandler.rename!(expval,"expval_heatpointsource.vtu")
 write(expval)
 ```
@@ -263,7 +263,7 @@ By integrating over the domain the expected value is computed. Below the pressur
 The variance can be computed by:
 
 ```julia
-varval,asg_varval = OGSUQ.var(ogsuqasg,expval);
+varval,asg_varval = OpenGeoSysUncertaintyQuantification.var(ogsuqasg,expval);
 VTUFileHandler.rename!(varval,"varval_heatpointsource.vtu")
 write(varval)
 ```
@@ -306,4 +306,4 @@ As above, the variance can be computed by integrating over the stochastic domain
 
 ## Contributions, report bugs and support
 
-Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on [GitHub](https://github.com/baxmittens/OGSUQ.jl).
+Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on [GitHub](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl).

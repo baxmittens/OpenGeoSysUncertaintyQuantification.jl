@@ -1,4 +1,4 @@
-module OGSUQ
+module OpenGeoSysUncertaintyQuantification
 
 using XMLParser
 import XMLParser: Julia2XML
@@ -114,7 +114,7 @@ mutable struct OGSUQMCMorris
 	mc::MonteCarloMorris
 end
 
-include("./OGSUQ/utils.jl")
+include("./OpenGeoSysUncertaintyQuantification/utils.jl")
 
 function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	N = ogsuqparams.samplemethodparams.N

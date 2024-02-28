@@ -1,5 +1,5 @@
 using XMLParser
-using OGSUQ
+using OpenGeoSysUncertaintyQuantification
 import DelimitedFiles.writedlm
 
 stochmodelparams = XML2Julia(read(XMLFile, "_ogsp_placeholder_"))

@@ -1,5 +1,5 @@
 ---
-title: 'OGSUQ.jl: a Julia library implementing an uncertainty quantification toolbox for OpenGeoSys'
+title: 'OpenGeoSysUncertaintyQuantification.jl: a Julia library implementing an uncertainty quantification toolbox for OpenGeoSys'
 tags:
   - Julia
   - stochastics
@@ -24,7 +24,7 @@ bibliography: paper.bib
 
 # Abstract
 
-In simulation-aided design of saftey-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hdydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OGSUQ.jl](https://github.com/baxmittens/OGSUQ.jl) is a Julia library which provides all the necessary methods to quantify uncertainties in a validly configured deterministic OGS6 modell.
+In simulation-aided design of saftey-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hdydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OpenGeoSysUncertaintyQuantification.jl](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl) is a Julia library which provides all the necessary methods to quantify uncertainties in a validly configured deterministic OGS6 modell.
 
 # Statement of need
 
@@ -38,7 +38,7 @@ To this date, there is no uncertainty quantification toolbox for OpenGeoSys, nei
 
 # Features
 
-Most of all functionalities of this package are outsourced into independent julia packages to maintain their generic character. Therefore, OGSUQ.jl serves as an umbrella project for the following projects:
+Most of all functionalities of this package are outsourced into independent julia packages to maintain their generic character. Therefore, OpenGeoSysUncertaintyQuantification.jl serves as an umbrella project for the following projects:
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids]
   
@@ -61,9 +61,9 @@ Most of all functionalities of this package are outsourced into independent juli
   Analogous to the above for the XDMF result file format. Provides the datatype `XDMF3File` compatible with stochastic post-processing.
 
 
-Features added within OGSUQ.jl:
+Features added within OpenGeoSysUncertaintyQuantification.jl:
 
-- Setup of stochastic OGS6 projects (see [docs](https://baxmittens.github.io/OGSUQ.jl/dev/)).
+- Setup of stochastic OGS6 projects (see [docs](https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/)).
 
 - Definition of input parameters and (truncated) input distributions via [Distributions.jl](https://github.com/JuliaStats/Distributions.jl).
 

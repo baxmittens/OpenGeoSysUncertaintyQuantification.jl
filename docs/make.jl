@@ -7,23 +7,23 @@ import Pkg; Pkg.add("Documenter")
 #Pkg.add("ProgressMeter")
 #Pkg.add("DistributedSparseGrids")
 #Pkg.develop("DistributedSparseGrids")
-Pkg.add(url="https://github.com/baxmittens/OGSUQ.jl.git")
-Pkg.develop("OGSUQ")
+Pkg.add(url="https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl.git")
+Pkg.develop("OpenGeoSysUncertaintyQuantification")
 
 #push!(LOAD_PATH,"../src/")
 #include("../src/DistributedSparseGrids.jl")
 
-using Documenter, OGSUQ
+using Documenter, OpenGeoSysUncertaintyQuantification
 makedocs(
 	sitename = "OgsUQ.jl",
-	modules = [OGSUQ],
+	modules = [OpenGeoSysUncertaintyQuantification],
 	pages = [
 		"Home" => "index.md"
 		#"Library" => "lib/lib.md"
 	]
 	)
 deploydocs(
-    repo = "github.com/baxmittens/OGSUQ.jl.git"
+    repo = "github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl.git"
 )
 
 

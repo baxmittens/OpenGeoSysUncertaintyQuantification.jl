@@ -51,18 +51,18 @@ the package is currently under active development. If you encounter problems whi
 
 ```julia
 import Pkg
-Pkg.add("OGSUQ")
+Pkg.add("OpenGeoSysUncertaintyQuantification")
 ```
 
 ## Usage
 
-See the [docs](https://baxmittens.github.io/OGSUQ.jl/dev/).
+See the [docs](https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/).
 
 
 ## Contributions, report bugs and support
 
-Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on [GitHub](https://github.com/baxmittens/OGSUQ.jl).
+Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on [GitHub](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl).
 
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: https://baxmittens.github.io/OGSUQ.jl/dev/
+[docs-dev-url]: https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/
