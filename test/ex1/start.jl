@@ -1,4 +1,4 @@
-import OpenGeoSysUncertaintyQuantification
+using OpenGeoSysUncertaintyQuantification
 ogsuqparams = OpenGeoSysUncertaintyQuantification.OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
 ogsuqasg = OpenGeoSysUncertaintyQuantification.init(ogsuqparams)
 OpenGeoSysUncertaintyQuantification.start!(ogsuqasg)
