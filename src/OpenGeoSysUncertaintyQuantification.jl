@@ -312,6 +312,6 @@ end
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams, MonteCarloSobolParams,
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, OGSUQMC, OGSUQMCSobol, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
-	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams, variance, 𝔼, XMLFile, XML2Julia, init
+	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams, variance, 𝔼, XMLFile, XML2Julia, init, start!
 
 end # module
