@@ -8,7 +8,7 @@
 	<OGS6ProjectParams
 		 julia:fieldname="ogsparams"
 		 projectfile="./project/point_heat_source_2D.prj"
-		 simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2023-02-23/bin/ogs"
+		 simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2024-02-29/bin/ogs"
 		 additionalprojecfilespath="./mesh"
 		 outputpath="./Res"
 	>

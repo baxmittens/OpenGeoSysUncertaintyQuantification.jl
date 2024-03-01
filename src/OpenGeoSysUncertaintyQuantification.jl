@@ -1,7 +1,7 @@
 module OpenGeoSysUncertaintyQuantification
 
 using XMLParser
-import XMLParser: Julia2XML
+import XMLParser: Julia2XML, XMLFile, XML2Julia
 using Distributed
 using StaticArrays
 using XDMFFileHandler
@@ -299,19 +299,19 @@ function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
 	return ret
 end
 
-function var(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
+function variance(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
 	asg = ASG(ogsuqasg, _var_func)
 	return integrate_inplace_ops(asg),asg
 end
 
-function var(ogsuqmc::OGSUQMC, exp_val::RT) where {RT}
+function variance(ogsuqmc::OGSUQMC, exp_val::RT) where {RT}
 	return distributed_var(ogsuqmc.mc, Main.fun, exp_val, workers())
 end
 
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams, MonteCarloSobolParams,
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, OGSUQMC, OGSUQMCSobol, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
-	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams
+	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams, variance, 𝔼, XMLFile, XML2Julia
 
 end # module
