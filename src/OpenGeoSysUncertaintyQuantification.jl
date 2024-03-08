@@ -5,7 +5,7 @@ import XMLParser: Julia2XML, XMLFile, XML2Julia
 using Distributed
 using StaticArrays
 using XDMFFileHandler
-using XDMFFileHandler: Tri3_area_XY_plane, Tri6_shapeFun
+using XDMFFileHandler: Tri3_area_XY_plane, Tri6_shapeFun, add_cell_scalar_field!, add_nodal_scalar_field!
 import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops, average_scaling_weight
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
@@ -123,6 +123,9 @@ end
 
 include("./OpenGeoSysUncertaintyQuantification/convienence.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils.jl")
+include("./OpenGeoSysUncertaintyQuantification/utils_asg.jl")
+include("./OpenGeoSysUncertaintyQuantification/utils_xdmf.jl")
+include("./OpenGeoSysUncertaintyQuantification/utils_sobol.jl")
 
 function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	N = ogsuqparams.samplemethodparams.N
