@@ -371,11 +371,11 @@ end
 
 function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fieldname::String, varval, expval, xdmf_proto_path::String)
 	modeldef = ogs6_modeldef(ogsuqmc)
-	stoch_params = stoch_parameters(ogsuq)
+	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
 	add_scalar_field!(xdmf, expval, "Expected Value", modeldef)
 	add_scalar_field!(xdmf, varval, "Variance", modeldef)
-	ranking = scalar_sobolindex_from_field_result(ogsuq, sobolvars, varval, xdmf)
+	ranking = scalar_sobolindex_from_field_result(ogsuqmc, sobolvars, varval, xdmf)
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
 	for (ind, path, val) in ranking
 		add_scalar_field!(xdmf, sobolvars[ind], "SobolVar_"*trimpath(path), modeldef)
@@ -386,11 +386,11 @@ end
 
 function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field::Int, fieldname::String, varval, expval, xdmf_proto_path::String)
 	modeldef = ogs6_modeldef(ogsuqmc)
-	stoch_params = stoch_parameters(ogsuq)
+	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
 	add_scalar_field!(xdmf, expval[field], "Expected Value", modeldef)
 	add_scalar_field!(xdmf, varval[field], "Variance", modeldef)
-	ranking = scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, field, varval, xdmf)
+	ranking = scalar_sobolindex_from_multifield_result(ogsuqmc, sobolvars, field, varval, xdmf)
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
 	for (ind, path, val) in ranking
 		add_scalar_field!(xdmf, sobolvars[ind][field], "SobolVar_"*trimpath(path), modeldef)
