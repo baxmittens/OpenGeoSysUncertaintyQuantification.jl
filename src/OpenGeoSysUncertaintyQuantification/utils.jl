@@ -236,15 +236,15 @@ function gethyperedges(asg::DistributedSparseGrids.AdaptiveHierarchicalSparseGri
 	return cpts
 end
 
-function integrate_nodal_result(field,xdmf::T,modeldef::Ogs6ModelDef) where T
+function integrate_nodal_result(field::Vector{Float64},xdmf::T,modeldef::Ogs6ModelDef) where T
 	error("integrate_nodal_result not implemented for type $T")
 end
 
-function integrate_cell_result(field,xdmf::T,modeldef::Ogs6ModelDef) where T
+function integrate_cell_result(field::Vector{Float64},xdmf::T,modeldef::Ogs6ModelDef) where T
 	error("integrate_cell_result not implemented for type $T")
 end
 
-function integrate_nodal_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+function integrate_nodal_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
 	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
 	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
@@ -267,7 +267,7 @@ function integrate_nodal_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	return val
 end
 
-function integrate_cell_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+function integrate_cell_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
 	geom = xdmf.udata["geometry"]
 	topo = reshape(xdmf.udata["topology"],7,:)[2:end,:]
@@ -281,7 +281,7 @@ function integrate_cell_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	return val
 end
 
-function integrate_area(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+function integrate_area(xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
 	@assert displacement_order(modeldef) == 2 "`integrate_area` only implemented for displacements of order 2."
 	geom = xdmf.udata["geometry"]
@@ -296,3 +296,30 @@ function integrate_area(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	return valA
 end
 
+function is_nodal(res::Vector{Float64},xdmf::XDMF3File)
+	dim = length(res)
+	geom = xdmf.udata["geometry"]
+	nnodes = size(geom)[2]
+	return dim==nnodes
+end
+
+function integrate_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+	if is_nodal(field, xdmf)
+		return integrate_nodal_result(field, xdmf, modeldef)
+	else
+		return integrate_cell_result(field, xdmf, modeldef)
+	end
+end
+
+function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars, field::Int, totalvariance, xdmf::XDMF3File)
+	modeldef = ogs6_modeldef(ogsuq)
+	integrated_sobolvars = map(x->integrate_result(x[field],xdmf,modeldef), sobolvars)
+	integrated_totalvariance = integrate_result(totalvariance[field],xdmf,modeldef)
+	inds_sorted = sortperm(integrated_sobolvars, rev=true)
+	retvec = Vector{Tuple{Int,String,Float64}}()
+	stoch_params = stoch_parameters(ogsuq)
+	for ind in inds_sorted
+		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), integrate_result/integrated_totalvariance))
+	end
+	return retvec
+end
