@@ -329,11 +329,6 @@ ogs6_postprocfiles(stochparams::StochasticOGSModelParams) = ogs6_postprocfiles(s
 ogs6_postprocfiles(ogsuqparams::OGSUQParams) = ogs6_postprocfiles(ogsuqparams.stochasticmodelparams)
 ogs6_postprocfiles(ogsuq::AbstractOGSUQ) = ogs6_postprocfiles(ogsuq.ogsuqparams)
 
-ogs6_postprocfiles(stochparams::OGS6ProjectParams) = ogsparams.postprocfiles
-ogs6_postprocfiles(stochparams::StochasticOGSModelParams) = ogs6_postprocfiles(stochparams.ogsparams)
-ogs6_postprocfiles(ogsuqparams::OGSUQParams) = ogs6_postprocfiles(ogsuqparams.stochasticmodelparams)
-ogs6_postprocfiles(ogsuq::AbstractOGSUQ) = ogs6_postprocfiles(ogsuq.ogsuqparams)
-
 stoch_parameters(stochasticmodelparams::StochasticOGSModelParams) = stochasticmodelparams.stochparams
 stoch_parameters(ogsuqparams::OGSUQParams) = stoch_parameters(ogsuqparams.stochasticmodelparams)
 stoch_parameters(ogsuq::AbstractOGSUQ) = stoch_parameters(ogsuq.ogsuqparams)
