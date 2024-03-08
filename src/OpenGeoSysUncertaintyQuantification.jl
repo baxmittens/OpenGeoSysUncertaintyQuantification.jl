@@ -323,6 +323,6 @@ export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, Sam
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, OGSUQMC, OGSUQMCSobol, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
 	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams,
-	variance, 𝔼, XMLFile, XML2Julia, init, start!, integrate_nodal_result, integrate_cell_result, integrate_area, integrate_result, ogs6_modeldef, stoch_parameters
+	variance, 𝔼, XMLFile, XML2Julia, init, start!, integrate_nodal_result, integrate_cell_result, integrate_area, integrate_result, ogs6_modeldef, stoch_parameters, scalar_sobolindex_from_multifield_result
 
 end # module

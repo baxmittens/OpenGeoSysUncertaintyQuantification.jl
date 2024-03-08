@@ -319,7 +319,7 @@ function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars
 	retvec = Vector{Tuple{Int,String,Float64}}()
 	stoch_params = stoch_parameters(ogsuq)
 	for ind in inds_sorted
-		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), integrate_result/integrated_totalvariance))
+		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), integrated_sobolvars/integrated_totalvariance))
 	end
 	return retvec
 end
