@@ -9,7 +9,7 @@ import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops, average_scaling_weight
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
 import VTUFileHandler: VTUFile
-import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath
+import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath, displacement_order, format_ogs_path
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
 import LinearAlgebra: mul!
 using DistributedMonteCarlo

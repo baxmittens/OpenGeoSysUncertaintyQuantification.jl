@@ -235,3 +235,58 @@ function gethyperedges(asg::DistributedSparseGrids.AdaptiveHierarchicalSparseGri
 	end
 	return cpts
 end
+
+AltInplaceOpsInterface.add!(a::Vector{Float64}, b::Vector{Float64}) = a .+= b
+mul!(a::Vector{Float64}, b::Float64) = a .*= b
+mul!(a::Vector{Float64}, b::Vector{Float64}) = a .*= b
+mul!(a::Vector{Float64}, b::Vector{Float64}, c::Float64) = begin; for i = 1:length(a); a[i] = b[i]*c; end; return nothing; end
+AltInplaceOpsInterface.minus!(a::Vector{Float64}, b::Vector{Float64}) = a .-= b
+AltInplaceOpsInterface.pow!(a::Vector{Float64}, b::Int64) = a .^= b
+AltInplaceOpsInterface.pow!(a::Vector{Float64}, b::Float64) = a .^= b
+
+Base.fill!(a::Vector{Vector{Float64}}, b::Float64) = foreach(x->fill!(x,b), a)
+Base.similar(a::Vector{Vector{Float64}}) = map(x->similar(x),a)
+
+AltInplaceOpsInterface.add!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = a .+= b
+mul!(a::Vector{Vector{Float64}}, b::Float64) = a .*= b
+mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = begin; for i = 1:length(a); mul!(a[i],b[i]) end; return nothing; end
+mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}, c::Float64) = begin; for i = 1:length(a); a[i] = b[i].*c; end; return nothing; end
+AltInplaceOpsInterface.minus!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = a .-= b
+AltInplaceOpsInterface.pow!(a::Vector{Vector{Float64}}, b::Int64) = a .^= b
+AltInplaceOpsInterface.pow!(a::Vector{Vector{Float64}}, b::Float64) = begin; for i = 1:length(a); pow!(a[i],b) end; return nothing; end
+
+AltInplaceOpsInterface.add!(a::Matrix{Float64}, b::Matrix{Float64}) = a .+= b
+LinearAlgebra.mul!(a::Matrix{Float64}, b::Float64) = a .*= b
+LinearAlgebra.mul!(a::Matrix{Float64}, b::Matrix{Float64}, c::Float64) = begin; for i = 1:length(a); a[i] = b[i]*c; end; return nothing; end
+AltInplaceOpsInterface.minus!(a::Matrix{Float64}, b::Matrix{Float64}) = a .-= b
+AltInplaceOpsInterface.pow!(a::Matrix{Float64}, b::Int64) = a .^= b
+AltInplaceOpsInterface.pow!(a::Matrix{Float64}, b::Float64) = a .^= b
+
+function integrate_result(field,xdmf::T,modeldef::Ogs6ModelDef) where T
+	error("integrate_result not implemented for type $T")
+end
+
+function integrate_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+	#only implemented for 2d results in XY plane
+	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
+	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
+	ξs = [0.333333333333333 0.333333333333333; 0.2 0.6; 0.2 0.2; 0.6 0.2]
+	geom = xdmf.udata["geometry"]
+	topo = reshape(xdmf.udata["topology"],7,:)[2:end,:]
+	nels = size(topo)[2] 
+	val = 0.0
+	valA = 0.0
+	for nel in 1:nels
+		inds = topo[:,nel] .+ 1
+		tmpval = 0.0
+		for nip in 1:length(ws)
+			w = ws[nip]
+			ξ = ξs[nip,:]
+			tmpval += (Tri6_shapeFun(ξ)'*field[inds])[1] * w
+		end
+		A = Tri3_area_XY_plane(geom[:,inds[1]], geom[:,inds[2]], geom[:,inds[3]])
+		val += tmpval * A
+		valA += A
+	end
+	return val,valA
+end
