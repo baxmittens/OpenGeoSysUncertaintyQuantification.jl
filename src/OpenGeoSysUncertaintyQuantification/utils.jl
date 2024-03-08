@@ -355,7 +355,46 @@ function scalar_sobolindex_from_multifield_result(ogsuqmc::OGSUQMCSobol, totsobo
 	retvec = Vector{Tuple{Int,String,Float64}}()
 	stoch_params = stoch_parameters(ogsuqmc)
 	for ind in inds_sorted
-		push!(retvec, (ind, Ogs6InputFileHandler.format_ogs_path(stoch_params[ind].path), sobol_inds_scaled[ind]))
+		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), sobol_inds_scaled[ind]))
 	end
 	return retvec
+end
+
+function add_scalar_field!(xdmf::XDMF3File, field::Vector{Float64}, name::String, modeldef::Ogs6ModelDef)
+	if is_nodal(field, xdmf)
+		add_nodal_scalar_field!(xdmf, name, field)
+	else
+		add_cell_scalar_field!(xdmf, name, field)
+	end
+	return nothing
+end
+
+function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fieldname::String, varval, expval, xdmf_proto_path::String)
+	modeldef = ogs6_modeldef(ogsuqmc)
+	stoch_params = stoch_parameters(ogsuq)
+	xdmf = XDMF3File(xdmf_proto_path)
+	add_scalar_field!(xdmf, expval, "Expected Value", modeldef)
+	add_scalar_field!(xdmf, varval, "Variance", modeldef)
+	ranking = scalar_sobolindex_from_field_result(ogsuq, sobolvars, varval, xdmf)
+	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
+	for (ind, path, val) in ranking
+		add_scalar_field!(xdmf, sobolvars[ind], "SobolVar_"trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind], "SobolInd_"trimpath(path), modeldef)
+	end
+	return write(xdmf, fieldname*".xdmf") 
+end
+
+function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field::Int, fieldname::String, varval, expval, xdmf_proto_path::String)
+	modeldef = ogs6_modeldef(ogsuqmc)
+	stoch_params = stoch_parameters(ogsuq)
+	xdmf = XDMF3File(xdmf_proto_path)
+	add_scalar_field!(xdmf, expval[field], "Expected Value", modeldef)
+	add_scalar_field!(xdmf, varval[field], "Variance", modeldef)
+	ranking = scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, field, varval, xdmf)
+	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
+	for (ind, path, val) in ranking
+		add_scalar_field!(xdmf, sobolvars[ind][field], "SobolVar_"trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind][field]./varval, "SobolInd_"trimpath(path), modeldef)
+	end
+	return write(xdmf, fieldname*".xdmf") 
 end
