@@ -266,7 +266,7 @@ function integrate_result(field,xdmf::T,modeldef::Ogs6ModelDef) where T
 	error("integrate_result not implemented for type $T")
 end
 
-function integrate_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+function integrate_nodal_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
 	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
 	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
@@ -285,6 +285,20 @@ function integrate_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 		end
 		A = Tri3_area_XY_plane(geom[:,inds[1]], geom[:,inds[2]], geom[:,inds[3]])
 		val += tmpval * A
+	end
+	return val
+end
+
+function integrate_cell_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
+	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
+	geom = xdmf.udata["geometry"]
+	topo = reshape(xdmf.udata["topology"],7,:)[2:end,:]
+	nels = size(topo)[2] 
+	val = 0.0
+	for nel in 1:nels
+		inds = topo[:,nel] .+ 1
+		A = Tri3_area_XY_plane(geom[:,inds[1]], geom[:,inds[2]], geom[:,inds[3]])
+		val += field[ind] * A
 	end
 	return val
 end
