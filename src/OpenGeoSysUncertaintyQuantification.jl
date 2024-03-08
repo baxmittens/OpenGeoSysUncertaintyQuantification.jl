@@ -119,6 +119,7 @@ mutable struct OGSUQMCMorris <: AbstractOGSUQ
 	mc::MonteCarloMorris
 end
 
+include("./OpenGeoSysUncertaintyQuantification/convienence.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils.jl")
 
 function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
@@ -313,6 +314,8 @@ end
 function variance(ogsuqmc::OGSUQMC, exp_val::RT) where {RT}
 	return distributed_var(ogsuqmc.mc, Main.fun, exp_val, workers())
 end
+
+
 
 export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, SampleMethodParams, SparseGridParams, MonteCarloParams, MonteCarloSobolParams,
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
