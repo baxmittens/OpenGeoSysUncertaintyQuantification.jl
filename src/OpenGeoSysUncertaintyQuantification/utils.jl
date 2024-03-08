@@ -276,7 +276,7 @@ function integrate_cell_result(field, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	for nel in 1:nels
 		inds = topo[:,nel] .+ 1
 		A = Tri3_area_XY_plane(geom[:,inds[1]], geom[:,inds[2]], geom[:,inds[3]])
-		val += field[ind] * A
+		val += field[nel] * A
 	end
 	return val
 end
