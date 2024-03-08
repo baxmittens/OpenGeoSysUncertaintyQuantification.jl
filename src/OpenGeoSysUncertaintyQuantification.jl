@@ -5,6 +5,7 @@ import XMLParser: Julia2XML, XMLFile, XML2Julia
 using Distributed
 using StaticArrays
 using XDMFFileHandler
+using XDMFFileHandler: Tri3_area_XY_plane, Tri6_shapeFun
 import AltInplaceOpsInterface: add!, minus!, pow!, max!, min!
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid,HierarchicalCollocationPoint, CollocationPoint, init, generate_next_level!, distributed_init_weights_inplace_ops!, AHSG, interpolate!, init_weights_inplace_ops!, integrate_inplace_ops, average_scaling_weight
 import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
@@ -317,6 +318,6 @@ export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, Sam
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, OGSUQMC, OGSUQMCSobol, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
 	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams,
-	variance, 𝔼, XMLFile, XML2Julia, init, start!, integrate_result, integrate_area
+	variance, 𝔼, XMLFile, XML2Julia, init, start!, integrate_result, integrate_area, ogs6_modeldef, stoch_parameters
 
 end # module
