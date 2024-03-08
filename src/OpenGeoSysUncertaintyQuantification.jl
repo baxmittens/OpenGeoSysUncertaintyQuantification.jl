@@ -96,22 +96,24 @@ function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams
 	return OGSUQParams(stochasticmodelparams, samplemethodparams)
 end
 
-mutable struct OGSUQASG
+abstract type AbstractOGSUQ end 
+
+mutable struct OGSUQASG <: AbstractOGSUQ
 	ogsuqparams::OGSUQParams
 	asg::AdaptiveHierarchicalSparseGrid
 end
 
-mutable struct OGSUQMC
+mutable struct OGSUQMC <: AbstractOGSUQ
 	ogsuqparams::OGSUQParams
 	mc::MonteCarlo
 end
 
-mutable struct OGSUQMCSobol
+mutable struct OGSUQMCSobol <: AbstractOGSUQ
 	ogsuqparams::OGSUQParams
 	mc::MonteCarloSobol
 end
 
-mutable struct OGSUQMCMorris
+mutable struct OGSUQMCMorris <: AbstractOGSUQ
 	ogsuqparams::OGSUQParams
 	mc::MonteCarloMorris
 end
@@ -315,6 +317,6 @@ export OGS6ProjectParams, StochasticOGS6Parameter, StochasticOGSModelParams, Sam
 	OGSUQParams, generatePossibleStochasticParameters, generateStochasticOGSModell, generateSampleMethodModel, loadStochasticParameters, 
 	OGSUQASG, OGSUQMC, OGSUQMCSobol, AdaptiveHierarchicalSparseGrid, Normal, Uniform, Ogs6ModelDef, getAllPathesbyTag!, VTUFile, rename!, AHSG, 
 	setStochasticParameters!, lin_func, CPtoStoch, pdf, getElementbyPath, XDMF3File, XDMFData, MonteCarlo, MonteCarloSobol, MonteCarloMorris, MonteCarloMorrisParams,
-	variance, 𝔼, XMLFile, XML2Julia, init, start!
+	variance, 𝔼, XMLFile, XML2Julia, init, start!, integrate_result, integrate_area
 
 end # module
