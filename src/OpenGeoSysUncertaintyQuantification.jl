@@ -11,7 +11,9 @@ import Distributions: Normal, Uniform, UnivariateDistribution, pdf, cdf
 import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath, displacement_order, format_ogs_path
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid
+import LinearAlgebra
 import LinearAlgebra: mul!
+import AltInplaceOpsInterface
 using DistributedMonteCarlo
 import DistributedMonteCarlo: MonteCarlo, distributed_𝔼, distributed_var
 
