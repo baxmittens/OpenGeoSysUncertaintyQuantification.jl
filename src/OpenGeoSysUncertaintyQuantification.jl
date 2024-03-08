@@ -17,6 +17,7 @@ import LinearAlgebra: mul!
 import AltInplaceOpsInterface
 using DistributedMonteCarlo
 import DistributedMonteCarlo: MonteCarlo, distributed_𝔼, distributed_var
+using Format
 
 mutable struct OGS6ProjectParams
 	projectfile::String

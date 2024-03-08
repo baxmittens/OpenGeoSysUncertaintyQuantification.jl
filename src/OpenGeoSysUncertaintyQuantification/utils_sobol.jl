@@ -60,12 +60,13 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
-	add_scalar_field!(xdmf, expval, "Expected Value", modeldef)
-	add_scalar_field!(xdmf, varval, "Variance", modeldef)
+	add_scalar_field!(xdmf, expval, "0000_Expected Value", modeldef)
+	add_scalar_field!(xdmf, varval, "0001_Variance", modeldef)
 	ranking = scalar_sobolindex_from_field_result(ogsuqmc, sobolvars, varval, xdmf)
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
 	for (ind, path, val) in ranking
-		add_scalar_field!(xdmf, sobolvars[ind], "SobolVar_"*trimpath(path), modeldef)
+		_num = cfmt("%03i" , i )
+		add_scalar_field!(xdmf, sobolvars[ind], _num*"_SobolVar_"*trimpath(path), modeldef)
 		add_scalar_field!(xdmf, sobolvars[ind]./varval, "SobolInd_"*trimpath(path), modeldef)
 	end
 	return write(xdmf, fieldname*".xdmf", fieldname*"h5")
@@ -75,13 +76,14 @@ function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars,
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
-	add_scalar_field!(xdmf, expval[field], "Expected Value", modeldef)
-	add_scalar_field!(xdmf, varval[field], "Variance", modeldef)
+	add_scalar_field!(xdmf, expval[field], "0000_Expected Value", modeldef)
+	add_scalar_field!(xdmf, varval[field], "0001_Variance", modeldef)
 	ranking = scalar_sobolindex_from_multifield_result(ogsuqmc, sobolvars, field, varval, xdmf)
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
-	for (ind, path, val) in ranking
-		add_scalar_field!(xdmf, sobolvars[ind][field], "SobolVar_"*trimpath(path), modeldef)
+	for (i,(ind, path, val)) in enumerate(ranking)
+		_num = cfmt("%03i" , i )
+		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"_SobolVar_"*trimpath(path), modeldef)
 		add_scalar_field!(xdmf, sobolvars[ind][field]./varval[field], "SobolInd_"*trimpath(path), modeldef)
 	end
-	return write(xdmf, fieldname*".xdmf", fieldname*"h5") 
+	return write(xdmf, fieldname*".xdmf", fieldname*".h5") 
 end
