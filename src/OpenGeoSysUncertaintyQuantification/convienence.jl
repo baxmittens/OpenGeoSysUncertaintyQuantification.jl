@@ -1,4 +1,5 @@
 AltInplaceOpsInterface.add!(a::Vector{Float64}, b::Vector{Float64}) = a .+= b
+AltInplaceOpsInterface.add!(a::Vector{Float64}, b::Float64) = a .+= b 
 mul!(a::Vector{Float64}, b::Float64) = a .*= b
 mul!(a::Vector{Float64}, b::Vector{Float64}) = a .*= b
 mul!(a::Vector{Float64}, b::Vector{Float64}, c::Float64) = begin; for i = 1:length(a); a[i] = b[i]*c; end; return nothing; end
@@ -11,6 +12,7 @@ Base.similar(a::Vector{Vector{Float64}}) = map(x->similar(x),a)
 Base.zero(a::Vector{Vector{Float64}}) = map(zero,a)
 
 AltInplaceOpsInterface.add!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = a .+= b
+AltInplaceOpsInterface.add!(a::Vector{Vector{Float64}}, b::Float64) = begin; for i = 1:length(a); add!(a[i],b) end; return nothing; end
 mul!(a::Vector{Vector{Float64}}, b::Float64) = a .*= b
 mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = begin; for i = 1:length(a); mul!(a[i],b[i]) end; return nothing; end
 mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}, c::Float64) = begin; for i = 1:length(a); a[i] = b[i].*c; end; return nothing; end
@@ -19,6 +21,7 @@ AltInplaceOpsInterface.pow!(a::Vector{Vector{Float64}}, b::Int64) = a .^= b
 AltInplaceOpsInterface.pow!(a::Vector{Vector{Float64}}, b::Float64) = begin; for i = 1:length(a); pow!(a[i],b) end; return nothing; end
 
 AltInplaceOpsInterface.add!(a::Matrix{Float64}, b::Matrix{Float64}) = a .+= b
+AltInplaceOpsInterface.add!(a::Matrix{Float64}, b::Float64) = a .+= b
 LinearAlgebra.mul!(a::Matrix{Float64}, b::Float64) = a .*= b
 LinearAlgebra.mul!(a::Matrix{Float64}, b::Matrix{Float64}, c::Float64) = begin; for i = 1:length(a); a[i] = b[i]*c; end; return nothing; end
 AltInplaceOpsInterface.minus!(a::Matrix{Float64}, b::Matrix{Float64}) = a .-= b
