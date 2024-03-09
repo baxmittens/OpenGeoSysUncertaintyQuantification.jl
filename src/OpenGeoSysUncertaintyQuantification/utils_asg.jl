@@ -56,10 +56,6 @@ function gethyperedges(asg::DistributedSparseGrids.AdaptiveHierarchicalSparseGri
 	return cpts
 end
 
-Base.fill!(a::Vector{Vector{Float64}}, b::Float64) = foreach(x->fill!(x,b), a)
-Base.similar(a::Vector{Vector{Float64}}) = map(x->similar(x),a)
-Base.zero(a::Vector{Vector{Float64}}) = map(zero,a)
-
 function start_mc_sampling!(MC::MonteCarlo, fun)
 	#Threads.@threads for i = 1:MC.n
 	vals = Vector{typeof(fun(MC.rndF()))}(undef,MC.n)

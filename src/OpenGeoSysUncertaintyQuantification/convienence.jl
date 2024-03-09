@@ -8,6 +8,7 @@ AltInplaceOpsInterface.pow!(a::Vector{Float64}, b::Float64) = a .^= b
 
 Base.fill!(a::Vector{Vector{Float64}}, b::Float64) = foreach(x->fill!(x,b), a)
 Base.similar(a::Vector{Vector{Float64}}) = map(x->similar(x),a)
+Base.zero(a::Vector{Vector{Float64}}) = map(zero,a)
 
 AltInplaceOpsInterface.add!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = a .+= b
 mul!(a::Vector{Vector{Float64}}, b::Float64) = a .*= b
