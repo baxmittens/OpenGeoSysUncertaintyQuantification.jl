@@ -55,3 +55,19 @@ function gethyperedges(asg::DistributedSparseGrids.AdaptiveHierarchicalSparseGri
 	end
 	return cpts
 end
+
+function start_mc_sampling!(MC::MonteCarlo, fun)
+	#Threads.@threads for i = 1:MC.n
+	vals = Vector{typeof(fun(MC.rndF()))}(undef,MC.n)
+	for i = 1:MC.n
+		#@info "$i/$(MC.n) Monte Carlo Shot"	
+		shot = MC.shots[i]
+		ξs = shot.coords
+		res = fun(ξs)
+		vals[i] = res
+		if mod(i,10_000) == 0
+			println(i)
+		end
+	end
+	return vals
+end
