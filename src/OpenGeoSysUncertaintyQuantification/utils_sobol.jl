@@ -82,8 +82,8 @@ function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars,
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
-		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"_SobolVar_"*trimpath(path), modeldef)
-		add_scalar_field!(xdmf, sobolvars[ind][field]./varval[field], "SobolInd_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"0_SobolVar_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind][field]./varval[field], _num*"1_SobolInd_"*trimpath(path), modeldef)
 	end
 	return write(xdmf, fieldname*".xdmf", fieldname*".h5") 
 end
