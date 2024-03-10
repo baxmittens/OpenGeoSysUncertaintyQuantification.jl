@@ -130,6 +130,7 @@ include("./OpenGeoSysUncertaintyQuantification/utils_asg.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils_sobol.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils_user_file.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils_integrity_criteria.jl")
+include("./OpenGeoSysUncertaintyQuantification/utils_print.jl")
 
 function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	N = ogsuqparams.samplemethodparams.N
