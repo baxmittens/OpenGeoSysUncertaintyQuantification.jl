@@ -1,6 +1,6 @@
-import Base.show
+import Base.display
 
-function show(io::IO, stochparams::Vector{StochasticOGS6Parameter})
+function display(io::IO, stochparams::Vector{StochasticOGS6Parameter})
 	N = length(stochparams)
 	header = ["#","Name", "Dist.", "lower_bound", "upper_bound", "valspec"]
 	data = Matrix{Any}(undef, N, 6)
