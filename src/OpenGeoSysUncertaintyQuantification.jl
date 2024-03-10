@@ -19,6 +19,7 @@ using DistributedMonteCarlo
 import DistributedMonteCarlo: MonteCarlo, distributed_𝔼, distributed_var
 using Format
 using PGFPlotsX
+import PrettyTables: pretty_table
 
 mutable struct OGS6ProjectParams
 	projectfile::String
