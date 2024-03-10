@@ -47,7 +47,7 @@ function integrate_area(xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
 	@assert displacement_order(modeldef) == 2 "`integrate_area` only implemented for displacements of order 2."
 	geom = xdmf.udata["geometry"]
-	topo = reshape(xdmf.udata["topology"],7,:)[2:end,:]
+	topo = reshape(xdmf.udata["topology"], 7, :)[2:end, :]
 	nels = size(topo)[2] 
 	valA = 0.0
 	for nel in 1:nels
@@ -71,4 +71,15 @@ function integrate_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs
 	else
 		return integrate_cell_result(field, xdmf, modeldef)
 	end
+end
+
+function element_coords(pt,geom,topo)
+	for i = 1:size(topo,2)
+		inds = topo[2:end,i] .+ 1
+		pintri3 = PointInTri3(pt, geom[:,inds[1]], geom[:,inds[2]], geom[:,inds[3]])
+		if pintri3
+			return inds, globalToLocalGuess(pt, geom[:, inds[1:3]])
+		end
+	end
+	error("Point $pt not found in XDMF")
 end
