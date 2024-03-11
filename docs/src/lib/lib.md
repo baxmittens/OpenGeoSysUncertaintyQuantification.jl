@@ -24,6 +24,9 @@ OGS6ProjectParams
 StochasticOGS6Parameter
 StochasticOGSModelParams
 SparseGridParams
+MonteCarloParams
+MonteCarloSobolParams
+MonteCarloMorrisParams
 ```
 
 ### General functions
