@@ -15,8 +15,6 @@ Depth = 4
 Pages = ["lib.md"]
 ```
 
-### Typedefs
-
 ### Structs
 
 ```@docs
@@ -27,6 +25,9 @@ SparseGridParams
 MonteCarloParams
 MonteCarloSobolParams
 MonteCarloMorrisParams
+OGSUQParams
+OGSUQASG
+OGSUQMC
 ```
 
 ### General functions

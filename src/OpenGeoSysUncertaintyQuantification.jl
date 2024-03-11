@@ -144,7 +144,7 @@ end
 """
 	mutable struct MonteCarloSobolParams
 
-Container for Monte Carlo parameters.
+Container for Monte Carlo Sobol parameters.
 
 # Fields
 
@@ -165,9 +165,9 @@ mutable struct MonteCarloSobolParams <: SampleMethodParams
 end
 
 """
-	mutable struct MonteCarloSobolParams
+	mutable struct MonteCarloMorrisParams
 
-Container for Monte Carlo parameters.
+Container for Monte Carlo Morris parameters.
 
 # Fields
 
@@ -190,6 +190,19 @@ end
 
 filename(a::SampleMethodParams) = a.file
 
+"""
+	mutable struct OGSUQParams
+
+Container for stochastic model parameters and sample method parameters.
+
+# Fields
+
+- `stochasticmodelparams::`[`StochasticOGSModelParams`](@ref) : stochastic model parameters.
+- `samplemethodparams::`[`SampleMethodParams`](@ref) : sample method parameters.
+
+Can be instantiated by `OGSUQParams(stochasticmodelparams::StochasticOGSModelParams, samplemethodparams::SampleMethodParams)` or `OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams::String)` where `file_stochasticmodelparams` and `file_samplemethodparams` are pathes to xml files of [`StochasticOGSModelParams`](@ref) and [`SampleMethodParams`](@ref), respectively, written by [XMLParser.Julia2XML](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35).
+
+"""
 mutable struct OGSUQParams
 	stochasticmodelparams::StochasticOGSModelParams
 	samplemethodparams::SampleMethodParams
@@ -205,11 +218,31 @@ abstract type AbstractOGSUQ end
 abstract type AbstractOGSUQMonteCarlo <: AbstractOGSUQ end 
 abstract type AbstractOGSUQSensitivity <: AbstractOGSUQMonteCarlo end 
 
+"""
+	mutable struct OGSUQASG
+
+Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by [`DistributedSparseGrids.jl`](https://github.com/baxmittens/DistributedSparseGrids.jl).
+
+# Fields
+
+- `ogsuqparams::`[`OGSUQParams`](@ref) : stochastic model and sample method parameters.
+- `asg::`[`DistributedSparseGrids.AdaptiveHierarchicalSparseGrid`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid) : instance of the adaptive sparse grid
+"""
 mutable struct OGSUQASG <: AbstractOGSUQ
 	ogsuqparams::OGSUQParams
 	asg::AdaptiveHierarchicalSparseGrid
 end
 
+"""
+	mutable struct OGSUQASG
+
+Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by [`DistributedSparseGrids.jl`](https://github.com/baxmittens/DistributedSparseGrids.jl).
+
+# Fields
+
+- `ogsuqparams::`[`OGSUQParams`](@ref) : stochastic model and sample method parameters.
+- `asg::`[`DistributedMonteCarlo.MonteCarlo`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid) : instance of the adaptive sparse grid
+"""
 mutable struct OGSUQMC <: AbstractOGSUQMonteCarlo
 	ogsuqparams::OGSUQParams
 	mc::MonteCarlo
