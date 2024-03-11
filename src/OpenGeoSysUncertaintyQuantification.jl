@@ -21,6 +21,19 @@ using Format
 using PGFPlotsX
 import PrettyTables: pretty_table
 
+"""
+	OGS6ProjectParams
+
+Container OpenGeoSys 6 Parameters
+
+# Fields
+
+`projectfile::String` : Path to the OGS6 project file (`path/to/project.prj`)
+`simcall::String` : Path to the OGS6 binary (`path/to/ogs/bin/ogs`)
+`additionalprojecfilespath::String` : Path to the folder with additional project files (meshes & scripts) which gets copied to each realization folder
+`outputpath::String` : Path to Result folder (`path/to/stochprojectfolder/Res/`)
+`postprocfiles::Vector{String}` : Array of OGS6 postprocessing results either VTU or XDMF files
+"""
 mutable struct OGS6ProjectParams
 	projectfile::String
 	simcall::String
