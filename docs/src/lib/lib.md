@@ -21,6 +21,7 @@ Pages = ["lib.md"]
 
 ```@docs
 OGS6ProjectParams
+StochasticOGS6Parameter
 ```
 
 ### General functions

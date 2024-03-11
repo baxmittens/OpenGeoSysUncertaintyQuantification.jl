@@ -22,17 +22,17 @@ using PGFPlotsX
 import PrettyTables: pretty_table
 
 """
-	OGS6ProjectParams
+	julia```mutable struct OGS6ProjectParams```
 
-Container OpenGeoSys 6 Parameters
+Container for OpenGeoSys 6 Parameters
 
 # Fields
 
-`projectfile::String` : Path to the OGS6 project file (`path/to/project.prj`)
-`simcall::String` : Path to the OGS6 binary (`path/to/ogs/bin/ogs`)
-`additionalprojecfilespath::String` : Path to the folder with additional project files (meshes & scripts) which gets copied to each realization folder
-`outputpath::String` : Path to Result folder (`path/to/stochprojectfolder/Res/`)
-`postprocfiles::Vector{String}` : Array of OGS6 postprocessing results either VTU or XDMF files
+- `projectfile::String` : Path to the OGS6 project file (`path/to/project.prj`)
+- `simcall::String` : Path to the OGS6 binary (`path/to/ogs/bin/ogs`)
+- `additionalprojecfilespath::String` : Path to the folder with additional project files (meshes & scripts) which gets copied to each realization folder
+- `outputpath::String` : Path to Result folder (`path/to/stochprojectfolder/Res/`)
+- `postprocfiles::Vector{String}` : Array of OGS6 postprocessing results either VTU or XDMF files
 """
 mutable struct OGS6ProjectParams
 	projectfile::String
@@ -42,6 +42,19 @@ mutable struct OGS6ProjectParams
 	postprocfiles::Vector{String}
 end
 
+"""
+	mutable struct StochasticOGS6Parameter
+
+Container for a stochastic parameter
+
+# Fields
+
+- `path::String` : OGS6 path definition (see Ogs6InputFileHandler)
+- `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
+- `dist::UnivariateDistribution` : Univariate distribution (see )
+- `lower_bound::Float64` : Lower bound for truncated distribution (all normal distributions must be truncated)
+- `upper_bound::Float64` : Upper bound for truncated distribution (all normal distributions must be truncated)
+"""
 mutable struct StochasticOGS6Parameter
 	path::String
 	valspec::Int
