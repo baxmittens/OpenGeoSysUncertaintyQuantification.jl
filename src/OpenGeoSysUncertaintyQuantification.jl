@@ -22,19 +22,18 @@ using PGFPlotsX
 import PrettyTables: pretty_table
 
 """
-	```julia 
 	mutable struct OGS6ProjectParams
-	```
+
 
 Container for OpenGeoSys 6 Parameters
 
 # Fields
 
-- `projectfile::String` : Path to the OGS6 project file (`path/to/project.prj`)
-- `simcall::String` : Path to the OGS6 binary (`path/to/ogs/bin/ogs`)
+- `projectfile::String` : Path to the OGS6 project file (e.g. `path/to/project.prj`)
+- `simcall::String` : Path to the OGS6 binary (e.g. `path/to/ogs/bin/ogs`)
 - `additionalprojecfilespath::String` : Path to the folder with additional project files (meshes & scripts) which gets copied to each realization folder
-- `outputpath::String` : Path to Result folder (`path/to/stochprojectfolder/Res/`)
-- `postprocfiles::Vector{String}` : Array of OGS6 postprocessing results either VTU or XDMF files
+- `outputpath::String` : Path to Result folder (e.g. `path/to/stochprojectfolder/Res/`)
+- `postprocfiles::Vector{String}` : Array of OGS6 postprocessing results containing either vtu files (readable by [`VTUFileHandler.VTUFile`](https://baxmittens.github.io/VTUFileHandler.jl/dev/lib/lib/#VTUFileHandler.VTUFile)) or xdmf files (readable by [`XDMFFileHandler.XDMF3File`](https://github.com/baxmittens/XDMFFileHandler.jl/blob/38025866e4beb81eabc967904872dc7b27505c26/src/XDMFFileHandler.jl#L25))
 """
 mutable struct OGS6ProjectParams
 	projectfile::String
@@ -52,7 +51,7 @@ Container for the definition of a stochastic OGS6 parameter. For all distributio
 # Fields
 
 - `path::String` : OGS6 path definition (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51))
-- `valspec::Int` : Value specifier (1 for scalar parameters, \$i\$ for \$i\$-th value of a tensor parameters e.g. [\$a_1=a_{11}, a_2=a_{12}, a_3=a_{21}, a_4=a_{22}\$])
+- `valspec::Int` : Value specifier (1 for scalar parameters, \$i\$ for \$i\$-th value of a tensor parameters written as a vector in OGS6 e.g. [\$a_1=a_{11}, a_2=a_{12}, a_3=a_{21}, a_4=a_{22}\$])
 - `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
 - `lower_bound::Float64` : Lower bound for truncated distribution (see [`Distributions.truncated`](https://juliastats.org/Distributions.jl/latest/truncate/#Distributions.truncated))
 - `upper_bound::Float64` : Upper bound for truncated distribution (see [`Distributions.truncated`](https://juliastats.org/Distributions.jl/latest/truncate/#Distributions.truncated))
@@ -72,7 +71,7 @@ Container defining the stochastic OGS6 model.
 
 # Fields
 
-- `ogsparams::[OGS6ProjectParams](@ref)` : OGS 6 project parameters
+- `ogsparams::[`OGS6ProjectParams`](@ref)` : OGS 6 project parameters [`OGS6ProjectParams`](@ref)
 - `stochparams::Vector{[StochasticOGS6Parameter](@ref)}` : Vector defining the stochastic state space
 - `samplemethod::Type` : Either [DistributedSparseGrids.AdaptiveHierarchicalSparseGrid](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid), [DistributedMonteCarlo.MonteCarlo](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L16C16-L16C26),  [DistributedMonteCarlo.MonteCarloSobol](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L161), or [DistributedMonteCarlo.MonteCarloMorris](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L538)
 - `num_local_workers::Int` : Number of local workers to be added by [Distributed.addprocs](https://docs.julialang.org/en/v1/stdlib/Distributed/#Distributed.addprocs)
