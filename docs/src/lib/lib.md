@@ -24,8 +24,8 @@ Pages = ["lib.md"]
 ### Utils
 
 ```@docs
-dependend_tensor_parameter!
-dependend_parameter!
+dependend_tensor_parameter!(::Ogs6ModelDef, ::String, ::Int, ::Int, ::Any)
+dependend_parameter!(::Ogs6ModelDef, ::String, ::String, ::Int, ::Int, ::Any)
 ```
 
 
