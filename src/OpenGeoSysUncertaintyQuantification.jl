@@ -89,7 +89,19 @@ mutable struct StochasticOGSModelParams
 end
 filename(a::StochasticOGSModelParams) = a.file
 
-abstract type SampleMethodParams end 
+abstract type SampleMethodParams end
+
+"""
+	mutable struct SparseGridParams
+
+Container for sparse grid paramters. For more information on the adaptive sparse grid, see the [documentation](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/)
+
+# Fields
+
+- `N::Int` : Dimension of the sparse grid, e.g. the stochastic state space
+- `CT::Type` : Type of the collocation points, normally `Float64`
+- `RT::Type` : Return type for the function [`fun`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/5a8efaadb8b9de9e2380d759b2dd5e129550497a/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl#L40) calling the OGS6 binary. Can be customized to `Float64`, `Vector{Float64}`, `Matrix{Float64}`,  [`XDMFFileHandler.XDMF3File`](https://github.com/baxmittens/XDMFFileHandler.jl/blob/38025866e4beb81eabc967904872dc7b27505c26/src/XDMFFileHandler.jl#L25), [`VTUFileHandler.VTUFile`](https://baxmittens.github.io/VTUFileHandler.jl/dev/lib/lib/#VTUFileHandler.VTUFile), or a custom data type which have to implement the [`AltInplaceOpsInterface`](https://github.com/baxmittens/AltInplaceOpsInterface.jl)
+""" 
 mutable struct SparseGridParams <: SampleMethodParams
 	N::Int
 	CT::Type

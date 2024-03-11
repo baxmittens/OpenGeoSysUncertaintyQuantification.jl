@@ -23,6 +23,7 @@ Pages = ["lib.md"]
 OGS6ProjectParams
 StochasticOGS6Parameter
 StochasticOGSModelParams
+SparseGridParams
 ```
 
 ### General functions
