@@ -22,7 +22,7 @@ using PGFPlotsX
 import PrettyTables: pretty_table
 
 """
-	julia```mutable struct OGS6ProjectParams```
+	```julia mutable struct OGS6ProjectParams```
 
 Container for OpenGeoSys 6 Parameters
 
