@@ -18,7 +18,7 @@ makedocs(
 	sitename = "OpenGeoSysUncertaintyQuantification.jl",
 	modules = [OpenGeoSysUncertaintyQuantification],
 	pages = [
-		#"Home" => "index.md"
+		"Home" => "index.md"
 		"Library" => "lib/lib.md"
 	]
 	)
