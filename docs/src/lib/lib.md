@@ -23,4 +23,9 @@ Pages = ["lib.md"]
 
 ### Utils
 
+```@docs
+dependend_tensor_parameter!
+dependend_parameter!
+```
+
 

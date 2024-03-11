@@ -19,7 +19,7 @@ makedocs(
 	modules = [OpenGeoSysUncertaintyQuantification],
 	pages = [
 		#"Home" => "index.md"
-		#"Library" => "lib/lib.md"
+		"Library" => "lib/lib.md"
 	]
 	)
 deploydocs(
