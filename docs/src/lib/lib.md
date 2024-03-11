@@ -33,6 +33,8 @@ MonteCarloMorrisParams
 OGSUQParams
 OGSUQASG
 OGSUQMC
+OGSUQMCSobol
+OGSUQMCMorris
 ```
 
 ### General functions

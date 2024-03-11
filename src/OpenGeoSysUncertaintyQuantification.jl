@@ -241,7 +241,7 @@ end
 """
 	mutable struct OGSUQMC
 
-Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
+Stochastic OGS6 model sampled by the Monte Carlo method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
 
 # Fields
 
@@ -256,7 +256,7 @@ end
 """
 	mutable struct OGSUQMCSobol
 
-Stochastic OGS6 sensitivity model integrated by the Monte Carlo method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
+Stochastic OGS6 Sobol indices model integrated by the Monte Carlo method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
 
 # Fields
 
@@ -268,6 +268,17 @@ mutable struct OGSUQMCSobol <: AbstractOGSUQSensitivity
 	mc::MonteCarloSobol
 end
 
+
+"""
+	mutable struct OGSUQMCMorris
+
+Stochastic OGS6 Morris Screening model integrated by the Monte Carlo method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
+
+# Fields
+
+- `ogsuqparams::`[`OGSUQParams`](@ref) : stochastic model and sample method parameters.
+- `mc::`[`DistributedMonteCarlo.MonteCarloMorris`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L538) : instance of the Monte Carlo Sobol integrator.
+"""
 mutable struct OGSUQMCMorris <: AbstractOGSUQSensitivity
 	ogsuqparams::OGSUQParams
 	mc::MonteCarloMorris
