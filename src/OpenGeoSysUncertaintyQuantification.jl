@@ -52,7 +52,7 @@ Container for the definition of a stochastic OGS6 parameter. For all distributio
 # Fields
 
 - `path::String` : OGS6 path definition (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51))
-- `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
+- `valspec::Int` : Value specifier (1 for scalar parameters, \$i\$ for \$i\$-th value of a tensor parameters e.g. [\$a_1=a_{11}, a_2=a_{12}, a_3=a_{21}, a_4=a_{22}\$])
 - `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
 - `lower_bound::Float64` : Lower bound for truncated distribution (see [`Distributions.truncated`](https://juliastats.org/Distributions.jl/latest/truncate/#Distributions.truncated))
 - `upper_bound::Float64` : Upper bound for truncated distribution (see [`Distributions.truncated`](https://juliastats.org/Distributions.jl/latest/truncate/#Distributions.truncated))
@@ -68,12 +68,12 @@ end
 """
 	mutable struct StochasticOGSModelParams
 
-Container for the stochastic model parameter.
+Container defining the stochastic OGS6 model.
 
 # Fields
 
 - `ogsparams::[OGS6ProjectParams](@ref)` : OGS 6 project parameters
-- `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
+- `stochparams::Vector{[StochasticOGS6Parameter](@ref)}` : 
 - `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
 - `lower_bound::Float64` : Lower bound for truncated distribution (see [Distributions.truncated](https://juliastats.org/Distributions.jl/latest/truncate/#Distributions.truncated))
 - `upper_bound::Float64` : Upper bound for truncated distribution 
