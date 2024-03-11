@@ -22,7 +22,7 @@ using PGFPlotsX
 import PrettyTables: pretty_table
 
 """
-	```julia mutable struct OGS6ProjectParams```
+	`mutable struct OGS6ProjectParams`{:.language-julia .highlihgt}
 
 Container for OpenGeoSys 6 Parameters
 
@@ -42,6 +42,9 @@ mutable struct OGS6ProjectParams
 	postprocfiles::Vector{String}
 end
 
+    #"GETALLPATHESBYTAG" => "https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L17"
+    #"GETELEMENTBYPATH" => "https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51"
+
 """
 	mutable struct StochasticOGS6Parameter
 
@@ -49,9 +52,9 @@ Container for a stochastic parameter
 
 # Fields
 
-- `path::String` : OGS6 path definition (see Ogs6InputFileHandler)
+- `path::String` : OGS6 path definition (see [getallPathesbytag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L17))
 - `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
-- `dist::UnivariateDistribution` : Univariate distribution (see )
+- `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](@extref))
 - `lower_bound::Float64` : Lower bound for truncated distribution (all normal distributions must be truncated)
 - `upper_bound::Float64` : Upper bound for truncated distribution (all normal distributions must be truncated)
 """
