@@ -241,18 +241,28 @@ end
 """
 	mutable struct OGSUQMC
 
-Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by afdv[`DistributedSparseGrids.jl`](https://github.com/baxmittens/DistributedSparseGrids.jl).
+Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
 
 # Fields
 
 - `ogsuqparams::`[`OGSUQParams`](@ref) : stochastic model and sample method parameters.
-- `asg::`[`DistributedMonteCarlo.MonteCarlo`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid) : instance of the adaptive sparse grid
+- `asg::`[`DistributedMonteCarlo.MonteCarlo`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L16) : instance of the Monte Carlo integrator.
 """
 mutable struct OGSUQMC <: AbstractOGSUQMonteCarlo
 	ogsuqparams::OGSUQParams
 	mc::MonteCarlo
 end
 
+"""
+	mutable struct OGSUQMCSobol
+
+Stochastic OGS6 sensitivity model integrated by the Monte Carlo method implemented by [`DistributedMonteCarlo.jl`](https://github.com/baxmittens/DistributedMonteCarlo.jl).
+
+# Fields
+
+- `ogsuqparams::`[`OGSUQParams`](@ref) : stochastic model and sample method parameters.
+- `mc::`[`DistributedMonteCarlo.MonteCarloSobol`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L161) : instance of the Monte Carlo Sobol integrator.
+"""
 mutable struct OGSUQMCSobol <: AbstractOGSUQSensitivity
 	ogsuqparams::OGSUQParams
 	mc::MonteCarloSobol
