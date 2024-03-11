@@ -19,6 +19,10 @@ Pages = ["lib.md"]
 
 ### Structs
 
+```@docs
+OGS6ProjectParams
+```
+
 ### General functions
 
 ### Utils
