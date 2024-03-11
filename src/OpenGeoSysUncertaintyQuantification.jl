@@ -22,7 +22,9 @@ using PGFPlotsX
 import PrettyTables: pretty_table
 
 """
-	`mutable struct OGS6ProjectParams`{:.language-julia .highlihgt}
+	```julia 
+	mutable struct OGS6ProjectParams
+	```
 
 Container for OpenGeoSys 6 Parameters
 
@@ -48,15 +50,15 @@ end
 """
 	mutable struct StochasticOGS6Parameter
 
-Container for a stochastic parameter
+Container for the definition of a stochastic OGS6 parameter. For all distributions a lower and upper bound have to be provided. For [Distributions.Uniform](@extref)  
 
 # Fields
 
-- `path::String` : OGS6 path definition (see [getallPathesbytag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L17))
+- `path::String` : OGS6 path definition (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51))
 - `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
 - `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
-- `lower_bound::Float64` : Lower bound for truncated distribution (all normal distributions must be truncated)
-- `upper_bound::Float64` : Upper bound for truncated distribution (all normal distributions must be truncated)
+- `lower_bound::Float64` : Lower bound for truncated distribution (see [Distributions.truncated](@extref))
+- `upper_bound::Float64` : Upper bound for truncated distribution (see [Distributions.truncated](@extref))
 """
 mutable struct StochasticOGS6Parameter
 	path::String
@@ -66,6 +68,19 @@ mutable struct StochasticOGS6Parameter
 	upper_bound::Float64
 end
 
+"""
+	mutable struct StochasticOGSModelParams
+
+Container for a stochastic model parameter.
+
+# Fields
+
+- `path::String` : OGS6 path definition (see [getallPathesbytag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L17))
+- `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
+- `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
+- `lower_bound::Float64` : Lower bound for truncated distribution (see [Distributions.truncated](@extref))
+- `upper_bound::Float64` : Upper bound for truncated distribution 
+"""
 mutable struct StochasticOGSModelParams
 	ogsparams::OGS6ProjectParams
 	stochparams::Vector{StochasticOGS6Parameter}
