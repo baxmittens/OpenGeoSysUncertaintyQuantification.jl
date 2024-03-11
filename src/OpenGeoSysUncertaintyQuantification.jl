@@ -54,7 +54,7 @@ Container for a stochastic parameter
 
 - `path::String` : OGS6 path definition (see [getallPathesbytag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L17))
 - `valspec::Int` : Value specifier (1 for scalar parameters, 1,...,nvals for tensor parameters)
-- `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](@extref))
+- `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
 - `lower_bound::Float64` : Lower bound for truncated distribution (all normal distributions must be truncated)
 - `upper_bound::Float64` : Upper bound for truncated distribution (all normal distributions must be truncated)
 """
