@@ -1,5 +1,5 @@
 import Pkg; Pkg.add("Documenter")
-import Pkg; Pkg.add("DocumenterInterLinks")
+#import Pkg; Pkg.add("DocumenterInterLinks")
 #Pkg.add("StaticArrays")
 #Pkg.add("Colors")
 #Pkg.add("PlotlyJS")
@@ -16,11 +16,12 @@ Pkg.develop(url="https://github.com/baxmittens/OpenGeoSysUncertaintyQuantificati
 
 
 
-using Documenter, DocumenterInterLinks, OpenGeoSysUncertaintyQuantification
+using Documenter, OpenGeoSysUncertaintyQuantification
+#using DocumenterInterLinks
 
-links = InterLinks(
-	"Distributions" => "https://juliastats.org/Distributions.jl/stable/objects.inv"
-)
+#links = InterLinks(
+#	"Distributions" => "https://juliastats.org/Distributions.jl/stable/objects.inv" #results in error
+#)
 
 makedocs(
 	sitename = "OpenGeoSysUncertaintyQuantification.jl",
@@ -28,10 +29,10 @@ makedocs(
 	pages = [
 		"Home" => "index.md"
 		"Library" => "lib/lib.md"
-	],
-	plugins=[
-		links
-	]
+	]#,
+	#plugins=[
+	#	links
+	#]
 	)
 deploydocs(
     repo = "github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl.git"
