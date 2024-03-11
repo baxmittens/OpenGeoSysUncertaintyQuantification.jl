@@ -73,8 +73,8 @@ Container defining the stochastic OGS6 model.
 # Fields
 
 - `ogsparams::[OGS6ProjectParams](@ref)` : OGS 6 project parameters
-- `stochparams::Vector{[StochasticOGS6Parameter](@ref)}` : 
-- `dist::UnivariateDistribution` : Univariate distribution (see [`Distributions.UnivariateDistribution`](https://juliastats.org/Distributions.jl/stable/univariate/))
+- `stochparams::Vector{[StochasticOGS6Parameter](@ref)}` : Vector defining the stochastic state space
+- `samplemethod::Type` : Either [DistributedSparseGrids.AdaptiveHierarchicalSparseGrid](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid)
 - `lower_bound::Float64` : Lower bound for truncated distribution (see [Distributions.truncated](https://juliastats.org/Distributions.jl/latest/truncate/#Distributions.truncated))
 - `upper_bound::Float64` : Upper bound for truncated distribution 
 """
