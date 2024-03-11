@@ -89,10 +89,15 @@ mutable struct StochasticOGSModelParams
 end
 filename(a::StochasticOGSModelParams) = a.file
 
+"""
+	abstract type SampleMethodParams
+
+Supertype for Sample method parameters.
+"""
 abstract type SampleMethodParams end
 
 """
-	mutable struct SparseGridParams
+	mutable struct SparseGridParams <: SampleMethodParams
 
 Container for sparse grid paramters. For more information on the adaptive sparse grid, see the [documentation](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/)
 
@@ -119,7 +124,7 @@ mutable struct SparseGridParams <: SampleMethodParams
 end
 
 """
-	mutable struct MonteCarloParams
+	mutable struct MonteCarloParams <: SampleMethodParams
 
 Container for Monte Carlo parameters.
 
@@ -142,7 +147,7 @@ mutable struct MonteCarloParams <: SampleMethodParams
 end
 
 """
-	mutable struct MonteCarloSobolParams
+	mutable struct MonteCarloSobolParams <: SampleMethodParams
 
 Container for Monte Carlo Sobol parameters.
 
@@ -198,7 +203,7 @@ Container for stochastic model parameters and sample method parameters.
 # Fields
 
 - `stochasticmodelparams::`[`StochasticOGSModelParams`](@ref) : stochastic model parameters.
-- `samplemethodparams::`[`SampleMethodParams`](@ref) : sample method parameters.
+- `samplemethodparams::`[`SampleMethodParams`](@ref)` : sample method parameters: 
 
 Can be instantiated by `OGSUQParams(stochasticmodelparams::StochasticOGSModelParams, samplemethodparams::SampleMethodParams)` or `OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams::String)` where `file_stochasticmodelparams` and `file_samplemethodparams` are pathes to xml files of [`StochasticOGSModelParams`](@ref) and [`SampleMethodParams`](@ref), respectively, written by [XMLParser.Julia2XML](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35).
 

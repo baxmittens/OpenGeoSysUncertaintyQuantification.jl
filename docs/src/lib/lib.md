@@ -15,6 +15,11 @@ Depth = 4
 Pages = ["lib.md"]
 ```
 
+### Typedefs
+```@docs
+SampleMethodParams
+```
+
 ### Structs
 
 ```@docs
