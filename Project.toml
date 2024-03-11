@@ -22,7 +22,7 @@ PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
 
 [compat]
 julia = "1"
-XDMFFileHandler = "0.1.1"
+XDMFFileHandler = "0.1.2"
 DistributedMonteCarlo = "0.1.1"
 DistributedSparseGrids = "0.1.8"
 StaticArrays = "^1.4.4"
