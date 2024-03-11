@@ -236,7 +236,7 @@ end
 """
 	mutable struct OGSUQMC
 
-Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by [`DistributedSparseGrids.jl`](https://github.com/baxmittens/DistributedSparseGrids.jl).
+Stochastic OGS6 model sampled by the adaptive sparse grid collocation method implemented by afdv[`DistributedSparseGrids.jl`](https://github.com/baxmittens/DistributedSparseGrids.jl).
 
 # Fields
 
