@@ -97,7 +97,7 @@ Supertype for Sample method parameters.
 abstract type SampleMethodParams end
 
 """
-	mutable struct SparseGridParams <: SampleMethodParams
+	mutable struct SparseGridParams <: [`SampleMethodParams`](@ref)
 
 Container for sparse grid paramters. For more information on the adaptive sparse grid, see the [documentation](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/)
 
