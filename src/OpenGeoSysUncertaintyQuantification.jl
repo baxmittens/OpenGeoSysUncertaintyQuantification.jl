@@ -391,6 +391,14 @@ function init(ogsuqparams::OGSUQParams)
 	return init(ogsuqparams.stochasticmodelparams.samplemethod, ogsuqparams)
 end
 
+"""
+	scalarwise_comparefct
+
+Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+
+# Arguments
+- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+"""
 function scalarwise_comparefct(rt::VTUFile,tolrt,mintol)
 	nfields = length(tolrt.data.interp_data)
 	maxtols = map(i->max(maximum(tolrt.data.interp_data[i].dat),mintol),1:nfields) 

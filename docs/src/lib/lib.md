@@ -42,6 +42,7 @@ OGSUQMCMorris
 
 ```@docs
 init(::OGSUQParams)
+scalarwise_comparefct
 ```
 
 ### Utils
