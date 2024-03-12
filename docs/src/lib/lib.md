@@ -42,14 +42,26 @@ OGSUQMCMorris
 
 ```@docs
 init(::OGSUQParams)
-OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
+
 start!
 𝔼
 variance
 ```
 
+### Project setup
+```@docs
+generatePossibleStochasticParameters
+```
+
 ### Utils
 
+#### Utils adaptive sparse grid 
+```@docs
+OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
+```
+
+
+#### Utils userfile
 ```@docs
 dependend_tensor_parameter!(::Ogs6ModelDef, ::String, ::Int, ::Int, ::Any)
 dependend_parameter!(::Ogs6ModelDef, ::String, ::String, ::Int, ::Int, ::Any)

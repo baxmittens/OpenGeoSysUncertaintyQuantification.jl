@@ -1,5 +1,22 @@
 
-ogs_numeric_keyvals = ["value","reference_condition","slope", "reference_value","specific_body_force","values"]
+ogs_numeric_keyvals = ["value", "reference_condition","slope", "reference_value", "specific_body_force", "values"]
+
+"""
+	generatePossibleStochasticParameters(
+		projectfile::String,
+		file::String="./PossibleStochasticParameters.xml",
+		keywords::Vector{String}=ogs_numeric_keyvals
+		)
+
+Helper function for initial setup of a stochastic project. Scans an existing OGS6 projectfile (.prj) for keywords indicating numeric values usable as stochastic input parameter.
+Returns a Vector of Strings with OGS6 pathes.
+Uses OGS6 Pathes for parameter indentification (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51)). 
+
+# Arguments
+- `projectfile::String`: Path to OGS6 project file (e.g. ./path/to/project.prj)
+- `file::String`: Path of output XML file which gets written by this function.
+- `keywords::Vector{String}`: List of [`keywords`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/6faab955f69da653e568b61eeb8890040001e7e6/src/OpenGeoSysUncertaintyQuantification/utils.jl#L2).
+"""
 function generatePossibleStochasticParameters(projectfile::String, file::String="./PossibleStochasticParameters.xml", keywords::Vector{String}=ogs_numeric_keyvals)
 	modeldef = read(Ogs6ModelDef,projectfile)
 	stochparams = Vector{StochasticOGS6Parameter}()

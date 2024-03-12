@@ -3,10 +3,11 @@
 	dependend_tensor_parameter!(modeldef::Ogs6ModelDef, stoparam::String, master_ind::Int, slave_ind::Int, depfunc)
 
 Helper function to model a dependency of entries of a tensor parmeter such as the permeability tensor k.
+Uses OGS6 Pathes for parameter indentification (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51)).
 
 # Arguments
 - `modeldef::Ogs6ModelDef`: OSG6 Model Definition
-- `stoparam::String`: OGS Path to parameter
+- `stoparam::String`: OGS6 Path to parameter
 - `master_ind::Int`: master index
 - `slave_ind::Int`: slave index
 - `depfunc`: dependency function
@@ -44,12 +45,14 @@ end
 		depfunc
 		)
 
-Helper function to model a dependency of two OGS6 parameter
+Helper function to model a dependency of two OGS6 parameter.
+Uses OGS6 Pathes for parameter indentification (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51)).
+
 
 # Arguments
 - `modeldef::Ogs6ModelDef`: OSG6 Model Definition
-- `masterstoparam::String`: OGS Path to master parameter
-- `slavestoparam::String`: OGS Path to slave parameter
+- `masterstoparam::String`: OGS6 Path to master parameter
+- `slavestoparam::String`: OGS6 Path to slave parameter
 - `master_ind::Int`: master index
 - `slave_ind::Int`: slave index
 - `depfunc`: dependency function
