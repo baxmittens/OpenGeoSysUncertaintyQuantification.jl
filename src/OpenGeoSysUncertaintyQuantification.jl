@@ -311,34 +311,6 @@ include("./OpenGeoSysUncertaintyQuantification/utils_user_file.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils_integrity_criteria.jl")
 include("./OpenGeoSysUncertaintyQuantification/utils_print.jl")
 
-
-"""
-	init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
-
-Helper function to model a dependency of two OGS6 parameter
-
-# Arguments
-- `modeldef::Ogs6ModelDef`: OSG6 Model Definition
-- `masterstoparam::String`: OGS Path to master parameter
-- `slavestoparam::String`: OGS Path to slave parameter
-- `master_ind::Int`: master index
-- `slave_ind::Int`: slave index
-- `depfunc`: dependency function
-
-Example:
-
-```julia
-dependend_tensor_parameter!(
-	modeldef, 
-	path_to_permeability_id1, 
-	path_to_permeability_id2, 
-	1, 
-	1, 
-	x->x)
-```
-
-The above example couples two permeabilites of different material layers.
-"""
 function init(::Type{AdaptiveHierarchicalSparseGrid}, ogsuqparams::OGSUQParams)
 	N = ogsuqparams.samplemethodparams.N
 	CT = ogsuqparams.samplemethodparams.CT
@@ -399,6 +371,14 @@ function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
 	return OGSUQMCMorris(ogsuqparams, mc)
 end
 
+"""
+	init(ogsuqparams::OGSUQParams)
+
+Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+
+# Arguments
+- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+"""
 function init(ogsuqparams::OGSUQParams)
 	create_files_and_dirs(ogsuqparams.stochasticmodelparams)
 	actworker = nworkers()
