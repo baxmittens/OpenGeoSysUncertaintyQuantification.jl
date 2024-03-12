@@ -7,21 +7,19 @@ Pages = ["lib.md"]
 Depth = 4
 ```
 
-## Functions
-
-### Index
+## Index
 
 ```@index
 Pages = ["lib.md"]
 Depth = 4
 ```
 
-### Typedefs
+## Typedefs
 ```@docs
 SampleMethodParams
 ```
 
-### Structs
+## Structs
 
 ```@docs
 OGS6ProjectParams
@@ -38,7 +36,7 @@ OGSUQMCSobol
 OGSUQMCMorris
 ```
 
-### General functions
+## General functions
 
 ```@docs
 init(::OGSUQParams)
@@ -48,20 +46,20 @@ start!
 variance
 ```
 
-### Project setup
+## Project setup
 ```@docs
 generatePossibleStochasticParameters
 ```
 
-### Utils
+## Utils
 
-#### Utils adaptive sparse grid 
+## Utils adaptive sparse grid 
 ```@docs
 OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
 ```
 
 
-#### Utils userfile
+## Utils userfile
 ```@docs
 dependend_tensor_parameter!(::Ogs6ModelDef, ::String, ::Int, ::Int, ::Any)
 dependend_parameter!(::Ogs6ModelDef, ::String, ::String, ::Int, ::Int, ::Any)
