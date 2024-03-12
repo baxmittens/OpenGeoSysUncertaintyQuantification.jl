@@ -446,16 +446,17 @@ end
 """
 	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
 
-Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+Starts the adaptive sparse grid sampling procedure.
 
 # Arguments
-- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+- `ogsuqasg::`[`OGSUQASG`](@ref): Stochastic OGS adaptive sparse grid model.
+- `refinetohypercube::Bool`: If set to true the sparse grid is refined such that all vertices of the n-cube spawn.
 """
-function start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+function start!(ogsuqasg::OGSUQASG, refinetohypercube=false)
 	asg = ogsuqasg.asg
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
 	init_lvl = samplemethodparams.init_lvl
-	if refinetohyperedges
+	if refinetohypercube
 		hyperedgelevel = ogsuqasg.ogsuqparams.samplemethodparams.N+1
 		refineedges!(asg, hyperedgelevel)
 		cpts = collect(asg)
@@ -484,10 +485,10 @@ end
 """
 	start!(ogsuqmc::OGSUQMC)
 
-Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+Starts the Monte Carlo sampling. Since Monte Carlo results are loaded each time expected value or variance is computed, only the result folder is checked for existing Monte Carlo snaphots. If there are any, the snapshot [`coordinates`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L11) are reloaded.
 
 # Arguments
-- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+- `ogsuqmc::`[`OGSUQMC`](@ref): Stochastic OGS Monte Carlo model.
 """
 function start!(ogsuqmc::OGSUQMC)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
@@ -497,10 +498,10 @@ end
 """
 	start!(ogsuqmc::OGSUQMCSobol)
 
-Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+Starts the Monte Carlo Sobol sampling.
 
 # Arguments
-- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+- `ogsuqmc::`[`OGSUQMCSobol`](@ref): Stochastic OGS Monte Carlo Sobol model.
 """
 function start!(ogsuqmc::OGSUQMCSobol)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
@@ -510,10 +511,10 @@ end
 """
 	start!(ogsuqmc::OGSUQMCMorris)
 
-Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+Starts the Monte Carlo Sobol sampling.
 
 # Arguments
-- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+- `ogsuqmc::`[`OGSUQMCMorris`](@ref): Stochastic OGS Monte Carlo Morris model.
 """
 function start!(ogsuqmc::OGSUQMCMorris)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
@@ -527,11 +528,29 @@ function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
 	return ret*pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x)
 end
 
+"""
+	𝔼(ogsuqmc::OGSUQMC)
+
+Computes the expected value.
+Calls [`DistributedMonteCarlo.distributed_𝔼`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L55). All values are computet in-place. Only few values are stored in memory simultaneously so that the expected value of large sample sizes can be computed. 
+
+# Arguments
+- `ogsuqmc::`[`OGSUQMC`](@ref): Stochastic OGS Monte Carlo model.
+"""
 function 𝔼(ogsuqmc::OGSUQMC)
 	worker_ids = workers()
 	return distributed_𝔼(ogsuqmc.mc, Main.fun, worker_ids)
 end
 
+"""
+	𝔼(ogsuqasg::OGSUQASG)
+
+Computes the expected value.
+Hereby, the physical model `ogsuqasg.asg` is evaluated against the multivariate pdf. Results are stored in memory multiple times. Feasible if all samples only occupy a fraction of the system memory.
+
+# Arguments
+- `ogsuqasg::`[`OGSUQASG`](@ref): Stochastic OGS adaptive sparse grid model.
+"""
 function 𝔼(ogsuqasg::OGSUQASG)
 	retval_proto = deepcopy(first(ogsuqasg.asg).scaling_weight)
 	_exp_val_func(x,ID) = exp_val_func(x,ID,ogsuqasg,retval_proto)
@@ -551,12 +570,30 @@ function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
 	return ret
 end
 
+"""
+	variance(ogsuqasg::OGSUQASG)
+
+Computes the expected value.
+Hereby, the physical model `ogsuqasg.asg` is evaluated against the multivariate pdf. Results are stored in memory multiple times. Feasible if all samples only occupy a fraction of the system memory.
+
+# Arguments
+- `ogsuqasg::`[`OGSUQASG`](@ref): Stochastic OGS adaptive sparse grid model.
+"""
 function variance(ogsuqasg::OGSUQASG,exp_val::RT) where {RT}
 	_var_func(x,ID) = var_func(x,ID,ogsuqasg,exp_val)
 	asg = ASG(ogsuqasg, _var_func)
 	return integrate_inplace_ops(asg),asg
 end
 
+"""
+	variance(ogsuqmc::OGSUQMC)
+
+Computes the variance.
+Calls [`DistributedMonteCarlo.distributed_𝔼`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L55). All values are computet in-place. Only few values are stored in memory simultaneously so that the expected value of large sample sizes can be computed. 
+
+# Arguments
+- `ogsuqmc::`[`OGSUQMC`](@ref): Stochastic OGS Monte Carlo model.
+"""
 function variance(ogsuqmc::OGSUQMC, exp_val::RT) where {RT}
 	return distributed_var(ogsuqmc.mc, Main.fun, exp_val, workers())
 end
