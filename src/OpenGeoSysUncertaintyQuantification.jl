@@ -482,7 +482,7 @@ function start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
 end
 
 """
-	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+	start!(ogsuqmc::OGSUQMC)
 
 Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
 
@@ -495,7 +495,7 @@ function start!(ogsuqmc::OGSUQMC)
 end
 
 """
-	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+	start!(ogsuqmc::OGSUQMCSobol)
 
 Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
 
@@ -508,7 +508,7 @@ function start!(ogsuqmc::OGSUQMCSobol)
 end
 
 """
-	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+	start!(ogsuqmc::OGSUQMCMorris)
 
 Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
 
