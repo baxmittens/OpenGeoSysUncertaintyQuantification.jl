@@ -76,7 +76,7 @@ Container defining the stochastic OGS6 model.
 - `samplemethod::Type` : Either [`DistributedSparseGrids.AdaptiveHierarchicalSparseGrid`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid), [`DistributedMonteCarlo.MonteCarlo`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L16C16-L16C26),  [`DistributedMonteCarlo.MonteCarloSobol`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L161), or [`DistributedMonteCarlo.MonteCarloMorris`](https://github.com/baxmittens/DistributedMonteCarlo.jl/blob/c2a2ecdff052adaeb783f32543c815b88df0fc57/src/DistributedMonteCarlo.jl#L538).
 - `num_local_workers::Int` : Number of local workers to be added by [`Distributed.addprocs`](https://docs.julialang.org/en/v1/stdlib/Distributed/#Distributed.addprocs).
 - `userfunctionfile::String` : path to userfunction file. 
-- `file::String` : path to file to write the StochasticOGSModelParams as XML-file by [`XMLParser.Julia2XML`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35).
+- `file::String` : path to file to write the StochasticOGSModelParams as XML file by [`XMLParser.Julia2XML`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35).
 """
 mutable struct StochasticOGSModelParams
 	ogsparams::OGS6ProjectParams

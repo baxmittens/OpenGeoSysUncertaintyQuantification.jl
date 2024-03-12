@@ -49,6 +49,7 @@ variance
 ## Project setup
 ```@docs
 generatePossibleStochasticParameters
+loadStochasticParameters
 ```
 
 ## Utils
