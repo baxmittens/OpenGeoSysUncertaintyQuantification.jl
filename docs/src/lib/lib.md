@@ -42,7 +42,7 @@ OGSUQMCMorris
 
 ```@docs
 init(::OGSUQParams)
-scalarwise_comparefct
+scalarwise_comparefct(::VTUFile,::Any,::Any)
 ```
 
 ### Utils

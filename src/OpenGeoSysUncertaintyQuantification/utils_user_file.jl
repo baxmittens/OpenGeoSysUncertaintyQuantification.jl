@@ -35,7 +35,14 @@ end
 
 
 """
-	dependend_parameter!(modeldef::Ogs6ModelDef, masterstoparam::String, slavestoparam::String, master_ind::Int, slave_ind::Int, depfunc)
+	dependend_parameter!(
+		modeldef::Ogs6ModelDef, 
+		masterstoparam::String, 
+		slavestoparam::String, 
+		master_ind::Int, 
+		slave_ind::Int, 
+		depfunc
+		)
 
 Helper function to model a dependency of two OGS6 parameter
 

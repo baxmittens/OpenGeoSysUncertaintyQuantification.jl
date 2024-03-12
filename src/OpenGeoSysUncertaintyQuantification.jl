@@ -392,7 +392,7 @@ function init(ogsuqparams::OGSUQParams)
 end
 
 """
-	scalarwise_comparefct
+	scalarwise_comparefct(rt, tolrt, mintol)
 
 Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
 
