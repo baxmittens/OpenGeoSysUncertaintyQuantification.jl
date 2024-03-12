@@ -224,13 +224,52 @@ function lin_func(x,xmin,ymin,xmax,ymax)
 	return a*x+b
 end
 
-function CPtoStoch(x,stoparam)
+"""
+	CPtoStoch(x::T,stoparam::StochasticOGS6Parameter) where T<:Number
+
+The stochastic state space is always a [-1,1]^n cube. All stochastic parameters get mapped onto this cube.
+Accepts an x∈[-1,1] and returns a value x'∈[stoparam.lower_bound, stoparam.upper_bound].
+
+# Arguments
+- `x::T` : Value between -1 and 1.
+- `stoparam::`[`StochasticOGS6Parameter`](@ref) : stochastic ogs parameter.
+"""
+function CPtoStoch(x::T,stoparam::StochasticOGS6Parameter) where T<:Number
 	return lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 end
-function StochtoCP(x,stoparam)
+
+"""
+	StochtoCP(x::T,stoparam::StochasticOGS6Parameter) where T<:Number
+
+The stochastic state space is always a [-1,1]^n cube. All stochastic parameters get mapped onto this cube.
+Accepts an x∈[stoparam.lower_bound, stoparam.upper_bound] and returns a value x'∈[-1,1].
+
+# Arguments
+- `x::T` : Value between stoparam.lower_bound and stoparam.upper_bound.
+- `stoparam::`[`StochasticOGS6Parameter`](@ref) : stochastic ogs parameter.
+"""
+function StochtoCP(x::T,stoparam::StochasticOGS6Parameter) where T<:Number
 	return lin_func(x, stoparam.lower_bound, -1.0, stoparam.upper_bound, 1.0)
 end
 
+"""
+	setStochasticParameter!(
+		modeldef::Ogs6ModelDef, 
+		stoparam::StochasticOGS6Parameter, 
+		x, 
+		user_func::Function,
+		cptostoch::Function=CPtoStoch
+		)
+
+Replaces a stochastic parameter at `x` in the `modeldef`. Applies the user_func for addiational transformation (e.g. x->exp(x) in case of a lognormal distribution).
+
+# Arguments
+- `modeldef::`[`Ogs6ModelDef`] : OGS6 model definition.
+- `stoparam::`[`StochasticOGS6Parameter`](@ref) : stochastic ogs parameter.
+- `x::Float64` : sample point between -1 and 1. Gets transformed by cptostoch.
+- `user_func::Function` : User function for additional transformation.
+- `cptostoch::Function` : Transformation from [-1,1]  to [stoparam.lower_bound, stoparam.upper_bound].
+"""
 function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOGS6Parameter, x, user_func::Function,cptostoch::Function=CPtoStoch)
 	vals = getElementbyPath(modeldef, stoparam.path)
 	splitstr = split(vals.content[1])
@@ -239,12 +278,31 @@ function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOGS
 	return nothing
 end
 
+"""
+	setStochasticParameters!(
+		modeldef::Ogs6ModelDef, 
+		stoparams::Vector{StochasticOGS6Parameter}, 
+		x, 
+		user_funcs::Vector{Function},
+		cptostoch::Function=CPtoStoch
+		)
+
+Replaces all stochastic parameter at `x` in the `modeldef`. Applies all user_func for addiational transformation (e.g. x->exp(x) in case of a lognormal distribution).
+
+# Arguments
+- `modeldef::`[`Ogs6ModelDef`] : OGS6 model definition.
+- `stoparam::`[`StochasticOGS6Parameter`](@ref) : stochastic ogs parameter.
+- `x::Vector{Float64}` : sample point in the stochastic state space. Gets transformed by cptostoch.
+- `user_funcs::Vector{Function}` : User function for additional transformation.
+- `cptostoch::Function` : Transformation from [-1,1]  to [stoparam.lower_bound, stoparam.upper_bound].
+"""
 function setStochasticParameters!(modeldef::Ogs6ModelDef, stoparams::Vector{StochasticOGS6Parameter}, x, user_funcs::Vector{Function},cptostoch::Function=CPtoStoch)
 	foreach((_x,_y,_z)->setStochasticParameter!(modeldef, _y, _x, _z, cptostoch), x, stoparams, user_funcs)
 	return nothing
 end
 
 function pdf(stoparam::StochasticOGS6Parameter, x::Float64)
+	#Todo use CPtoStoch and truncated here and test.
 	val = lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
 	return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 	#return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))#*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
