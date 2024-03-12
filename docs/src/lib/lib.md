@@ -13,6 +13,7 @@ Depth = 4
 
 ```@index
 Pages = ["lib.md"]
+Depth = 4
 ```
 
 ### Typedefs
