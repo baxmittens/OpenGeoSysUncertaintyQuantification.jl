@@ -40,6 +40,10 @@ OGSUQMCMorris
 
 ### General functions
 
+```@docs
+init(::Type{AdaptiveHierarchicalSparseGrid}, ::OGSUQParams)
+```
+
 ### Utils
 
 ```@docs
