@@ -189,10 +189,30 @@ function generateSampleMethodModel(::Type{MonteCarloMorris}, sogs::StochasticOGS
 	return smparams
 end
 
+"""
+	generateSampleMethodModel(sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
+
+Helper function for the creation of the [`SampleMethodParams`](@ref) data structure.
+Writes the output file with [`XMLParser.Julia2XML`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35).
+
+# Arguments
+- `sogs::`[`StochasticOGSModelParams`](@ref) : Stochastic OGS model generated, e.g. with [`generateStochasticOGSModell`](@ref).
+- `anafile::String` : Path to output XML.
+"""
 function generateSampleMethodModel(sogs::StochasticOGSModelParams, anafile="SampleMethodParams.xml")
 	return generateSampleMethodModel(sogs.samplemethod, sogs, anafile)
 end
 
+"""
+	generateSampleMethodModel(sogsfile::String, anafile="SampleMethodParams.xml")
+
+Helper function for the creation of the [`SampleMethodParams`](@ref) data structure.
+Writes the output file with [`XMLParser.Julia2XML`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35).
+
+# Arguments
+- `sogs::`[`StochasticOGSModelParams`](@ref) : Path to stochastic ogs xml model file (e.g. path/to/stochmodel.xml)
+- `anafile::String` : Path to output XML.
+"""
 function generateSampleMethodModel(sogsfile::String, anafile="SampleMethodParams.xml")
 	sogs = XML2Julia(read(XMLFile, sogsfile))
 	return generateSampleMethodModel(sogs.samplemethod, sogs, anafile)

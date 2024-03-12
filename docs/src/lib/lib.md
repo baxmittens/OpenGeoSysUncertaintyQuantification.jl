@@ -51,6 +51,7 @@ variance
 generatePossibleStochasticParameters
 loadStochasticParameters
 generateStochasticOGSModell
+generateSampleMethodModel
 ```
 
 ## Utils
