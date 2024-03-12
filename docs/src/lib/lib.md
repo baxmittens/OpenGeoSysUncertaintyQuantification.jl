@@ -71,7 +71,8 @@ OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::An
 ```@docs
 dependend_tensor_parameter!(::Ogs6ModelDef, ::String, ::Int, ::Int, ::Any)
 dependend_parameter!(::Ogs6ModelDef, ::String, ::String, ::Int, ::Int, ::Any)
-setStochasticParameter
+setStochasticParameter!
+setStochasticParameters!
 ```
 
 
