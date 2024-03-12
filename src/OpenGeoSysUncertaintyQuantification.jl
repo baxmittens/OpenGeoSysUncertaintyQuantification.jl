@@ -392,7 +392,7 @@ function init(ogsuqparams::OGSUQParams)
 end
 
 """
-	scalarwise_comparefct(rt, tolrt, mintol)
+	scalarwise_comparefct(rt::VTUFile,tolrt,mintol)
 
 Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
 
@@ -500,10 +500,6 @@ function 𝔼(ogsuqasg::OGSUQASG)
 	_exp_val_func(x,ID) = exp_val_func(x,ID,ogsuqasg,retval_proto)
 	asg = ASG(ogsuqasg, _exp_val_func)
 	return integrate_inplace_ops(asg),asg
-end
-
-function 𝔼(sogs) 
-	return 𝔼(sogs.analysis,sogs) 
 end
 
 function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
