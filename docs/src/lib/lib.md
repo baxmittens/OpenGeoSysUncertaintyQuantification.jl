@@ -43,6 +43,10 @@ OGSUQMCMorris
 ```@docs
 init(::OGSUQParams)
 OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
+start!(::OGSUQASG, ::Any)
+start!(::OGSUQMC)
+start!(::OGSUQMCSobol)
+start!(::OGSUQMCMorris)
 ```
 
 ### Utils

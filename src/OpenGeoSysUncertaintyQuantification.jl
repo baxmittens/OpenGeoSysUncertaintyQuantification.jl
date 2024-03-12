@@ -397,9 +397,9 @@ end
 Criterion for refinement of the [`DistributedSparseGrids.AdaptiveHierarchicalSparseGrid`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.AdaptiveHierarchicalSparseGrid) due to possible complex datatypes. Returns `true` for [`DistributedSparseGrids.HierarchicalCollocationPoint`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.HierarchicalCollocationPoint)s which should get refined.
 
 # Arguments
-- `rt::T` : Scaling weight of [`DistributedSparseGrids.HierarchicalCollocationPoint`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.HierarchicalCollocationPoint). `T` is returntype of [`fun`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/5a8efaadb8b9de9e2380d759b2dd5e129550497a/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl#L40).
-- `tolrt::T` : Average scaling weight weighted by [`SparseGridParams`](@ref).tol. `T` is returntype of [`fun`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/5a8efaadb8b9de9e2380d759b2dd5e129550497a/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl#L40).
-- `mintol::T` : Not used at the moment
+- `rt::T` : Scaling weight of [`DistributedSparseGrids.HierarchicalCollocationPoint`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/lib/lib/#DistributedSparseGrids.HierarchicalCollocationPoint). `T` is returntype of [`fun`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/5a8efaadb8b9de9e2380d759b2dd5e129550497a/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl#L40) calling the OGS6 binary.
+- `tolrt::T` : Average scaling weight weighted by [`SparseGridParams`](@ref).tol. `T` is returntype of [`fun`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/5a8efaadb8b9de9e2380d759b2dd5e129550497a/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl#L40) calling the OGS6 binary.
+- `mintol::T` : Not used at the moment.
 """
 function scalarwise_comparefct(rt::VTUFile,tolrt,mintol)
 	nfields = length(tolrt.data.interp_data)
@@ -443,6 +443,14 @@ function scalarwise_comparefct(rt::Vector{Vector{Float64}},tolrt,mintol)
 	return any(map((x,y)->any(abs.(x) .> y),rt,tolrt))
 end
 
+"""
+	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+
+Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+
+# Arguments
+- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+"""
 function start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
 	asg = ogsuqasg.asg
 	samplemethodparams = ogsuqasg.ogsuqparams.samplemethodparams
@@ -473,16 +481,40 @@ function start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
 	return nothing
 end
 
+"""
+	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+
+Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+
+# Arguments
+- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+"""
 function start!(ogsuqmc::OGSUQMC)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
 	return nothing
 end
 
+"""
+	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+
+Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+
+# Arguments
+- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+"""
 function start!(ogsuqmc::OGSUQMCSobol)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
 	return DistributedMonteCarlo.distributed_Sobol_Vars(ogsuqmc.mc, Main.fun, workers())
 end
 
+"""
+	start!(ogsuqasg::OGSUQASG, refinetohyperedges=false)
+
+Helper function to instantiate a stochastic OGS6 model. Return an object of type [`OGSUQASG`](@ref), [`OGSUQMC`](@ref), [`OGSUQMCSobol`](@ref), or [`OGSUQMCMorris`](@ref).
+
+# Arguments
+- `ogsuqparams::`[`OGSUQParams`](@ref): Stochastic model parameters.
+"""
 function start!(ogsuqmc::OGSUQMCMorris)
 	DistributedMonteCarlo.load!(ogsuqmc.mc, ogsuqmc.ogsuqparams.stochasticmodelparams.ogsparams.outputpath)
 	return DistributedMonteCarlo.distributed_means(ogsuqmc.mc, Main.fun, workers())
