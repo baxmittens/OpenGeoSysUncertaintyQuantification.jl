@@ -72,10 +72,37 @@ function start_asg_mc_sampling!(MC::MonteCarlo, fun)
 	return vals
 end
 
-function sample_postproc_fun(asg, x, inds, ξs, retval_proto)
-	ret = deepcopy(retval_proto)
+"""
+	sample_postproc_fun(asg, x, inds, ξs, retval_proto)
+
+A sample postprocessing function for [`empirical_cdf`](@ref).
+
+```julia
+	# copy result prototype here so that the sparse grid can interpolate without allocations
+	ret = deepcopy(retval_proto) 
+	# interpolate value from sparse grid
 	DistributedSparseGrids.interpolate!(ret,asg,x)
+	# use the fourth result value (could also be something like ret["sigma"][inds,:,:])
+	# and interpolate the value at the element coordinates by shape functions
 	val = Tri6_shapeFun(ξs)'*ret[4][inds]
+```
+
+# Arguments
+
+- `asg` : Addaptive sparse grid 
+- `x` : sample point ∈ [-1,1]^n
+- `inds` : Element indices
+- `ξs` : Element coordinates
+- `retval_proto` : Prototype for result type (only known after first OGS6 call, i.g. `DistributedSparseGrids.scaling_weight(first(asg))`)
+"""
+function sample_postproc_fun(asg, x, inds, ξs, retval_proto)
+	# copy result prototype here so that the sparse grid can interpolate without allocations
+	ret = deepcopy(retval_proto) 
+	# interpolate value from sparse grid
+	DistributedSparseGrids.interpolate!(ret,asg,x)
+	# use the fourth result value (could also be something like ret["sigma"][inds,:,:])
+	# and interpolate the value at the element coordinates by shape functions
+	val = Tri6_shapeFun(ξs)'*ret[4][inds] 
 	return val
 end
 
@@ -99,7 +126,7 @@ function get_exp_and_quantiles(vals,quant_vals::AbstractVector{Float64})
 	return emp_exp_val, qs
 end
 
-function empirical_pdf_sampling(ogsuqasg::OGSUQASG, samplepoint::Vector{Float64}, MC_N::Int, postprocfun::F,  xdmf::XDMF3File) where {F<:Function}
+function empirical_cdf_sampling(ogsuqasg::OGSUQASG, samplepoint::Vector{Float64}, MC_N::Int, postprocfun::F,  xdmf::XDMF3File) where {F<:Function}
 	stochparams = stoch_parameters(ogsuqasg)
 	modeldef = ogs6_modeldef(ogsuqasg)
 	@assert displacement_order(modeldef) == 2 "`empirical_pdf` only implemented for displacements of order 2."
@@ -115,8 +142,31 @@ function empirical_pdf_sampling(ogsuqasg::OGSUQASG, samplepoint::Vector{Float64}
 	return mc,vals
 end
 
-function empirical_pdf(ogsuqasg::OGSUQASG, quant_vals::AbstractVector{Float64}, samplepoint::Vector{Float64}, MC_N::Int, postprocfun::F,  xdmf::XDMF3File) where {F<:Function}
-	mc,vals = empirical_pdf_sampling(ogsuqasg, samplepoint, MC_N, postprocfun,  xdmf)
+"""
+	empirical_cdf(
+		ogsuqasg::OGSUQASG, 
+		quant_vals::AbstractVector{Float64}, 
+		samplepoint::Vector{Float64}, 
+		MC_N::Int, 
+		postprocfun::F,  
+		xdmf::XDMF3File
+		)
+
+
+Computes the empirical cdf of an adaptive sparse grid surrogate model by Monte Carlo integration.
+Assumes a two-dimensional OGS6 postprocessing result as xdmf file which lies in the XY-plane.
+Returns the empirical expected value and the empirical output distribution.
+
+# Arguments
+- `ogsuqasg::`[`OGSUQASG`] : Stochastic OGS6 adaptive sparse grid model.
+- `quant_vals::AbstractVector{Float64}` : Vector with quantiles. For each value the [quantile function](https://docs.julialang.org/en/v1/stdlib/Statistics/#Statistics.quantile) is evalulated.
+- `samplepoint::Vector{Float64}` : Point with coordinates [x, y, 0.0].
+- `MC_N::Int` : Number of Monte Carlo snapshots for integration of the empirical output.
+- `postprocfun::F` : Postprocessing function, see [`sample_postproc_fun`](@ref).
+- `xdmf::`[`XDMF3File`](https://github.com/baxmittens/XDMFFileHandler.jl/blob/38025866e4beb81eabc967904872dc7b27505c26/src/XDMFFileHandler.jl#L83) : An arbirtrary XDMF3File from the result folder is needed with the topology of the mesh.
+"""
+function empirical_cdf(ogsuqasg::OGSUQASG, quant_vals::AbstractVector{Float64}, samplepoint::Vector{Float64}, MC_N::Int, postprocfun::F,  xdmf::XDMF3File) where {F<:Function}
+	mc,vals = empirical_cdf_sampling(ogsuqasg, samplepoint, MC_N, postprocfun,  xdmf)
 	emp_exp_val,emp_qs = get_exp_and_quantiles(vals,quant_vals)
 	return emp_exp_val,emp_qs
 end

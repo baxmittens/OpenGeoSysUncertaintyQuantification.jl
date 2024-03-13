@@ -64,6 +64,8 @@ StochtoCP
 ## Utils adaptive sparse grid 
 ```@docs
 OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
+empirical_cdf
+sample_postproc_fun
 ```
 
 
