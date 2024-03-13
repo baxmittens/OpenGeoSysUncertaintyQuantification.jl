@@ -93,7 +93,7 @@ A sample postprocessing function for [`empirical_cdf`](@ref).
 - `x` : sample point ∈ [-1,1]^n
 - `inds` : Element indices
 - `ξs` : Element coordinates
-- `retval_proto` : Prototype for result type (only known after first OGS6 call, i.g. `DistributedSparseGrids.scaling_weight(first(asg))`)
+- `retval_proto` : Prototype for result type (only known after first OGS6 call, i.e. `DistributedSparseGrids.scaling_weight(first(asg))`)
 """
 function sample_postproc_fun(asg, x, inds, ξs, retval_proto)
 	# copy result prototype here so that the sparse grid can interpolate without allocations

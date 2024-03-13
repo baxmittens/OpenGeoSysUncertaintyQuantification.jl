@@ -268,7 +268,7 @@ Replaces a stochastic parameter at `x` in the `modeldef`. Applies the user_func 
 - `stoparam::`[`StochasticOGS6Parameter`](@ref) : stochastic ogs parameter.
 - `x::Float64` : sample point between -1 and 1. Gets transformed by cptostoch.
 - `user_func::Function` : User function for additional transformation.
-- `cptostoch::Function` : Transformation from [-1,1]  to [stoparam.lower_bound, stoparam.upper_bound].
+- `cptostoch::Function` : Transformation from [-1,1]  to [`stoparam.lower_bound`, `stoparam.upper_bound`].
 """
 function setStochasticParameter!(modeldef::Ogs6ModelDef, stoparam::StochasticOGS6Parameter, x, user_func::Function,cptostoch::Function=CPtoStoch)
 	vals = getElementbyPath(modeldef, stoparam.path)
@@ -294,7 +294,7 @@ Replaces all stochastic parameter at `x` in the `modeldef`. Applies all user_fun
 - `stoparam::`[`StochasticOGS6Parameter`](@ref) : stochastic ogs parameter.
 - `x::Vector{Float64}` : sample point in the stochastic state space. Gets transformed by cptostoch.
 - `user_funcs::Vector{Function}` : User function for additional transformation.
-- `cptostoch::Function` : Transformation from [-1,1]  to [stoparam.lower_bound, stoparam.upper_bound].
+- `cptostoch::Function` : Transformation from [-1,1]  to [`stoparam.lower_bound`, `stoparam.upper_bound`].
 """
 function setStochasticParameters!(modeldef::Ogs6ModelDef, stoparams::Vector{StochasticOGS6Parameter}, x, user_funcs::Vector{Function},cptostoch::Function=CPtoStoch)
 	foreach((_x,_y,_z)->setStochasticParameter!(modeldef, _y, _x, _z, cptostoch), x, stoparams, user_funcs)

@@ -60,10 +60,16 @@ end
 Writes the result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)) to an XMDF file.
 
 ```julia
-	expval, varval, sobolvars, totsobolvars = [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref))
+expval, varval, sobolvars, totsobolvars = start!(ogsuqmcsobl)
 ```
 
-Assumes each index in `sobolvars` is a field result (i.e. `res["temperature_interpolated"][:,some_timestep]::Vector{Float64}`)
+Assumes each index in `sobolvars` is a field result (i.e.
+```julia
+res["temperature_interpolated"][:,some_timestep]::Vector{Float64}
+``` 
+)
+
+The result are written in the 0-th time slice of the [`XDMF3File`](https://github.com/baxmittens/XDMFFileHandler.jl/blob/38025866e4beb81eabc967904872dc7b27505c26/src/XDMFFileHandler.jl#L83).
 
 # Arguments
 

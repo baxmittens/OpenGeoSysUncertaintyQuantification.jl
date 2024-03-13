@@ -1,6 +1,12 @@
 
 """
-	dependend_tensor_parameter!(modeldef::Ogs6ModelDef, stoparam::String, master_ind::Int, slave_ind::Int, depfunc)
+	dependend_tensor_parameter!(
+		modeldef::Ogs6ModelDef, 
+		stoparam::String, 
+		master_ind::Int, 
+		slave_ind::Int, 
+		depfunc
+		)
 
 Helper function to model a dependency of entries of a tensor parmeter such as the permeability tensor k.
 Uses OGS6 Pathes for parameter indentification (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51)).
