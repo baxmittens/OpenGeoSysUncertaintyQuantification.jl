@@ -61,15 +61,19 @@ StochtoCP
 ```
 
 
-## Utils adaptive sparse grid 
+## Adaptive sparse grid 
 ```@docs
 OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
 empirical_cdf
 sample_postproc_fun
 ```
 
+## Sobols indices 
+```@docs
+write_sobol_field_result_to_XDMF
+```
 
-## Utils userfile
+## Userfile
 ```@docs
 dependend_tensor_parameter!(::Ogs6ModelDef, ::String, ::Int, ::Int, ::Any)
 dependend_parameter!(::Ogs6ModelDef, ::String, ::String, ::Int, ::Int, ::Any)

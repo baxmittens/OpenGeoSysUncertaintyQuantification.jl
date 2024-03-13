@@ -65,6 +65,15 @@ function is_nodal(res::Vector{Float64},xdmf::XDMF3File)
 	return dim==nnodes
 end
 
+function add_scalar_field!(xdmf::XDMF3File, field::Vector{Float64}, name::String, modeldef::Ogs6ModelDef)
+	if is_nodal(field, xdmf)
+		add_nodal_scalar_field!(xdmf, name, field)
+	else
+		add_cell_scalar_field!(xdmf, name, field)
+	end
+	return nothing
+end
+
 function integrate_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	if is_nodal(field, xdmf)
 		return integrate_nodal_result(field, xdmf, modeldef)
