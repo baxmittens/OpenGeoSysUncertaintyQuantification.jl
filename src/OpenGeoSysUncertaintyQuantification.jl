@@ -92,7 +92,7 @@ filename(a::StochasticOGSModelParams) = a.file
 """
 	abstract type SampleMethodParams
 
-Supertype for Sample method parameters.
+Supertype for Sample method parameters. Implemented by, e.g., [`SparseGridParams`](@ref) or [`MonteCarloParams`](@ref).
 """
 abstract type SampleMethodParams end
 
@@ -233,8 +233,25 @@ function OGSUQParams(file_stochasticmodelparams::String, file_samplemethodparams
 	return OGSUQParams(stochasticmodelparams, samplemethodparams)
 end
 
+"""
+	abstract type AbstractOGSUQ 
+
+Supertype for stochastic OGS6 models. Implemented by [`OGSUQASG`](@ref).
+"""
 abstract type AbstractOGSUQ end 
-abstract type AbstractOGSUQMonteCarlo <: AbstractOGSUQ end 
+
+"""
+	abstract type AbstractOGSUQMonteCarlo 
+
+Supertype for stochastic OGS6 models. Implemented by [`OGSUQMC`](@ref).
+"""
+abstract type AbstractOGSUQMonteCarlo <: AbstractOGSUQ end
+
+"""
+	abstract type AbstractOGSUQSensitivity 
+
+Supertype for stochastic OGS6 models. Implemented by [`OGSUQMCSobol`](@ref) and [`OGSUQMCMorris`](@ref).
+""" 
 abstract type AbstractOGSUQSensitivity <: AbstractOGSUQMonteCarlo end 
 
 """

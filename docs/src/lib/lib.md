@@ -7,18 +7,6 @@ Pages = ["lib.md"]
 Depth = 4
 ```
 
-## Index
-
-```@index
-Pages = ["lib.md"]
-Depth = 4
-```
-
-## Typedefs
-```@docs
-SampleMethodParams
-```
-
 ## Structs
 
 ```@docs
@@ -92,4 +80,17 @@ setStochasticParameter!
 setStochasticParameters!
 ```
 
+## Typedefs
+```@docs
+SampleMethodParams
+OpenGeoSysUncertaintyQuantification.AbstractOGSUQ
+OpenGeoSysUncertaintyQuantification.AbstractOGSUQMonteCarlo
+OpenGeoSysUncertaintyQuantification.AbstractOGSUQSensitivity
+```
 
+## Index
+
+```@index
+Pages = ["lib.md"]
+Depth = 4
+```
