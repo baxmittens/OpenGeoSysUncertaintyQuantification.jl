@@ -1,7 +1,7 @@
 name = "OpenGeoSysUncertaintyQuantification"
 uuid = "2b9e718a-2bbf-456a-af48-1d5a69fa48c6"
 authors = ["baxmittens <maximilian.bittens@bgr.de>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
