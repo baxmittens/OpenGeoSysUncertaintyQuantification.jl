@@ -36,6 +36,15 @@ OGSUQMCSobol
 OGSUQMCMorris
 ```
 
+## Project setup
+`OpenGeoSysUncertaintyQuantification.jl` provides methods for the generation of a stochastic OGS6 project from a validly configured OGS6 project.
+```@docs
+generatePossibleStochasticParameters
+loadStochasticParameters
+generateStochasticOGSModell
+generateSampleMethodModel
+```
+
 ## General functions
 
 ```@docs
@@ -43,14 +52,6 @@ init(::OGSUQParams)
 start!
 𝔼
 variance
-```
-
-## Project setup
-```@docs
-generatePossibleStochasticParameters
-loadStochasticParameters
-generateStochasticOGSModell
-generateSampleMethodModel
 ```
 
 ## Utils
@@ -70,6 +71,7 @@ OpenGeoSysUncertaintyQuantification.sample_postproc_fun
 ## Sobols indices 
 ```@docs
 write_sobol_field_result_to_XDMF
+write_sobol_multifield_result_to_XDMF
 ```
 
 ## Userfile

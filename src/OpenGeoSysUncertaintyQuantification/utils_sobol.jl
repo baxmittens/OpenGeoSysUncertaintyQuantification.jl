@@ -59,13 +59,14 @@ end
 
 Writes the result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)) to an XMDF file.
 
+Following outputs are provided by a Monte Carlo Sobol sampling:
 ```julia
-expval, varval, sobolvars, totsobolvars = start!(ogsuqmcsobl)
+expval, varval, sobolvars, totsobolvars = start!(ogsuqmcsobol)
 ```
 
-Assumes each index in `sobolvars` is a field result (i.e.
+Assumes each index in `sobolvars` is a single field result (i.e.
 ```julia
-res["temperature_interpolated"][:,some_timestep]::Vector{Float64}
+xdmf["temperature_interpolated"][:,some_timestep]::Vector{Float64}
 ``` 
 )
 
@@ -74,10 +75,11 @@ The result are written in the 0-th time slice of the [`XDMF3File`](https://githu
 # Arguments
 
 - `ogsuqmc::`[`OGSUQMCSobol`](@ref) : Instance of [`OGSUQMCSobol`](@ref).
-- `sobolvars` : Result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)).
+- `sobolvars` : A result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)).
 - `fieldname::String` : Fieldname, e.g. "temperature".
-- `varval` : Global variance of stochastic state space defined in 
-- `retval_proto` : Prototype for result type (only known after first OGS6 call, i.g. `DistributedSparseGrids.scaling_weight(first(asg))`)
+- `varval` : Global variance of stochastic state space defined in `ogsuqmc`. 
+- `expval` : Exptected value of stochastic state space defined in `ogsuqmc`. 
+- `xdmf_proto_path::String` : Path to a xdmf file with similar topology like the result field.
 """
 function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fieldname::String, varval, expval, xdmf_proto_path::String)
 	modeldef = ogs6_modeldef(ogsuqmc)
@@ -95,7 +97,42 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 	return write(xdmf, fieldname*".xdmf", fieldname*"h5")
 end
 
-function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field::Int, fieldname::String, varval, expval, xdmf_proto_path::String)
+"""
+	write_sobol_multifield_result_to_XDMF(
+		ogsuqmc::OGSUQMCSobol, 
+		sobolvars,
+		field, 
+		fieldname::String, 
+		varval, 
+		expval, 
+		xdmf_proto_path::String
+		)
+
+Writes the result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)) to an XMDF file.
+
+Following outputs are provided by a Monte Carlo Sobol sampling:
+```julia
+expval, varval, sobolvars, totsobolvars = start!(ogsuqmcsobol)
+```
+
+Assumes each index in `sobolvars` is a multifield result (i.e.
+```julia
+[xdmf["temperature_interpolated"][:,some_timestep]::Vector{Float64}, xdmf["pressure_interpolated"][:,some_timestep]::Vector{Float64}]
+``` 
+)
+
+The result are written in the 0-th time slice of the [`XDMF3File`](https://github.com/baxmittens/XDMFFileHandler.jl/blob/38025866e4beb81eabc967904872dc7b27505c26/src/XDMFFileHandler.jl#L83).
+
+# Arguments
+
+- `ogsuqmc::`[`OGSUQMCSobol`](@ref) : Instance of [`OGSUQMCSobol`](@ref).
+- `sobolvars` : A result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)).
+- `field::Any` : Field index to be postprocessed. Has to be compatible with `getindex`, i.e. `map(x->x[field] sobolvars)`.
+- `fieldname::String` : Fieldname, e.g. "temperature".
+- `varval` : Global variance of stochastic state space defined in `ogsuqmc`. 
+- `xdmf_proto_path::String` : Path to a xdmf file with similar topology like the result field.
+"""
+function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field, fieldname::String, varval, expval, xdmf_proto_path::String)
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
