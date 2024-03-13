@@ -40,7 +40,6 @@ OGSUQMCMorris
 
 ```@docs
 init(::OGSUQParams)
-
 start!
 𝔼
 variance
@@ -65,7 +64,7 @@ StochtoCP
 ```@docs
 OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
 empirical_cdf
-sample_postproc_fun
+OpenGeoSysUncertaintyQuantification.sample_postproc_fun
 ```
 
 ## Sobols indices 
