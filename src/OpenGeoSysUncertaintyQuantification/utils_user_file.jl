@@ -6,7 +6,7 @@
 		master_ind::Int, 
 		slave_ind::Int, 
 		depfunc
-		)
+	)
 
 Helper function to model a dependency of entries of a tensor parmeter such as the permeability tensor k.
 Uses OGS6 Pathes for parameter indentification (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51)).
@@ -26,7 +26,8 @@ dependend_tensor_parameter!(
 	path_to_permeability, 
 	1,
 	3, 
-	x->0.5*x)
+	x->0.5*x
+)
 ```
 
 The above example sets the third entry of the permeability tensor to half of the value of the first entry.
@@ -49,7 +50,7 @@ end
 		master_ind::Int, 
 		slave_ind::Int, 
 		depfunc
-		)
+	)
 
 Helper function to model a dependency of two OGS6 parameter.
 Uses OGS6 Pathes for parameter indentification (see [Ogs6InputfileHandler.getAllPathesbyTag](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L43) and [Ogs6InputFileHandler.getElementbyPath](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/4f54995b12cd9d4396c1dcb2a78654c21af55e4c/src/Ogs6InputFileHandler/utils.jl#L51)).
@@ -72,7 +73,8 @@ dependend_tensor_parameter!(
 	path_to_permeability_id2, 
 	1, 
 	1, 
-	x->x)
+	x->x
+)
 ```
 
 The above example couples two permeabilites of different material layers.
@@ -95,7 +97,7 @@ end
 		x, 
 		user_func::Function,
 		cptostoch::Function=CPtoStoch
-		)
+	)
 
 Replaces a stochastic parameter at `x` in the `modeldef`. Applies the user_func for addiational transformation (e.g. x->exp(x) in case of a lognormal distribution).
 
@@ -121,7 +123,7 @@ end
 		x, 
 		user_funcs::Vector{Function},
 		cptostoch::Function=CPtoStoch
-		)
+	)
 
 Replaces all stochastic parameter at `x` in the `modeldef`. Applies all user_func for addiational transformation (e.g. x->exp(x) in case of a lognormal distribution).
 
