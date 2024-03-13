@@ -1,4 +1,4 @@
-using OpenGeoSysUncertaintyQunatification
+using OpenGeoSysUncertaintyQuantification
 using Test
 
 @testset "Project setup" begin
