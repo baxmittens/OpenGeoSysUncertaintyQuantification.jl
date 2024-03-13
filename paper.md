@@ -34,7 +34,7 @@ Parameterizing a THM model in OpenGeoSys [@kolditz2012opengeosys] is complex and
 
 The OpenGeoSys community commonly uses Python, however for this project Julia was chosen due to its superior efficiency and built-in capabilities for distributive computing.
 
-To this date, there is no uncertainty quantification toolbox for OpenGeoSys, neither in Python nor in the Julia language. 
+To this date, there is no uncertainty quantification toolbox for OpenGeoSys, neither in Python nor in the Julia language. However, there is a general purpose uncertainty quantificationns available for the Julia language named [UncertaintyQuantification.jl](https://github.com/FriesischScott/UncertaintyQuantification.jl).
 
 # Features
 
@@ -67,11 +67,16 @@ Features added within OpenGeoSysUncertaintyQuantification.jl:
 
 - Definition of input parameters and (truncated) input distributions via [Distributions.jl](https://github.com/JuliaStats/Distributions.jl).
 
-- Computation of expected value and variance
+- Adaptive sparse grid surrogate modeling of the physical state space. All snapshots have to fit in the system memory.
 
-# Further development
+- Distributed Monte Carlo integration. Snapshots do not have to fit in the system memory.
 
-The next steps in the further development are primarily related to stochastic postprocessing and the representation thereof. Two examples are confidence intervals and the meaningful reduction of high-dimensional results. 
+- Monte Carlo integrated Sobol indices.
+
+- Monte Carlo or Latin Hypercube integrated Morris means.
+
+- Computation of expected value, variance, or sensitivity of complete OGS6 postprocessing results.
+
 
 # Acknowledgements
 
