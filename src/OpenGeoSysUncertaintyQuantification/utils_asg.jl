@@ -1,4 +1,5 @@
 import DistributedSparseGrids: AbstractCollocationPoint, AbstractHierarchicalCollocationPoint, AbstractHierarchicalSparseGrid
+
 function ASG(::AbstractHierarchicalSparseGrid{N,HCP}, samplemethodparams::SparseGridParams, _fun) where {N,CT,RT,CP<:AbstractCollocationPoint{N,CT}, HCP<:AbstractHierarchicalCollocationPoint{N,CP,RT}}
 	pointprobs = SVector(samplemethodparams.pointprobs...)
 	asg = init(AHSG{N,HierarchicalCollocationPoint{N,CollocationPoint{N,CT},RT}},pointprobs)
@@ -165,7 +166,14 @@ Returns the empirical expected value and the empirical output distribution.
 - `postprocfun::F` : Postprocessing function, see [`sample_postproc_fun`](@ref).
 - `xdmf::`[`XDMF3File`](https://github.com/baxmittens/XDMFFileHandler.jl/blob/38025866e4beb81eabc967904872dc7b27505c26/src/XDMFFileHandler.jl#L83) : An arbirtrary XDMF3File from the result folder is needed with the topology of the mesh.
 """
-function empirical_cdf(ogsuqasg::OGSUQASG, quant_vals::AbstractVector{Float64}, samplepoint::Vector{Float64}, MC_N::Int, postprocfun::F,  xdmf::XDMF3File) where {F<:Function}
+function empirical_cdf(
+	ogsuqasg::OGSUQASG, 
+	quant_vals::AbstractVector{Float64}, 
+	samplepoint::Vector{Float64}, 
+	MC_N::Int, postprocfun::F,  
+	xdmf::XDMF3File
+	) where {F<:Function}
+
 	mc,vals = empirical_cdf_sampling(ogsuqasg, samplepoint, MC_N, postprocfun,  xdmf)
 	emp_exp_val,emp_qs = get_exp_and_quantiles(vals,quant_vals)
 	return emp_exp_val,emp_qs

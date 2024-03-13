@@ -18,7 +18,12 @@ Outputs an XML file written by [`XMLParser.Julia2XML`](https://github.com/baxmit
 - `file::String`: Path of output XML file which gets written by this function.
 - `keywords::Vector{String}`: List of [`keywords`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/6faab955f69da653e568b61eeb8890040001e7e6/src/OpenGeoSysUncertaintyQuantification/utils.jl#L2).
 """
-function generatePossibleStochasticParameters(projectfile::String, file::String="./PossibleStochasticParameters.xml", keywords::Vector{String}=ogs_numeric_keyvals)
+function generatePossibleStochasticParameters(
+	projectfile::String, 
+	file::String="./PossibleStochasticParameters.xml", 
+	keywords::Vector{String}=ogs_numeric_keyvals
+	)
+
 	modeldef = read(Ogs6ModelDef,projectfile)
 	stochparams = Vector{StochasticOGS6Parameter}()
 	pathes = Vector{String}()
