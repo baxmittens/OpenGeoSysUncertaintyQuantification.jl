@@ -57,24 +57,20 @@ end
 		xdmf_proto_path::String
 		)
 
-A sample postprocessing function for [`empirical_cdf`](@ref).
+Writes the result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)) to an XMDF file.
 
 ```julia
-	# copy result prototype here so that the sparse grid can interpolate without allocations
-	ret = deepcopy(retval_proto) 
-	# interpolate value from sparse grid
-	DistributedSparseGrids.interpolate!(ret,asg,x)
-	# use the fourth result value (could also be something like ret["sigma"][inds,:,:])
-	# and interpolate the value at the element coordinates by shape functions
-	val = Tri6_shapeFun(ξs)'*ret[4][inds]
+	expval, varval, sobolvars, totsobolvars = [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref))
 ```
+
+Assumes each index in `sobolvars` is a field result (i.e. `res["temperature_interpolated"][:,some_timestep]::Vector{Float64}`)
 
 # Arguments
 
-- `asg` : Addaptive sparse grid 
-- `x` : sample point ∈ [-1,1]^n
-- `inds` : Element indices
-- `ξs` : Element coordinates
+- `ogsuqmc::`[`OGSUQMCSobol`](@ref) : Instance of [`OGSUQMCSobol`](@ref).
+- `sobolvars` : Result of [`start!`](@ref)(ogsuqmcsobl::[`OGSUQMCSobol`](@ref)).
+- `fieldname::String` : Fieldname, e.g. "temperature".
+- `varval` : Global variance of stochastic state space defined in 
 - `retval_proto` : Prototype for result type (only known after first OGS6 call, i.g. `DistributedSparseGrids.scaling_weight(first(asg))`)
 """
 function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fieldname::String, varval, expval, xdmf_proto_path::String)
