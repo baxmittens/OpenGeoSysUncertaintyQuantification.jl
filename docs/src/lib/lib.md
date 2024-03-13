@@ -49,7 +49,7 @@ res = OGSUQ.start!(ogsuqmc)
 ```
 
 The data structures [`StochasticOGSModelParams`](@ref) and [`SampleMethodParams`](@ref) are automatically written to hard drive as [`XML`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35) files and can be manipulated in any text editor.
-The [`init`](@ref) function initalizes the model and adds the local workers. [`start`] starts the sampling procedure for the [adaptive sparse grid](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/). For [Monte Carlo] methods only the sample points are generated upon calling [`start`]. The sampling procedure, i.e. the determinitic OGS6 calls, are only executed if [`𝔼`](@ref) or [`variance`](@ref) is called, since for Monte Carlo methods, the results are only loaded partially into memory.   
+The [`init`](@ref) function initalizes the model and adds the local workers. [`start`](@ref) starts the sampling procedure for the [adaptive sparse grid](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/). For [Monte Carlo](@ref) methods only the sample points are generated upon calling [`start`]. The sampling procedure, i.e. the determinitic OGS6 calls, are only executed if [`𝔼`](@ref) or [`variance`](@ref) is called, since for Monte Carlo methods, the results are only loaded partially into memory.   
 
 ```@docs
 init(::OGSUQParams)
@@ -70,7 +70,7 @@ StochtoCP
 
 ## Adaptive sparse grid
 
-If an [`OGSUQASG`](@ref) model is used (implemented by [`DistributedSparseGrids.jl`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/))...
+If an [`OGSUQASG`](@ref) model is used the [`adaptive sparse grid`](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/)) serves as a surrogate model. The idea is to sample the physical state space and to integrate this state space against the multivariate pdf in an additional step. This is done because the integration of the multivariate pdf is often times much harder to integrate than the physical model, for example in the case of a multivariate normal distribution. The empirical output distributions can be integrated by [`empirical_cdf`](@ref).
 
 ```@docs
 OpenGeoSysUncertaintyQuantification.scalarwise_comparefct(::VTUFile, ::Any, ::Any)
@@ -78,13 +78,19 @@ empirical_cdf
 OpenGeoSysUncertaintyQuantification.sample_postproc_fun
 ```
 
-## Sobols indices 
+## Sobols indices
+
+With `OpenGeoSysUncertaintyQuantification.jl`, Sobol indices of whole OGS6 postprocessing results can be integrated. To write such results to hard drive, the function [`write_sobol_field_result_to_XDMF`](@ref) and [`write_sobol_multifield_result_to_XDMF`](@ref) are used.
+
 ```@docs
 write_sobol_field_result_to_XDMF
 write_sobol_multifield_result_to_XDMF
 ```
 
 ## Userfile
+
+Upon the generation of the stochastic model, a user file (userfile.jl) is generated as well. This userfile executes the OGS6 simulation call. The stochastic model as well as the quantities of interest can be altered in this file. In case of a altered quantity of interest, the return type in [`SampleMethodParams`] has to be altered, accordingly.
+
 ```@docs
 dependend_tensor_parameter!(::Ogs6ModelDef, ::String, ::Int, ::Int, ::Any)
 dependend_parameter!(::Ogs6ModelDef, ::String, ::String, ::Int, ::Int, ::Any)
@@ -93,6 +99,9 @@ setStochasticParameters!
 ```
 
 ## Typedefs
+
+Here are some supertypes used for dispatching.
+
 ```@docs
 SampleMethodParams
 OpenGeoSysUncertaintyQuantification.AbstractOGSUQ
