@@ -30,7 +30,9 @@ In simulation-aided design of saftey-related projects, the effects of uncertaint
 
 Stability verifications for large structures can often only be carried out with the help of numerical simulations. A particularly difficult example is the safe storage of highly radioactive waste in subsurface repositories. These are usually planned at depths of several hundred meters. The heat radiated by the fuel rods can influence thermal-hydraulic-mechanical processes down to depths of several kilometers. Numerical simulations are needed to ensure site safety. Because of the outstanding interest in the safety of these repositories, the uncertainties are also given special attention.
 
-Parameterizing a THM model in OpenGeoSys [@kolditz2012opengeosys] is complex and time-consuming due to the large number of possible input parameters. For easier applicability, the decision was made not to design this package as a generic uncertainty quantification framework, but to relate it explicitly to OGS6. Nevertheless, care was taken to ensure that the underlying packages are as generic as possible and can be used in other projects. 
+Parameterizing a THM model in OpenGeoSys [@kolditz2012opengeosys] is complex and time-consuming due to the large number of possible input parameters. For easier applicability, the decision was made not to design this package as a generic uncertainty quantification framework, but to relate it explicitly to OGS6. Nevertheless, care was taken to ensure that the underlying packages are as generic as possible and can be used in other projects.
+
+For this toolbox, following stochastic modeling strategy was chosen: the less is known about the effect of the input uncertainty onto the output, the more general the quantity of interest should be selected such that as a first step the selection of a complete OGS6 postprocessing result is a viable option. Thereby, this approach provides methods to `explore` uncertainties in the OGS6 simulation output.
 
 The OpenGeoSys community commonly uses Python, however for this project Julia was chosen due to its superior efficiency and built-in capabilities for distributive computing.
 
