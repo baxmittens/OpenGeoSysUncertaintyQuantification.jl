@@ -49,7 +49,7 @@ res = OGSUQ.start!(ogsuqmc)
 ```
 
 The data structures [`StochasticOGSModelParams`](@ref) and [`SampleMethodParams`](@ref) are automatically written to hard drive as [`XML`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L35) files and can be manipulated in any text editor.
-The [`init`](@ref) function initalizes the model and adds the local workers. [`start`](@ref) starts the sampling procedure for the [adaptive sparse grid](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/). For [Monte Carlo](@ref) methods only the sample points are generated upon calling [`start`]. The sampling procedure, i.e. the determinitic OGS6 calls, are only executed if [`𝔼`](@ref) or [`variance`](@ref) is called, since for Monte Carlo methods, the results are only loaded partially into memory.   
+The [`init`](@ref) function initalizes the model and adds the local workers. [`start!`](@ref) starts the sampling procedure for the [adaptive sparse grid](https://baxmittens.github.io/DistributedSparseGrids.jl/dev/). For [Monte Carlo](@ref) methods only the sample points are generated upon calling [`start!`]. The sampling procedure, i.e. the determinitic OGS6 calls, are only executed if [`𝔼`](@ref) or [`variance`](@ref) is called, since for Monte Carlo methods, the results are only loaded partially into memory.   
 
 ```@docs
 init(::OGSUQParams)

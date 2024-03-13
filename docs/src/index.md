@@ -17,7 +17,7 @@ generatePossibleStochasticParameters(
 	projectfile::String, 
 	file::String="./PossibleStochasticParameters.xml", 
 	keywords::Vector{String}=ogs_numeric_keyvals
-	)
+)
 ```
 scans an existing `projectfile` for all parameters which can be used in a stochastic project. What is considered to be a possible stochastic parameter is defined by the [`keywords`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/src/OpenGeoSysUncertaintyQuantification/utils.jl#L2). By this, an xml-file `file` is generated where all possible stochastic parameters are listed. 
 
@@ -48,7 +48,7 @@ creates an xml-file which defines the so-called `StochasticOGSModelParams`. It i
 - the number of local workers `n_local_workers`, and, 
 - the filename `sogsfile` under which the model is stored as an xml-file. 
 
-This function also creates a file `user_function.jl` which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual snaptshots are generated and how the postprocessing results are handled.
+This function also creates a file [`user_function.jl`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl) which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual snaptshots are generated and how the postprocessing results are handled.
 
 The third and last function
 
