@@ -24,15 +24,15 @@ bibliography: paper.bib
 
 # Abstract
 
-In simulation-aided design of saftey-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hdydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OpenGeoSysUncertaintyQuantification.jl](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl) is a Julia library which provides all the necessary methods to quantify uncertainties in a validly configured deterministic OGS6 modell.
+In simulation-aided design of saftey-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hdydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OpenGeoSysUncertaintyQuantification.jl](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl) is a Julia library which provides all the necessary methods for global sensitivity analysis and uncertaintiy quantification in a validly configured deterministic OGS6 model.
 
 # Statement of need
 
-Stability verifications for large structures can often only be carried out with the help of numerical simulations. A particularly difficult example is the safe storage of highly radioactive waste in subsurface repositories. These are usually planned at depths of several hundred meters. The heat radiated by the fuel rods can influence thermal-hydraulic-mechanical processes down to depths of several kilometers. Numerical simulations are needed to ensure site safety. Because of the outstanding interest in the safety of these repositories, the uncertainties are also given special attention.
+Stability verifications for large structures can often only be carried out with the help of numerical simulations. A particularly difficult example is the safe storage of highly radioactive waste in subsurface repositories. These are usually planned at depths of several hundred meters. The heat radiated by the fuel rods can influence thermal-hydraulic-mechanical processes down to depths of several kilometers. Numerical simulations are needed to ensure site safety. Because of the outstanding interest in the safety of these repositories, the uncertainties are also given special attention. OpenGeoSys is a frequently used simulation tool in the German research community dedicated to the containment-safe storage of radioactive waste. Due to legal requirements in the repository safety ordinance, it is necessary to quantify input uncertainties of a deterministic OGS6 model.
 
 Parameterizing a THM model in OpenGeoSys [@kolditz2012opengeosys] is complex and time-consuming due to the large number of possible input parameters. For easier applicability, the decision was made not to design this package as a generic uncertainty quantification framework, but to relate it explicitly to OGS6. Nevertheless, care was taken to ensure that the underlying packages are as generic as possible and can be used in other projects.
 
-For this toolbox, following stochastic modeling strategy was chosen: the less is known about the effect of the input uncertainty onto the output, the more general the quantity of interest should be selected such that as a first step the selection of a complete OGS6 postprocessing result is a viable option. Thereby, this approach provides methods to `explore` uncertainties in the OGS6 simulation output.
+For this toolbox, following stochastic modeling strategy was chosen: the less is known about the effect of the input uncertainty onto the output, the more general the quantity of interest should be selected, such that as a first step the selection of a complete OGS6 postprocessing result is a viable option. Thereby, this approach provides methods to `explore` uncertainties in the OGS6 simulation output.
 
 The OpenGeoSys community commonly uses Python, however for this project Julia was chosen due to its superior efficiency and built-in capabilities for distributive computing.
 
@@ -63,7 +63,7 @@ Most of all functionalities of this package are outsourced into independent juli
   Analogous to the above for the XDMF result file format. Provides the datatype `XDMF3File` compatible with stochastic post-processing.
 
 
-Features added within OpenGeoSysUncertaintyQuantification.jl:
+Features of OpenGeoSysUncertaintyQuantification.jl:
 
 - Setup of stochastic OGS6 projects (see [docs](https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/)).
 
@@ -77,7 +77,9 @@ Features added within OpenGeoSysUncertaintyQuantification.jl:
 
 - Monte Carlo or Latin Hypercube integrated Morris means.
 
-- Computation of expected value, variance, or sensitivity of complete OGS6 postprocessing results.
+- Computation of expected value, variance, or sensitivity indices of complete OGS6 postprocessing results.
+
+To enable the stochastic postprocessing of large data sets, special attention was paid to implement allocation free in-place variants of all necessary math operators for all output datatypes such as a `VTUFile` or `XDMF3File`.
 
 
 # Acknowledgements
