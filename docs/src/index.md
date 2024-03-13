@@ -178,10 +178,10 @@ The second file [`altered_SampleMethodParams.xml`](https://github.com/baxmittens
 The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/start.jl)
 
 ```julia
-import OpenGeoSysUncertaintyQuantification
-ogsuqparams = OpenGeoSysUncertaintyQuantification.OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
-ogsuqasg = OpenGeoSysUncertaintyQuantification.init(ogsuqparams)
-OpenGeoSysUncertaintyQuantification.start!(ogsuqasg)
+using OpenGeoSysUncertaintyQuantification
+ogsuqparams = OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
+ogsuqasg = init(ogsuqparams)
+start!(ogsuqasg)
 ```
 
 load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts the sampling procedure. Finally the expected value is integrated.
@@ -217,7 +217,7 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 The expected value of an stochastic OGS project can be computed by:
 ```julia
 import VTUFileHandler
-expval,asg_expval = OpenGeoSysUncertaintyQuantification.𝔼(ogsuqasg);
+expval,asg_expval = 𝔼(ogsuqasg)
 VTUFileHandler.rename!(expval,"expval_heatpointsource.vtu")
 write(expval)
 ```
@@ -263,7 +263,7 @@ By integrating over the domain the expected value is computed. Below the pressur
 The variance can be computed by:
 
 ```julia
-varval,asg_varval = OpenGeoSysUncertaintyQuantification.var(ogsuqasg,expval);
+varval,asg_varval = variance(ogsuqasg,expval);
 VTUFileHandler.rename!(varval,"varval_heatpointsource.vtu")
 write(varval)
 ```
