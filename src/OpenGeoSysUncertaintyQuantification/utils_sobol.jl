@@ -30,14 +30,12 @@ end
 
 function scalar_sobolindex_from_multifield_result(ogsuqmc::OGSUQMCSobol, totsobolvars, fields::AbstractVector{Int}, varval, expval, xdmf::XDMF3File)
 	modeldef = ogs6_modeldef(ogsuqmc)
-	integrated_sobolvars = map(field->map(x->integrate_result(x[field],xdmf,modeldef), totsobolvars), fields)
 	integrated_totalvariances = map(field->integrate_result(varval[field],xdmf,modeldef), fields)
-	integrated_expvals = map(field->integrate_result(expval[field],xdmf,modeldef), fields)
-	@assert all(map(field->all(map(x->x>=0.0, integrated_sobolvars[field])),1:length(integrated_totalvariances))) "negative sobolvars detected, use total sobol variances."
-	coeff_of_var = map((x,y)->sqrt(x)/y, integrated_totalvariances, integrated_expvals)
-	sobol_inds = map((x,y)->x/y, integrated_sobolvars, integrated_totalvariances).*coeff_of_var
-	sobol_inds_scaled = map(x->sum(x), zip(sobol_inds...))/sum(coeff_of_var)
-	sobol_inds_scaled ./= sum(sobol_inds_scaled)
+	area = integrate_area(xdmf, modeldef)
+	coeff_of_var = map(field->integrate_result(sqrt.(varval[field])./expval[field],xdmf,modeldef), fields)./area
+	sumcov = sum(coeff_of_var)
+	sobol_inds = map(x->sum(map((field,cov,int_var)->integrate_result(x[field], xdmf, modeldef)*cov/int_var, fields,coeff_of_var,integrated_totalvariances))/sumcov, totsobolvars)
+	sobol_inds_scaled = sobol_inds./sum(sobol_inds)
 	inds_sorted = sortperm(sobol_inds_scaled, rev=true)
 	retvec = Vector{Tuple{Int,String,Float64}}()
 	stoch_params = stoch_parameters(ogsuqmc)
@@ -91,8 +89,8 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
 	for (ind, path, val) in ranking
 		_num = cfmt("%03i" , i )
-		add_scalar_field!(xdmf, sobolvars[ind], _num*"_SobolVar_"*trimpath(path), modeldef)
-		add_scalar_field!(xdmf, sobolvars[ind]./varval, "SobolInd_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind]./varval, _num*"_"*fieldname*"_1_SobolInd_"*trimpath(path), modeldef)
 	end
 	return write(xdmf, fieldname*".xdmf", fieldname*"h5")
 end
@@ -136,14 +134,111 @@ function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars,
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
-	add_scalar_field!(xdmf, expval[field], "0000_Expected Value", modeldef)
-	add_scalar_field!(xdmf, varval[field], "0001_Variance", modeldef)
+	add_scalar_field!(xdmf, expval[field], "0000_"*fieldname*"_Expected Value", modeldef)
+	add_scalar_field!(xdmf, varval[field], "0001_"*fieldname*"_Variance", modeldef)
 	ranking = scalar_sobolindex_from_multifield_result(ogsuqmc, sobolvars, field, varval, xdmf)
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
-		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"0_SobolVar_"*trimpath(path), modeldef)
-		add_scalar_field!(xdmf, sobolvars[ind][field]./varval[field], _num*"1_SobolInd_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind][field]./varval[field], _num*"_"*fieldname*"_1_SobolInd_"*trimpath(path), modeldef)
 	end
 	return write(xdmf, fieldname*".xdmf", fieldname*".h5") 
+end
+
+#import OpenGeoSysUncertaintyQuantification: write_sobol_multifield_result_to_XDMF, add_scalar_field!, scalar_sobolindex_from_multifield_result
+
+function sobol_multifield_result_to_pgfplot(
+		ogsuq::OGSUQMCSobol, 
+		sobolvars, 
+		field::Int,
+		fieldname::String, 
+		totalvariance, 
+		xdmf::XDMF3File,
+		n_entries_to_plot=10;
+		width="0.95\\textwidth",
+		height="0.2\\textheight",
+		bar_width="0.0075\\textwidth"
+		)
+	ret = scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, field, totalvariance, xdmf)
+	n = min(n_entries_to_plot, length(ret))
+	symcoords = map(x->replace(x[2],"_"=>" "), ret[1:n])
+	coords = map(x->(replace(x[2],"_"=>" "),x[3]), ret[1:n])
+	p1 = @pgf Axis(
+		{
+		ybar,
+    		width=width,
+    		height=height,
+    		bar_width=bar_width,
+    		legend_style=
+    		{
+    	        at = Coordinate(0.5, -0.775),
+    	        anchor = "north",
+    	        legend_columns = -1
+    	    },
+    		ylabel={""},
+    		symbolic_x_coords=symcoords,
+    		x_tick_label_style={rotate=45,anchor="east"},
+    		xtick="data",
+		},
+		#Plot(Coordinates(dp)),
+		Plot(Coordinates(coords)),
+		Legend([fieldname])
+	);
+	buf = IOBuffer()
+	print_tex(buf,p1)
+	return String(take!(buf))
+end
+
+function sobol_multifield_result_to_pgfplot(
+		ogsuq::OGSUQMCSobol, 
+		sobolvars, 
+		fields::AbstractVector{Int},
+		field_names::Vector{String}, 
+		totalvariance, 
+		xdmf::XDMF3File,
+		n_entries_to_plot=10;
+		width="0.95\\textwidth",
+		height="0.2\\textheight",
+		bar_width="0.0075\\textwidth"
+		)
+	todict(x) = Dict(y[2]=>y[3] for y in x)
+	rets = map(field->scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, field, totalvariance, xdmf), fields)
+	ret = scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, fields, varval, expval, xdmf)
+	retsdicts = map(todict, rets)
+	retdict = todict(ret)
+	n = min(n_entries_to_plot, length(ret))
+	allcoords = Set{String}()
+	foreach(x->foreach(y->push!(allcoords, y[2]), x[1:n]), rets)
+	foreach(x->push!(allcoords, x[2]), ret[1:n])
+	allcoords = collect(allcoords)
+	ret = map(x->(x,retdict[x]), allcoords)
+	sortinds = sortperm(ret,by=x->x[2],rev=true)
+	_symcoords = map(x->replace(x,"_"=>""), allcoords[sortinds])
+	coords = map(x->(replace(x,"_"=>""), retdict[x]), allcoords[sortinds])
+	indv_coords = map(y->map(x->(replace(x,"_"=>""),y[x]), allcoords[sortinds]), retsdicts)
+	p1 = @pgf Axis(
+		{
+		ybar,
+    		width=width,
+    		height=height,
+    		bar_width=bar_width,
+    		legend_style=
+    		{
+    	        at = Coordinate(0.5, -0.775),
+    	        anchor = "north",
+    	        legend_columns = -1
+    	    },
+    		ylabel={""},
+    		symbolic_x_coords=_symcoords,
+    		x_tick_label_style={rotate=45,anchor="east"},
+    		xtick="data",
+		},
+		Plot(Coordinates(coords)),
+		[Plot(Coordinates(c)) for c in indv_coords]...,
+		Legend(["combined",field_names...])
+	);
+	buf = IOBuffer()
+	print_tex(buf,p1)
+	return String(take!(buf))
 end
