@@ -92,7 +92,7 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 		add_scalar_field!(xdmf, sobolvars[ind], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
 		add_scalar_field!(xdmf, sobolvars[ind]./varval, _num*"_"*fieldname*"_1_SobolInd_"*trimpath(path), modeldef)
 	end
-	return write(xdmf, fieldname*".xdmf", fieldname*"h5")
+	return write(xdmf, fieldname*".xdmf", fieldname*".h5")
 end
 
 """
