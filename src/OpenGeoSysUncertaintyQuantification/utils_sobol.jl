@@ -1,9 +1,5 @@
 function scalar_sobolindex_from_field_result(ogsuq::OGSUQMCSobol, sobolvars, totalvariance, xdmf::XDMF3File, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
-	if isnothing(pathmapping)
-		trimpath(p) = format_ogs_path(p)
-	else
-		trimpath(p) = pathmapping[p]
-	end
+	trimpath(p) = isnothing(pathmapping) ? format_ogs_path(p) : pathmapping[p]
 	modeldef = ogs6_modeldef(ogsuq)
 	integrated_sobolvars = map(x->integrate_result(x,xdmf,modeldef), sobolvars)
 	integrated_totalvariance = integrate_result(totalvariance,xdmf,modeldef)
@@ -19,11 +15,7 @@ function scalar_sobolindex_from_field_result(ogsuq::OGSUQMCSobol, sobolvars, tot
 end
 
 function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars, field::Int, totalvariance, xdmf::XDMF3File, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
-	if isnothing(pathmapping)
-		trimpath(p) = format_ogs_path(p)
-	else
-		trimpath(p) = pathmapping[p]
-	end
+	trimpath(p) = isnothing(pathmapping) ? format_ogs_path(p) : pathmapping[p]
 	modeldef = ogs6_modeldef(ogsuq)
 	integrated_sobolvars = map(x->integrate_result(x[field],xdmf,modeldef), sobolvars)
 	integrated_totalvariance = integrate_result(totalvariance[field],xdmf,modeldef)
@@ -39,11 +31,7 @@ function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars
 end
 
 function scalar_sobolindex_from_multifield_result(ogsuqmc::OGSUQMCSobol, totsobolvars, fields::AbstractVector{Int}, varval, expval, xdmf::XDMF3File, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
-	if isnothing(pathmapping)
-		trimpath(p) = format_ogs_path(p)
-	else
-		trimpath(p) = pathmapping[p]
-	end
+	trimpath(p) = isnothing(pathmapping) ? format_ogs_path(p) : pathmapping[p]
 	modeldef = ogs6_modeldef(ogsuqmc)
 	integrated_totalvariances = map(field->integrate_result(varval[field],xdmf,modeldef), fields)
 	area = integrate_area(xdmf, modeldef)
@@ -101,11 +89,7 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 	add_scalar_field!(xdmf, expval, "0000_Expected Value", modeldef)
 	add_scalar_field!(xdmf, varval, "0001_Variance", modeldef)
 	ranking = scalar_sobolindex_from_field_result(ogsuqmc, sobolvars, varval, xdmf, pathmapping)
-	if isnothing(pathmapping)
-		trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
-	else
-		trimpath(p) = p
-	end
+	trimpath(p) = isnothing(pathmapping) ? replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_") : pathmapping[p]
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
 		add_scalar_field!(xdmf, sobolvars[ind], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
@@ -157,11 +141,7 @@ function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars,
 	add_scalar_field!(xdmf, expval[field], "0000_"*fieldname*"_Expected Value", modeldef)
 	add_scalar_field!(xdmf, varval[field], "0001_"*fieldname*"_Variance", modeldef)
 	ranking = scalar_sobolindex_from_multifield_result(ogsuqmc, sobolvars, field, varval, xdmf, pathmapping)
-	if isnothing(pathmapping)
-		trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
-	else
-		trimpath(p) = p
-	end
+	trimpath(p) = isnothing(pathmapping) ? replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_") : pathmapping[p]
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
 		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
