@@ -150,7 +150,7 @@ The result are written in the 0-th time slice of the [`XDMF3File`](https://githu
 - `varval` : Global variance of stochastic state space defined in `ogsuqmc`. 
 - `xdmf_proto_path::String` : Path to a xdmf file with similar topology like the result field.
 """
-function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field, fieldname::String, varval, expval, xdmf_proto_path::String, , pathmapping::Union{Nothing,Dict{String,String}}=nothing)
+function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field, fieldname::String, varval, expval, xdmf_proto_path::String, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
