@@ -93,7 +93,9 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
 		add_scalar_field!(xdmf, sobolvars[ind], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
-		add_scalar_field!(xdmf, sqrt.(sobolvars[ind]), _num*"_"*fieldname*"_1_SobolSqrtVar_"*trimpath(path), modeldef)
+		copysb = deepcopy(sobolvars[ind])
+		copysb[findall(x->x<0,copysb)] .= 0
+		add_scalar_field!(xdmf, sqrt.(copysb), _num*"_"*fieldname*"_1_SobolSqrtVar_"*trimpath(path), modeldef)
 		add_scalar_field!(xdmf, sobolvars[ind]./varval, _num*"_"*fieldname*"_2_SobolInd_"*trimpath(path), modeldef)
 	end
 	return write(xdmf, fieldname*".xdmf", fieldname*".h5")
