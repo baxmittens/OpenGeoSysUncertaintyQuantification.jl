@@ -1,4 +1,9 @@
-function scalar_sobolindex_from_field_result(ogsuq::OGSUQMCSobol, sobolvars, totalvariance, xdmf::XDMF3File)
+function scalar_sobolindex_from_field_result(ogsuq::OGSUQMCSobol, sobolvars, totalvariance, xdmf::XDMF3File, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
+	if isnothing(pathmapping)
+		trimpath(p) = format_ogs_path(p)
+	else
+		trimpath(p) = pathmapping[p]
+	end
 	modeldef = ogs6_modeldef(ogsuq)
 	integrated_sobolvars = map(x->integrate_result(x,xdmf,modeldef), sobolvars)
 	integrated_totalvariance = integrate_result(totalvariance,xdmf,modeldef)
@@ -8,12 +13,17 @@ function scalar_sobolindex_from_field_result(ogsuq::OGSUQMCSobol, sobolvars, tot
 	sobol_inds = integrated_sobolvars./integrated_totalvariance
 	sobol_inds ./= sum(sobol_inds)
 	for ind in inds_sorted
-		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), sobol_inds[ind]))
+		push!(retvec, (ind, trimpath(stoch_params[ind].path), sobol_inds[ind]))
 	end
 	return retvec
 end
 
-function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars, field::Int, totalvariance, xdmf::XDMF3File)
+function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars, field::Int, totalvariance, xdmf::XDMF3File, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
+	if isnothing(pathmapping)
+		trimpath(p) = format_ogs_path(p)
+	else
+		trimpath(p) = pathmapping[p]
+	end
 	modeldef = ogs6_modeldef(ogsuq)
 	integrated_sobolvars = map(x->integrate_result(x[field],xdmf,modeldef), sobolvars)
 	integrated_totalvariance = integrate_result(totalvariance[field],xdmf,modeldef)
@@ -23,12 +33,17 @@ function scalar_sobolindex_from_multifield_result(ogsuq::OGSUQMCSobol, sobolvars
 	sobol_inds = integrated_sobolvars./integrated_totalvariance
 	sobol_inds ./= sum(sobol_inds)
 	for ind in inds_sorted
-		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), sobol_inds[ind]))
+		push!(retvec, (ind, trimpath(stoch_params[ind].path), sobol_inds[ind]))
 	end
 	return retvec
 end
 
-function scalar_sobolindex_from_multifield_result(ogsuqmc::OGSUQMCSobol, totsobolvars, fields::AbstractVector{Int}, varval, expval, xdmf::XDMF3File)
+function scalar_sobolindex_from_multifield_result(ogsuqmc::OGSUQMCSobol, totsobolvars, fields::AbstractVector{Int}, varval, expval, xdmf::XDMF3File, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
+	if isnothing(pathmapping)
+		trimpath(p) = format_ogs_path(p)
+	else
+		trimpath(p) = pathmapping[p]
+	end
 	modeldef = ogs6_modeldef(ogsuqmc)
 	integrated_totalvariances = map(field->integrate_result(varval[field],xdmf,modeldef), fields)
 	area = integrate_area(xdmf, modeldef)
@@ -40,7 +55,7 @@ function scalar_sobolindex_from_multifield_result(ogsuqmc::OGSUQMCSobol, totsobo
 	retvec = Vector{Tuple{Int,String,Float64}}()
 	stoch_params = stoch_parameters(ogsuqmc)
 	for ind in inds_sorted
-		push!(retvec, (ind, format_ogs_path(stoch_params[ind].path), sobol_inds_scaled[ind]))
+		push!(retvec, (ind, trimpath(stoch_params[ind].path), sobol_inds_scaled[ind]))
 	end
 	return retvec
 end
@@ -79,18 +94,23 @@ The result are written in the 0-th time slice of the [`XDMF3File`](https://githu
 - `expval` : Exptected value of stochastic state space defined in `ogsuqmc`. 
 - `xdmf_proto_path::String` : Path to a xdmf file with similar topology like the result field.
 """
-function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fieldname::String, varval, expval, xdmf_proto_path::String)
+function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fieldname::String, varval, expval, xdmf_proto_path::String, pathmapping::Union{Nothing,Dict{String,String}}=nothing)
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
 	add_scalar_field!(xdmf, expval, "0000_Expected Value", modeldef)
 	add_scalar_field!(xdmf, varval, "0001_Variance", modeldef)
-	ranking = scalar_sobolindex_from_field_result(ogsuqmc, sobolvars, varval, xdmf)
-	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
+	ranking = scalar_sobolindex_from_field_result(ogsuqmc, sobolvars, varval, xdmf, pathmapping)
+	if isnothing(pathmapping)
+		trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
+	else
+		trimpath(p) = p
+	end
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
 		add_scalar_field!(xdmf, sobolvars[ind], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
-		add_scalar_field!(xdmf, sobolvars[ind]./varval, _num*"_"*fieldname*"_1_SobolInd_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sqrt.(sobolvars[ind]), _num*"_"*fieldname*"_1_SobolSqrtVar_"*trimpath(path), modeldef)
+		add_scalar_field!(xdmf, sobolvars[ind]./varval, _num*"_"*fieldname*"_2_SobolInd_"*trimpath(path), modeldef)
 	end
 	return write(xdmf, fieldname*".xdmf", fieldname*".h5")
 end
@@ -130,14 +150,18 @@ The result are written in the 0-th time slice of the [`XDMF3File`](https://githu
 - `varval` : Global variance of stochastic state space defined in `ogsuqmc`. 
 - `xdmf_proto_path::String` : Path to a xdmf file with similar topology like the result field.
 """
-function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field, fieldname::String, varval, expval, xdmf_proto_path::String)
+function write_sobol_multifield_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, field, fieldname::String, varval, expval, xdmf_proto_path::String, , pathmapping::Union{Nothing,Dict{String,String}}=nothing)
 	modeldef = ogs6_modeldef(ogsuqmc)
 	stoch_params = stoch_parameters(ogsuqmc)
 	xdmf = XDMF3File(xdmf_proto_path)
 	add_scalar_field!(xdmf, expval[field], "0000_"*fieldname*"_Expected Value", modeldef)
 	add_scalar_field!(xdmf, varval[field], "0001_"*fieldname*"_Variance", modeldef)
-	ranking = scalar_sobolindex_from_multifield_result(ogsuqmc, sobolvars, field, varval, xdmf)
-	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
+	ranking = scalar_sobolindex_from_multifield_result(ogsuqmc, sobolvars, field, varval, xdmf, pathmapping)
+	if isnothing(pathmapping)
+		trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
+	else
+		trimpath(p) = p
+	end
 	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
 		add_scalar_field!(xdmf, sobolvars[ind][field], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
