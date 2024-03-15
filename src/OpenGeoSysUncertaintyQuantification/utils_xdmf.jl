@@ -7,9 +7,9 @@ function integrate_cell_result(field::Vector{Float64},xdmf::T,modeldef::Ogs6Mode
 end
 
 function displacement_order(xdmf::XDMF3File)
-	if mod(size(xdmf.udata["topology"],1),7)
+	if mod(size(xdmf.udata["topology"],1),7) == 0
 		return 2
-	elseif mod(size(xdmf.udata["topology"],1),4)
+	elseif mod(size(xdmf.udata["topology"],1),4) == 0
 		return 1
 	else
 		error("displacement order error: use simplical mesh")
