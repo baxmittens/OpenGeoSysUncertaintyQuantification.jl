@@ -130,7 +130,7 @@ end
 function empirical_cdf_sampling(ogsuqasg::OGSUQASG, samplepoint::Vector{Float64}, MC_N::Int, postprocfun::F,  xdmf::XDMF3File) where {F<:Function}
 	stochparams = stoch_parameters(ogsuqasg)
 	modeldef = ogs6_modeldef(ogsuqasg)
-	@assert displacement_order(modeldef) == 2 "`empirical_pdf` only implemented for displacements of order 2."
+	@assert displacement_order(xdmf) == 2 "`empirical_pdf` only implemented for displacements of order 2."
 	geom = xdmf.udata["geometry"]
 	topo = reshape(xdmf.udata["topology"],7,:)
 	inds,ξs = element_coords(samplepoint,geom,topo) 

@@ -18,7 +18,7 @@ end
 
 function integrate_nodal_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	if displacement_order(xdmf) == 1
-
+		return integrate_nodal_result_simplical_mesh_order_1(field, xdmf, modeldef)
 	elseif displacement_order(xdmf) == 2
 		return integrate_nodal_result_simplical_mesh_order_2(field, xdmf, modeldef)
 	else
@@ -28,7 +28,7 @@ end
 
 function integrate_nodal_result_simplical_mesh_order_2(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
-	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
+	@assert displacement_order(xdmf) == 2 "`integrate_result` only implemented for displacements of order 2."
 	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
 	ξs = [0.333333333333333 0.333333333333333; 0.2 0.6; 0.2 0.2; 0.6 0.2]
 	geom = xdmf.udata["geometry"]
@@ -51,7 +51,7 @@ end
 
 function integrate_nodal_result_simplical_mesh_order_1(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
-	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
+	@assert displacement_order(xdmf) == 2 "`integrate_result` only implemented for displacements of order 2."
 	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
 	ξs = [0.333333333333333 0.333333333333333; 0.2 0.6; 0.2 0.2; 0.6 0.2]
 	geom = xdmf.udata["geometry"]
@@ -73,7 +73,7 @@ function integrate_nodal_result_simplical_mesh_order_1(field::Vector{Float64}, x
 end
 
 function integrate_cell_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
-	@assert displacement_order(modeldef) == 2 "`integrate_result` only implemented for displacements of order 2."
+	@assert displacement_order(xdmf) == 2 "`integrate_result` only implemented for displacements of order 2."
 	geom = xdmf.udata["geometry"]
 	topo = reshape(xdmf.udata["topology"],7,:)[2:end,:]
 	nels = size(topo)[2] 
@@ -90,9 +90,9 @@ function integrate_area(xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
 	#@assert displacement_order(modeldef) == 2 "`integrate_area` only implemented for displacements of order 2."
 	geom = xdmf.udata["geometry"]
-	if displacement_order(modeldef) == 2
+	if displacement_order(xdmf) == 2
 		topo = reshape(xdmf.udata["topology"], 7, :)[2:end, :]
-	elseif displacement_order(modeldef) == 1
+	elseif displacement_order(xdmf) == 1
 		topo = reshape(xdmf.udata["topology"], 4, :)[2:end, :]
 	else
 		error()
