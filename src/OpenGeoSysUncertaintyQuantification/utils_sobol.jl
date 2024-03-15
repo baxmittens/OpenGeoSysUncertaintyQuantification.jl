@@ -87,7 +87,7 @@ function write_sobol_field_result_to_XDMF(ogsuqmc::OGSUQMCSobol, sobolvars, fiel
 	add_scalar_field!(xdmf, varval, "0001_Variance", modeldef)
 	ranking = scalar_sobolindex_from_field_result(ogsuqmc, sobolvars, varval, xdmf)
 	trimpath(p) = replace(p, "@"=>"_", ","=>"_", " "=>"", "="=>"_")
-	for (ind, path, val) in ranking
+	for (i,(ind, path, val)) in enumerate(ranking)
 		_num = cfmt("%03i" , i )
 		add_scalar_field!(xdmf, sobolvars[ind], _num*"_"*fieldname*"_0_SobolVar_"*trimpath(path), modeldef)
 		add_scalar_field!(xdmf, sobolvars[ind]./varval, _num*"_"*fieldname*"_1_SobolInd_"*trimpath(path), modeldef)
