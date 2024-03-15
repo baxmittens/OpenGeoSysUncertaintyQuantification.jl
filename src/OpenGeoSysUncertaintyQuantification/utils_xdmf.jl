@@ -28,7 +28,7 @@ end
 
 function integrate_nodal_result_simplical_mesh_order_2(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
-	@assert displacement_order(xdmf) == 2 "`integrate_result` only implemented for displacements of order 2."
+	@assert displacement_order(xdmf) == 2
 	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
 	ξs = [0.333333333333333 0.333333333333333; 0.2 0.6; 0.2 0.2; 0.6 0.2]
 	geom = xdmf.udata["geometry"]
@@ -51,7 +51,7 @@ end
 
 function integrate_nodal_result_simplical_mesh_order_1(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs6ModelDef)
 	#only implemented for 2d results in XY plane
-	@assert displacement_order(xdmf) == 2 "`integrate_result` only implemented for displacements of order 2."
+	@assert displacement_order(xdmf) == 1
 	ws = [-0.5625, 0.520833333333333, 0.520833333333333, 0.520833333333333]
 	ξs = [0.333333333333333 0.333333333333333; 0.2 0.6; 0.2 0.2; 0.6 0.2]
 	geom = xdmf.udata["geometry"]
