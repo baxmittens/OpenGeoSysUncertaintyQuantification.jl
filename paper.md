@@ -36,7 +36,7 @@ For this toolbox, following stochastic modeling strategy was chosen: the less is
 
 The OpenGeoSys community commonly uses Python, however for this project Julia was chosen due to its superior efficiency and built-in capabilities for distributive computing.
 
-To this date, there is no uncertainty quantification toolbox for OpenGeoSys, neither in Python nor in the Julia language. However, there is a general purpose uncertainty quantificationns available for the Julia language named [UncertaintyQuantification.jl](https://github.com/FriesischScott/UncertaintyQuantification.jl).
+To this date, there is no uncertainty quantification toolbox for OpenGeoSys, neither in Python nor in the Julia language. However, there is a general purpose uncertainty quantification package available for the Julia language named [UncertaintyQuantification.jl](https://github.com/FriesischScott/UncertaintyQuantification.jl).
 
 # Features
 
