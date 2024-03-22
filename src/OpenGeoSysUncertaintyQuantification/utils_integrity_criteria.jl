@@ -8,7 +8,7 @@ function principle_stress_S3(sigma)
 		tmpmat[2,1] = sigma[4,i,j]
 		tmpmat[2,2] = sigma[2,i,j]
 		tmpmat[3,3] = sigma[3,i,j]
-		vals = eigvals(tmpmat)
+		vals = eigvals(tmpmat) #import eigvals
 		retvals[i,j] = vals[3]
 	end
 	return retvals

@@ -13,7 +13,7 @@ import VTUFileHandler: VTUFile
 import Ogs6InputFileHandler: Ogs6ModelDef, getAllPathesbyTag!, rename!, getElementbyPath, displacement_order, format_ogs_path
 import DistributedSparseGrids: AdaptiveHierarchicalSparseGrid, scaling_weight
 import LinearAlgebra
-import LinearAlgebra: mul!
+import LinearAlgebra: mul!, eigvals
 import AltInplaceOpsInterface
 using DistributedMonteCarlo
 import DistributedMonteCarlo: MonteCarlo, distributed_𝔼, distributed_var
