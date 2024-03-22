@@ -541,8 +541,9 @@ end
 function exp_val_func(x,ID,ogsuqasg::OGSUQASG,retval_proto::RT) where {RT}
 	ret = similar(retval_proto)
 	interpolate!(ret,ogsuqasg.asg, x)
-	#mul!(ret,pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x))
-	return ret*pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x)
+	mul!(ret,pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x))
+	#return ret*pdf(ogsuqasg.ogsuqparams.stochasticmodelparams.stochparams, x)
+	return ret
 end
 
 """
