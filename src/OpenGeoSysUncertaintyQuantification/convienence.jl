@@ -64,13 +64,13 @@ mul!(a::Vector{Vector{Float64}}, b::Float64) = begin
 	return nothing
 end
 mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = begin
-	for i = 1:length(a)
+	@inbounds for i = 1:length(a)
 		mul!(a[i],b[i]) end
 	return nothing
 end
 mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}, c::Float64) = begin
-	@inbounds @simd for i = 1:length(a)
-		a[i] = b[i].*c
+	@inbounds for i = 1:length(a)
+		mul(a[i], b[i], c)
 	end
 	return nothing
 end
