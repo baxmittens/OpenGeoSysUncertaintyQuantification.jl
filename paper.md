@@ -24,7 +24,7 @@ bibliography: paper.bib
 
 # Abstract
 
-In the simulation-aided design of safety-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for the simulation of thermo-hydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OpenGeoSysUncertaintyQuantification.jl](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl) is a Julia library that provides all the necessary methods for global sensitivity analysis and uncertainty quantification in a validly configured deterministic OGS6 model.
+In the simulation-aided design of safety-related projects, the effects of uncertainties in the input parameters on the outcome are often of great interest. [OpenGeoSys 6](https://www.opengeosys.org/) (OGS6) is an open-source scientific project for simulating thermo-hydro-mechanical (THM) processes in porous media. Various parameters are needed for this kind of complex coupled simulation, many of which are subject to uncertainty due to imprecise knowledge. [OpenGeoSysUncertaintyQuantification.jl](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl) is a Julia library that provides all the necessary global sensitivity analysis and uncertainty quantification methods in a validly configured deterministic OGS6 model.
 
 # Statement of need
 
@@ -40,7 +40,7 @@ To this date, there is no uncertainty quantification toolbox for OpenGeoSys, nei
 
 # Features
 
-Most of all functionalities of this package are outsourced into independent Julia packages to maintain their generic character. Therefore, OpenGeoSysUncertaintyQuantification.jl serves as an umbrella project for the following projects:
+Most of the functionalities of this package are outsourced into independent Julia packages to maintain their generic character. Therefore, OpenGeoSysUncertaintyQuantification.jl serves as an umbrella project for the following projects:
 
 - [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids]
   
