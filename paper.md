@@ -69,9 +69,9 @@ Features of OpenGeoSysUncertaintyQuantification.jl:
 
 - Definition of input parameters and (truncated) input distributions via  [Distributions.jl](https://github.com/JuliaStats/Distributions.jl) [@Distributions.jl-2019].
 
-- Adaptive sparse grid surrogate modeling of the physical state space. All snapshots have to fit in the system memory.
+- Adaptive sparse grid surrogate modeling of the physical state space. All snapshots have to fit into the system memory.
 
-- Distributed Monte Carlo integration. Snapshots do not have to fit in the system memory.
+- Distributed Monte Carlo integration. Snapshots do not have to fit into the system memory collectively.
 
 - Monte Carlo integrated Sobol' indices.
 
