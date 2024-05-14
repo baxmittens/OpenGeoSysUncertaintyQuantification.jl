@@ -67,7 +67,7 @@ Features of OpenGeoSysUncertaintyQuantification.jl:
 
 - Setup of stochastic OGS6 projects (see [docs](https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/)).
 
-- Definition of input parameters and (truncated) input distributions via  [Distributions.jl](https://github.com/JuliaStats/Distributions.jl) [Distributions.jl-2019].
+- Definition of input parameters and (truncated) input distributions via  [Distributions.jl](https://github.com/JuliaStats/Distributions.jl) [@Distributions.jl-2019].
 
 - Adaptive sparse grid surrogate modeling of the physical state space. All snapshots have to fit in the system memory.
 
