@@ -161,45 +161,23 @@
             </process>
         </processes>
         <output>
-            <type>VTK</type>
+            <type>XDMF</type>
             <prefix>PointHeatSource</prefix>
             <timesteps>
                 <pair>
                     <repeat>1</repeat>
-                    <each_steps>10</each_steps>
+                    <each_steps>1</each_steps>
                 </pair>
             </timesteps>
             <variables>
                 <variable>displacement</variable>
-                <variable>pressure</variable>
-                <variable>temperature</variable>
+                <variable>pressure_interpolated</variable>
+                <variable>temperature_interpolated</variable>
                 <variable>sigma</variable>
                 <variable>epsilon</variable>
             </variables>
             <suffix>_ts_{:timestep}_t_{:time}</suffix>
         </output>
-        <submesh_residuum_output>
-            <type>VTK</type>
-            <prefix>PointHeatSource_{:meshname}</prefix>
-            <timesteps>
-                <pair>
-                    <repeat>1</repeat>
-                    <each_steps>10</each_steps>
-                </pair>
-            </timesteps>
-            <variables>
-                <variable>displacement</variable>
-                <variable>pressure</variable>
-                <variable>temperature</variable>
-                <variable>sigma</variable>
-                <variable>epsilon</variable>
-            </variables>
-            <suffix>_ts_{:timestep}_t_{:time}</suffix>
-            <meshes>
-                <mesh>quarter_002_2nd_r_gt_2</mesh>
-                <mesh>quarter_002_2nd_r_lt_2</mesh>
-            </meshes>
-        </submesh_residuum_output>
     </time_loop>
     <parameters>
         <parameter>

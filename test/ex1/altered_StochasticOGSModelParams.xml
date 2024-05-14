@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StochasticOGSModelParams
 	 samplemethod="AdaptiveHierarchicalSparseGrid"
-	 num_local_workers="80"
+	 num_local_workers="20"
 	 userfunctionfile="./user_functions.jl"
 	 file="altered_StochasticOGSModelParams.xml"
 >
 	<OGS6ProjectParams
 		 julia:fieldname="ogsparams"
 		 projectfile="./project/point_heat_source_2D.prj"
-		 simcall="/home/ogs_auto_jenkins/temporary_versions/native/master/ogs6_2024-02-29/bin/ogs"
+		 simcall="/Users/maximilianbittens/Documents/GitHub/OpenGeoSys/build/release/bin/ogs"
 		 additionalprojecfilespath="./mesh"
 		 outputpath="./Res"
 	>
@@ -16,7 +16,7 @@
 			 julia:type="String,1"
 			 julia:fieldname="postprocfiles"
 		>
-			PointHeatSource_ts_10_t_50000.000000.vtu
+			PointHeatSource_quarter_002_2nd.xdmf
 		</Array>
 	</OGS6ProjectParams>
 	<Array

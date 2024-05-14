@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MonteCarloMorrisParams
+	 N="8"
+	 CT="Float64"
+	 RT="XDMF3File"
+	 ntrajectories="100"
+	 lhs_sampling="false"
+	 file="SampleMethodParams.xml"
+/>

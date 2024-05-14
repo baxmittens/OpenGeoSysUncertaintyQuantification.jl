@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Array
+	 julia:type="String,1"
+>
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?density/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_expansivity/value
+	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?viscosity/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?density/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?thermal_conductivity/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/phases/phase/?Solid/properties/property/?thermal_expansivity/value
+	./media/medium/@id/0/properties/property/?saturation/value
+	./media/medium/@id/0/properties/property/?relative_permeability/value
+	./media/medium/@id/0/properties/property/?permeability/value
+	./media/medium/@id/0/properties/property/?porosity/value
+	./media/medium/@id/0/properties/property/?biot_coefficient/value
+</Array>

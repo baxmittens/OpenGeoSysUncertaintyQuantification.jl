@@ -2,7 +2,7 @@
 <SparseGridParams
 	 N="2"
 	 CT="Float64"
-	 RT="VTUFile"
+	 RT="XDMFData"
 	 init_lvl="4"
 	 maxlvl="14"
 	 tol="0.005"
