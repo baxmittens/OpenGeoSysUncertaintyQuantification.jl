@@ -16,6 +16,9 @@ generatePossibleStochasticParameters
 loadStochasticParameters
 generateStochasticOGSModell
 generateSampleMethodModel
+writeStochasticParameters
+Base.write(::StochasticOGSModelParams)
+Base.write(::SampleMethodParams)
 ```
 
 ## Structs
