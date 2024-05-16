@@ -303,6 +303,10 @@ As above, the variance can be computed by integrating over the stochastic domain
 </tr></table>
 ```
 
+## Important to note
+
+- According to the implemented behavior in `user_function.jl`, the simcall is not executed if a postprocessing result is to be found in the directory `./Res/ID/`. The user must ensure that the data in this folder is compatible with the definitions of the stochastic project. This means that the result folder must be deleted manually if the lower or upper bound of a parameter has changed (but not if only the distribution has changed).
+
 ## Contributions, report bugs and support
 
 Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on [GitHub](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl).
