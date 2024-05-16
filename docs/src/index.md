@@ -48,7 +48,7 @@ creates an xml-file which defines the so-called `StochasticOGSModelParams`. It i
 - the number of local workers `n_local_workers`, and, 
 - the filename `sogsfile` under which the model is stored as an xml-file. 
 
-This function also creates a file [`user_function.jl`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl) which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual snaptshots are generated and how the postprocessing results are handled.
+This function also creates a file [`user_function.jl`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/src/OpenGeoSysUncertaintyQuantification/user_function_template.jl) if not already available, which is loaded by all workers and serves as an interface between OGS6 and Julia. Here it is defined how the individual snaptshots are generated and how the postprocessing results are handled.
 
 The third and last function
 
@@ -75,47 +75,43 @@ In this chapter, [Example 1](https://github.com/baxmittens/OpenGeoSysUncertainty
 The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/generate_stoch_params_file.jl) 
 ```julia
 using OpenGeoSysUncertaintyQuantification
+
 projectfile="./project/point_heat_source_2D.prj"
 pathes = generatePossibleStochasticParameters(projectfile)
+
+porosity_ind = findfirst(x->contains(x,"@id/0") && contains(x,"porosity"), pathes)
+liquid_th_cond_ind = findfirst(x->contains(x,"@id/0") && contains(x,"AqueousLiquid") && contains(x,"thermal_conductivity"), pathes)
+
+writeStochasticParameters(pathes[[porosity_ind, liquid_th_cond_ind]], "./StochasticParameters.xml")
 ```
-return an array of strings with [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51) and generates an XML-file [`PossibleStochasticParameters.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/PossibleStochasticParameters.xml) in the working directory
+generate the stochastic parameters as [`OGS6-XML-pathes`](https://github.com/baxmittens/Ogs6InputFileHandler.jl/blob/63944f2bcc54238af568f5f892677925ba171d5a/src/Ogs6InputFileHandler/utils.jl#L51). These are then written to a XML file `PossibleStochasticParameters.xml` in the working directory
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Array
 	 julia:type="String,1"
 >
-	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?specific_heat_capacity/value
+	./media/medium/@id/0/properties/property/?porosity/value
 	./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
-			.
-			.
-			.
-	./parameters/parameter/?displacement0/values
-	./parameters/parameter/?pressure_ic/values
 </Array>
 ```
-where all parameters possible to select as stochastic parameter are mapped. Since, in this example, an adaptive sparse grid collocation sampling shall be adopted, only two parameters, the porosity and the thermal conductivity of the aqueous liquid,
-```
-./media/medium/@id/0/properties/property/?porosity/value
-./media/medium/@id/0/phases/phase/?AqueousLiquid/properties/property/?thermal_conductivity/value
-```
-are selected. Thus, all other parameters are deleted from the file. The resulting xml-file is stored as [`altered_PossibleStochasticParameters.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_PossibleStochasticParameters.xml) in the working directory.
 
 ### Defining the stochastic model
 
 The following [code snippet](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/generate_stoch_model.jl) 
 ```julia
 using OpenGeoSysUncertaintyQuantification
+
 projectfile="./project/point_heat_source_2D.prj"
-simcall="/path/to/ogs/bin/ogs"
+simcall="ogs" # ogs binary has to be in path. otherwise insert your "path/to/ogs"
 additionalprojecfilespath="./mesh"
 outputpath="./Res"
-postprocfiles=["PointHeatSource_ts_10_t_50000.000000.vtu"]
+postprocfiles=["PointHeatSource_quarter_002_2nd.xdmf"]
 outputpath="./Res"
 stochmethod=AdaptiveHierarchicalSparseGrid
-n_local_workers=50
+n_workers = 10
 
-stochparampathes = loadStochasticParameters("altered_PossibleStochasticParameters.xml")
+stochparampathes = loadStochasticParameters("StochasticParameters.xml")
 	
 stochasticmodelparams = generateStochasticOGSModell(
 	projectfile,
@@ -125,32 +121,36 @@ stochasticmodelparams = generateStochasticOGSModell(
 	stochparampathes,
 	outputpath,
 	stochmethod,
-	n_local_workers) # generate the StochasticOGSModelParams
+	n_workers)
 
-samplemethodparams = generateSampleMethodModel(stochasticmodelparams) # generate the SampleMethodParams
+# alter the stochastic parameters
+stoch_params = stoch_parameters(stochasticmodelparams)
+@assert contains(stoch_params[1].path, "AqueousLiquid")
+stoch_params[1].dist = Normal(0.6,0.175)
+stoch_params[1].lower_bound = 0.3
+stoch_params[1].upper_bound = 0.9
+stoch_params[2].dist = Normal(0.45,0.15)
+stoch_params[2].lower_bound = 0.1
+stoch_params[2].upper_bound = 0.8
+
+write(stochasticmodelparams)
+
+samplemethodparams = generateSampleMethodModel(stochasticmodelparams)
+
+#alter sample method params
+samplemethodparams.RT = XDMFData #according to `fun` user_functions.jl
+samplemethodparams.init_lvl = 4
+samplemethodparams.maxlvl = 12
+samplemethodparams.tol = 0.025
+
+write(samplemethodparams)
 ```
 
 generates two XML-files, [`StochasticOGSModelParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/SampleMethodParams.xml), defining the stochastic model.
 
-Again, these files are altered and stored under [`altered_StochasticOGSModelParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_StochasticOGSModelParams.xml) and [`altered_SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_SampleMethodParams.xml).
+In the former, the two stochastic parameters are altered. The probability distributions are altered from `Uniform` to `Normal` with mean `μ=0.45` and standard deviation `σ=0.15` for the porosity and to `Normal` with mean `μ=0.6` and standard deviation `σ=0.175` for the thermal conductivity.
 
-In the former, the two stochastic parameters are altered. The probability distribution of the porosity is changed from `Uniform` to `Normal` with mean `μ=0.375` and standard deviation `σ=0.1`.
-```xml
-<StochasticOGS6Parameter
-	 path="./media/medium/@id/0/properties/property/?porosity/value"
-	 valspec="1"
-	 lower_bound="0.15"
-	 upper_bound="0.60"
->
-	<Normal
-		 julia:type="Float64"
-		 julia:fieldname="dist"
-		 μ="0.375"
-		 σ="0.1"
-	/>
-</StochasticOGS6Parameter>
-```
-Note that for efficiency, the normal distribution is changed to a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by the parameters `lower_bound=0.15` and `upper_bound=0.60`. This results in an integration error of approximately 2.5% for this example. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
+Note that for efficiency, the normal distribution is changed to a [truncated normal distribution](https://en.wikipedia.org/wiki/Truncated_normal_distribution) by setting the parameters `lower_bound=0.1` and `upper_bound=0.8` for the porosity and `lower_bound=0.3` and `upper_bound=0.9` for the thermal conductivity. This results in an integration error of approximately 2.5% for this example. See the picture below for a visualization of the normal distribution $\mathcal{N}$ and the truncated normal distribution $\bar{\mathcal{N}}$.
 
 ```@raw html
 <p align="center">
@@ -158,7 +158,7 @@ Note that for efficiency, the normal distribution is changed to a [truncated nor
 </p>
 ```
 
-The second parameter, the thermal conductivity, is set up as a truncated normal distribution with mean `μ=0.6`, standard deviation `σ=0.05`, `lower_bound=0.5`, and, `upper_bound=0.7`. The multivariate truncated normal distribution resulting from the convolution of both one-dimensional distributions is pictured below. Note, that the distribution has been transformed to the domain $[-1,1]^2$ of the [sparse grid](https://github.com/baxmittens/DistributedSparseGrids.jl).
+The multivariate truncated normal distribution resulting from the convolution of both one-dimensional distributions is pictured below. Note, that the distribution has been transformed to the domain $[-1,1]^2$ of the [sparse grid](https://github.com/baxmittens/DistributedSparseGrids.jl).
 
 ```@raw html
 <p align="center">
@@ -166,12 +166,12 @@ The second parameter, the thermal conductivity, is set up as a truncated normal 
 </p>
 ```
 
-The second file [`altered_SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
+The second file [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
 - the number of dimensions `N=2`,
-- the return type `RT="VTUFile"` (see [VTUFileHandler.jl](https://github.com/baxmittens/VTUFileHandler.jl))
+- the return type `RT="XDMFData"` (see [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl))
 - the number of initial hierachical level of the sparse grid `init_lvl=4`,
-- the number of maximal hierarchical level of the sparse grid `maxlvl=20`, and,
-- the minimum hierarchical surplus for the adaptive refinement `tol=0.01`.
+- the number of maximal hierarchical level of the sparse grid `maxlvl=12`, and,
+- the minimum hierarchical surplus for the adaptive refinement `tol=0.025`.
 
 ### Sampling the model
 
@@ -179,7 +179,7 @@ The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaint
 
 ```julia
 using OpenGeoSysUncertaintyQuantification
-ogsuqparams = OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
+ogsuqparams = OGSUQParams("StochasticOGSModelParams.xml", "SampleMethodParams.xml")
 ogsuqasg = init(ogsuqparams)
 start!(ogsuqasg)
 ```
@@ -188,7 +188,7 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 
 * Initializing the model `OpenGeoSysUncertaintyQuantification.init(ogsuqparams)` consists of two steps
 	
-    1. Adding all local workers (in this case 50 local workers)
+    1. Adding all local workers (in this case 10 local workers)
     2. Initializing the adaptive sparse grid.
 
 * Starting the sampling procedure `OpenGeoSysUncertaintyQuantification.start!(ogsuqasg)` first creates 4 initial hierarchical levels levels and, subsequently, starts the adaptive refinement. This first stage results in an so-called *surrogate model* of the physical domain defined by the boundaries of the stochastic parameters
@@ -210,19 +210,15 @@ load the parameters `ogsuqparams`, initializes the model `ogsuqasg`, and, starts
 </tr></table>
 ```
 
-
-
 ### Computation of the expected value
 
 The expected value of an stochastic OGS project can be computed by:
 ```julia
-import VTUFileHandler
 expval,asg_expval = 𝔼(ogsuqasg)
-VTUFileHandler.rename!(expval,"expval_heatpointsource.vtu")
-write(expval)
+write(expval, "expval.xdmf", "expval.h5")
 ```
 
-Hereby, the physical surrogate model, generated by the sampling of the model, is weighted against the pdf of each stochastic dimension. The resulting sparse grid and the response function (by taking the `LinearAlgebra.norm(::VTUFile)`) can be seen below.
+Hereby, the physical surrogate model, generated by the sampling of the model, is weighted against the pdf of each stochastic dimension. The resulting sparse grid and the response function (by showing the the maximal temperature in the domain per collocation point) can be seen below.
 ```@raw html
 <table border="0"><tr>
 <td> 

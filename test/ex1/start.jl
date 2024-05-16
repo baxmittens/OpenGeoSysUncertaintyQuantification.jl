@@ -1,23 +1,14 @@
 using OpenGeoSysUncertaintyQuantification
 import DistributedSparseGrids: idstring, interpolate!
 
-ogsuqparams = OGSUQParams("altered_StochasticOGSModelParams.xml", "altered_SampleMethodParams.xml")
+ogsuqparams = OGSUQParams("StochasticOGSModelParams.xml", "SampleMethodParams.xml")
 ogsuqasg = init(ogsuqparams)
 start!(ogsuqasg)
 expval,asg_expval = 𝔼(ogsuqasg)
 varval,asg_varval = variance(ogsuqasg, expval)
 
-outputpath = ogsuqparams.stochasticmodelparams.ogsparams.outputpath
-collocidstr = idstring(first(ogsuqasg.asg))
-postprocfile = first(ogsuqparams.stochasticmodelparams.ogsparams.postprocfiles)
-xdmf_proto = XDMF3File(joinpath(outputpath,collocidstr,postprocfile))
-expvalxdmf = similar(xdmf_proto)
-varvalxdmf = similar(xdmf_proto)
-expvalxdmf.idata = expval
-varvalxdmf.idata = varval
-
-write(expvalxdmf, "expval.xdmf", "expval.h5")
-write(varvalxdmf, "varval.xdmf", "varval.h5")
+write(expval, "expval.xdmf", "expval.h5")
+write(varval, "varval.xdmf", "varval.h5")
 
 # import Pkg
 # Pkg.add("PlotlyJS")

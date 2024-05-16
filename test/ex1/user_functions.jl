@@ -47,5 +47,6 @@ function fun(x,ID, modeldef=modeldef, ogsparams=ogsparams, stoparams=stoparams)
 		println("ogs call finished")
 	end
 	res = XDMF3File(joinpath(ogsparams.outputpath,ID,ogsparams.postprocfiles[end]))
-	return res.idata
+	#return res.idata
+	return res
 end

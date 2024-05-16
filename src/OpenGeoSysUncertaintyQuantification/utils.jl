@@ -20,7 +20,7 @@ Outputs an XML file written by [`XMLParser.Julia2XML`](https://github.com/baxmit
 """
 function generatePossibleStochasticParameters(
 	projectfile::String, 
-	file::String="./PossibleStochasticParameters.xml", 
+	file::String="./StochasticParameters.xml", 
 	keywords::Vector{String}=ogs_numeric_keyvals
 	)
 
@@ -36,6 +36,43 @@ function generatePossibleStochasticParameters(
 end
 
 """
+	writeStochasticParameters(file::String="./PossibleStochasticParameters.xml")
+
+Writes an XML file containing OGS6 pathes by [`XMLParser.XML2Julia`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L108).
+
+# Arguments
+- `pathes::Vector{String}`: Pathes to write.
+- `file::String`: Path of XML file with OGS6 pathes.
+"""
+function writeStochasticParameters(pathes::Vector{String}, file::String="./StochasticParameters.xml")
+	return write(file, Julia2XML(pathes))
+end
+
+"""
+	write(sogs::StochasticOGSModelParams)
+
+Writes an XML file containing OGS6 pathes by [`XMLParser.XML2Julia`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L108) to `sogs.file`.
+
+# Arguments
+- `sogs::StochasticOGSModelParams`: Stochastic OGS model.
+"""
+function Base.write(sogs::StochasticOGSModelParams)
+	return write(sogs.file, Julia2XML(sogs))
+end
+
+"""
+	write(file::String="./PossibleStochasticParameters.xml")
+
+Writes an XML file containing OGS6 pathes by [`XMLParser.XML2Julia`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L108) to `sogs.file`.
+
+# Arguments
+- `sogs::SampleMethodParams`: Sample method parameters
+"""
+function Base.write(sogs::SampleMethodParams)
+	return write(sogs.file, Julia2XML(sogs))
+end
+
+"""
 	loadStochasticParameters(file::String="./PossibleStochasticParameters.xml")
 
 Loads an XML file containing OGS6 pathes by [`XMLParser.XML2Julia`](https://github.com/baxmittens/XMLParser.jl/blob/9f28a42e14c238b913d994525d291e89f00a1aad/src/XMLParser/julia2xml.jl#L108).
@@ -43,7 +80,7 @@ Loads an XML file containing OGS6 pathes by [`XMLParser.XML2Julia`](https://gith
 # Arguments
 - `file::String`: Path of XML file with OGS6 pathes.
 """
-function loadStochasticParameters(file::String="./PossibleStochasticParameters.xml")
+function loadStochasticParameters(file::String="./StochasticParameters.xml")
 	pathes = XML2Julia(read(XMLFile, file))
 	return pathes
 end
@@ -125,8 +162,6 @@ function generateStochasticOGSModell(
 		splitstr = split(vals.content[1])
 		valspec = 1
 		val = parse(Float64,splitstr[valspec])
-		println(path)
-		println(val)
 		lb = val-abs(val/10)
 		ub = val+abs(val/10)
 		dist = Uniform(lb,ub)
