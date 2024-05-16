@@ -1,7 +1,7 @@
 using OpenGeoSysUncertaintyQuantification
 import DelimitedFiles.writedlm
 
-stochmodelparams = XML2Julia(read(XMLFile, "altered_StochasticOGSModelParams.xml"))
+stochmodelparams = XML2Julia(read(XMLFile, "StochasticOGSModelParams.xml"))
 stoparams = stochmodelparams.stochparams
 ogsparams = stochmodelparams.ogsparams
 modeldef = read(Ogs6ModelDef, ogsparams.projectfile)

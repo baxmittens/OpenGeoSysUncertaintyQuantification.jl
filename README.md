@@ -22,7 +22,7 @@ This toolbox heavily relies upon the following projects:
 
 - [DistributedMonteCarlo.jl](https://github.com/baxmittens/DistributedMonteCarlo.jl)
 
-	Analogous to the above (work in progress).
+	Analogous to the above for the Monte Carlo method. Implements Monte Carlo integration, Sobol' indices and Morris means. Morris means can be integrated alternatively by Latin Hypercube integration.
 
 - [Ogs6InputFileHandler.jl](https://github.com/baxmittens/Ogs6InputFileHandler.jl)
 
