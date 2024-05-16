@@ -2,10 +2,10 @@
 <SparseGridParams
 	 N="2"
 	 CT="Float64"
-	 RT="VTUFile"
-	 init_lvl="3"
-	 maxlvl="20"
-	 tol="0.01"
+	 RT="XDMF3File"
+	 init_lvl="4"
+	 maxlvl="12"
+	 tol="0.025"
 	 file="SampleMethodParams.xml"
 >
 	<Array
