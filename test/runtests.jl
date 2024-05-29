@@ -1,7 +1,5 @@
 using OpenGeoSysUncertaintyQuantification
 using Test
-import Pkg
-Pkg.develop("OpenGeoSysUncertaintyQuantification")
 
 @testset "Project setup" begin
     include("test_project_setup.jl")
