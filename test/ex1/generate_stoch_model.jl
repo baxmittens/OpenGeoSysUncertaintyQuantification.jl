@@ -7,10 +7,13 @@ output_xml = joinpath(PATH, "StochasticOGSModelParams.xml")
 stoch_params_xml = joinpath(PATH, "StochasticParameters.xml")
 samplemethod_output_xml = joinpath(PATH, "SampleMethodParams.xml")
 
-simcall = "ogs" # ogs binary has to be in path. otherwise insert your "path/to/ogs"
-if haskey(ENV, "OGS_BINARY")
+simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
+if haskey(ENV, "OGS_BINARY") # installed with install_ogs.sh
 	@info "using $(ENV["OGS_BINARY"]) as binary"
 	simcall = ENV["OGS_BINARY"]
+elseif isfile("./ogspyvenv/bin/ogs") # for GitHub Action / testing
+	@info "using ./ogspyvenv/bin/ogs as binary"
+	simcall = "./ogspyvenv/bin/ogs"
 end
 additionalprojecfilespath=joinpath(PATH,"mesh")
 outputpath=joinpath(PATH,"Res")
