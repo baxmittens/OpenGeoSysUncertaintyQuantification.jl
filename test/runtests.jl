@@ -11,7 +11,7 @@ end
 
 @testset "OGS run" begin
     println(readdir())
-    prj_dir = joinpath(@__DIR__,"test","ex1")
+    prj_dir = joinpath(@__DIR__,"ex1")
     cd(prj_dir) #has to be called from project directory
     println(readdir())
     include("./run_ex1.jl")
