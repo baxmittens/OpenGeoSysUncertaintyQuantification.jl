@@ -14,7 +14,7 @@ if haskey(ENV, "OGS_BINARY") # installed with install_ogs.sh
 elseif isfile(joinpath(PATH, "../ogspyvenv/bin/ogs")) # for GitHub Action / testing
 	@info "using ./ogspyvenv/bin/ogs as binary"
 	simcall = "./ogspyvenv/bin/ogs"
-elseif
+else
 	@info "using ogs as binary"
 end
 additionalprojecfilespath=joinpath(PATH,"mesh")
