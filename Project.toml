@@ -1,7 +1,7 @@
 name = "OpenGeoSysUncertaintyQuantification"
 uuid = "2b9e718a-2bbf-456a-af48-1d5a69fa48c6"
 authors = ["baxmittens <maximilian.bittens@bgr.de>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
@@ -22,9 +22,9 @@ PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
 
 [compat]
 julia = "1"
-XDMFFileHandler = "0.1.2"
+XDMFFileHandler = "0.1.3"
 DistributedMonteCarlo = "0.1.1"
-DistributedSparseGrids = "0.1.8"
+DistributedSparseGrids = "0.1.9"
 StaticArrays = "^1.4.4"
 XMLParser = "0.2.1"
 Ogs6InputFileHandler = "0.0.3"
