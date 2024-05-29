@@ -10,5 +10,6 @@ end
 end
 
 @testset "OGS run" begin
-    include("./ex1/run_ex1.jl")
+    cd("./ex1") #has to be called from project directory
+    include("./run_ex1.jl")
 end
