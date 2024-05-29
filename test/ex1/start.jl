@@ -1,14 +1,19 @@
 using OpenGeoSysUncertaintyQuantification
 import DistributedSparseGrids: idstring, interpolate!
 
-ogsuqparams = OGSUQParams("StochasticOGSModelParams.xml", "SampleMethodParams.xml")
+__relpath__ = relpath(@__DIR__, "./")
+stochogsmodel_xml = joinpath(__relpath__, "StochasticOGSModelParams.xml")
+samplemethod_xml = joinpath(__relpath__, "SampleMethodParams.xml")
+
+ogsuqparams = OGSUQParams(stochogsmodel_xml, samplemethod_xml)
 ogsuqasg = init(ogsuqparams)
 start!(ogsuqasg)
 expval,asg_expval = 𝔼(ogsuqasg)
 varval,asg_varval = variance(ogsuqasg, expval)
 
-write(expval, "expval.xdmf", "expval.h5")
-write(varval, "varval.xdmf", "varval.h5")
+
+write(expval, joinpath(__relpath__, "expval.xdmf"), joinpath(__relpath__, "expval.h5"))
+write(varval, joinpath(__relpath__, "varval.xdmf"), joinpath(__relpath__, "varval.h5"))
 
 
 

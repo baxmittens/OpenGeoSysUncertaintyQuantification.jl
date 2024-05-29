@@ -1,6 +1,8 @@
 using OpenGeoSysUncertaintyQuantification
 using Test
 
+@info "Running tests"
+
 @testset "Project setup" begin
     include("test_project_setup.jl")
 end
@@ -10,8 +12,7 @@ end
 end
 
 @testset "OGS run" begin
-    println(readdir())
-    cd("ex1") #has to be called from project directory
-    println(readdir())
-    include("run_ex1.jl")
+    include("ex1/generate_stoch_params_file.jl")
+    include("ex1/generate_stoch_model.jl")
+    include("ex1/start.jl")
 end
