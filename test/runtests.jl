@@ -14,5 +14,5 @@ end
     prj_dir = joinpath(@__DIR__,"ex1")
     cd(prj_dir) #has to be called from project directory
     println(readdir())
-    include("./run_ex1.jl")
+    include("run_ex1.jl")
 end
