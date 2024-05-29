@@ -131,6 +131,7 @@ function integrate_result(field::Vector{Float64}, xdmf::XDMF3File, modeldef::Ogs
 	end
 end
 
+import XDMFFileHandler: PointInTri3, globalToLocalGuess
 function element_coords(pt,geom,topo)
 	for i = 1:size(topo,2)
 		inds = topo[2:end,i] .+ 1
@@ -141,3 +142,4 @@ function element_coords(pt,geom,topo)
 	end
 	error("Point $pt not found in XDMF")
 end
+
