@@ -1,9 +1,9 @@
 using OpenGeoSysUncertaintyQuantification
 import DistributedSparseGrids: idstring, interpolate!
 
-__relpath__ = relpath(@__DIR__, "./")
-stochogsmodel_xml = joinpath(__relpath__, "StochasticOGSModelParams.xml")
-samplemethod_xml = joinpath(__relpath__, "SampleMethodParams.xml")
+PATH = joinpath(splitpath(@__FILE__)[1:end-1]...)
+stochogsmodel_xml = joinpath(PATH, "StochasticOGSModelParams.xml")
+samplemethod_xml = joinpath(PATH, "SampleMethodParams.xml")
 
 ogsuqparams = OGSUQParams(stochogsmodel_xml, samplemethod_xml)
 ogsuqasg = init(ogsuqparams)
@@ -11,9 +11,10 @@ start!(ogsuqasg)
 expval,asg_expval = 𝔼(ogsuqasg)
 varval,asg_varval = variance(ogsuqasg, expval)
 
-
-write(expval, joinpath(__relpath__, "expval.xdmf"), joinpath(__relpath__, "expval.h5"))
-write(varval, joinpath(__relpath__, "varval.xdmf"), joinpath(__relpath__, "varval.h5"))
+# XDMF cannot have '/' on name or h5 spec, therefore the path is the third argument 
+# Base.write(xdmf3f::XDMF3File, name::String, newh5::String, path="./")
+write(expval, "expval.xdmf", "expval.h5", PATH)
+write(varval, "varval.xdmf", "varval.h5", PATH)
 
 
 

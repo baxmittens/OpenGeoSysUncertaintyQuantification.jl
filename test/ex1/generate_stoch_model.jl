@@ -1,19 +1,19 @@
 using OpenGeoSysUncertaintyQuantification
 
-__relpath__ = relpath(@__DIR__, "./")
-projectfile= joinpath(__relpath__,"project","point_heat_source_2D.prj")
-user_functions_file = joinpath(__relpath__, "user_functions.jl")
-output_xml = joinpath(__relpath__, "StochasticOGSModelParams.xml")
-stoch_params_xml = joinpath(__relpath__, "StochasticParameters.xml")
-samplemethod_output_xml = joinpath(__relpath__, "SampleMethodParams.xml")
+PATH = joinpath(splitpath(@__FILE__)[1:end-1]...)
+projectfile= joinpath(PATH,"project","point_heat_source_2D.prj")
+user_functions_file = joinpath(PATH, "user_functions.jl")
+output_xml = joinpath(PATH, "StochasticOGSModelParams.xml")
+stoch_params_xml = joinpath(PATH, "StochasticParameters.xml")
+samplemethod_output_xml = joinpath(PATH, "SampleMethodParams.xml")
 
-simcall="ogs" # ogs binary has to be in path. otherwise insert your "path/to/ogs"
+simcall = "ogs" # ogs binary has to be in path. otherwise insert your "path/to/ogs"
 if haskey(ENV, "OGS_BINARY")
 	@info "using $(ENV["OGS_BINARY"]) as binary"
 	simcall = ENV["OGS_BINARY"]
 end
-additionalprojecfilespath=joinpath(__relpath__,"mesh")
-outputpath=joinpath(__relpath__,"Res")
+additionalprojecfilespath=joinpath(PATH,"mesh")
+outputpath=joinpath(PATH,"Res")
 postprocfiles=["PointHeatSource_quarter_002_2nd.xdmf"]
 stochmethod=AdaptiveHierarchicalSparseGrid
 n_workers = 4
@@ -45,9 +45,12 @@ stoch_params[2].upper_bound = 0.8
 write(stochasticmodelparams)
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams, samplemethod_output_xml)
 
-#alter sample method params
-samplemethodparams.init_lvl = 4
-samplemethodparams.maxlvl = 12
+# alter sample method params
+# reduce init and max level for CI / GitHub Action
+samplemethodparams.init_lvl = 3
+samplemethodparams.maxlvl = 4
+#samplemethodparams.init_lvl = 4
+#samplemethodparams.maxlvl = 12
 samplemethodparams.tol = 0.025
 
 write(samplemethodparams)

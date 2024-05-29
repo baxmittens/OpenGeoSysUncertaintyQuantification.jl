@@ -15,4 +15,5 @@ end
     include("ex1/generate_stoch_params_file.jl")
     include("ex1/generate_stoch_model.jl")
     include("ex1/start.jl")
+    @test maximum(varval["temperature_interpolated"][:,end]) > 1e7 && maximum(varval["temperature_interpolated"][:,end]) < 1e8
 end

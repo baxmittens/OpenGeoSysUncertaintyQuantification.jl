@@ -1,8 +1,8 @@
 using OpenGeoSysUncertaintyQuantification
 
-__relpath__ = relpath(@__DIR__, "./")
-projectfile = joinpath(__relpath__, "project", "point_heat_source_2D.prj")
-output_xml = joinpath(__relpath__, "StochasticParameters.xml")
+PATH = joinpath(splitpath(@__FILE__)[1:end-1]...)
+projectfile = joinpath(PATH, "project", "point_heat_source_2D.prj")
+output_xml = joinpath(PATH, "StochasticParameters.xml")
 
 pathes = generatePossibleStochasticParameters(projectfile)
 

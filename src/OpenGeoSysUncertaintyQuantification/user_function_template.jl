@@ -33,7 +33,7 @@ function create(x, ID, modeldef, ogsparams, stoparams)
 			vals = getElementbyPath(md, stoparam.path)
 			push!(top,vals.content[1])
 		end
-		writedlm("./Res/"*ID*"/pars.txt",top)
+		writedlm(joinpath(PATH, "pars.txt"), top)
 		return joinpath(PATH,name)
 	end
 
@@ -46,6 +46,6 @@ function fun(x,ID, modeldef=modeldef, ogsparams=ogsparams, stoparams=stoparams)
 		run(pipeline(`$(ogsparams.simcall) -o $(joinpath(ogsparams.outputpath,ID)) $PATH`, joinpath(ogsparams.outputpath,ID,"out.txt")))
 		println("ogs call finished")
 	end
-	res = VTUFile(joinpath(ogsparams.outputpath,ID,ogsparams.postprocfiles[end]))
+	res = XDMF3File(joinpath(ogsparams.outputpath,ID,ogsparams.postprocfiles[end]))
 	return res
 end
