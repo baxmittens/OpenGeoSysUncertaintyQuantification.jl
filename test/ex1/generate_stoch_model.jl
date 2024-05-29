@@ -18,6 +18,8 @@ else
 	@info "using ogs as binary"
 end
 @info readdir(joinpath(PATH,".."))
+@info readdir(joinpath(PATH,"..",".."))
+@info readdir(joinpath(PATH,"..","..",".."))
 additionalprojecfilespath=joinpath(PATH,"mesh")
 outputpath=joinpath(PATH,"Res")
 postprocfiles=["PointHeatSource_quarter_002_2nd.xdmf"]
