@@ -8,3 +8,7 @@ end
 @testset "Utils" begin
     include("test_utils.jl")
 end
+
+@testset "OGS run" begin
+    include("./ex1/run_ex1.jl")
+end

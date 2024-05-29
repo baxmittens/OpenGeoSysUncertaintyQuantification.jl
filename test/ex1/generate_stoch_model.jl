@@ -2,12 +2,16 @@ using OpenGeoSysUncertaintyQuantification
 
 projectfile="./project/point_heat_source_2D.prj"
 simcall="ogs" # ogs binary has to be in path. otherwise insert your "path/to/ogs"
+if haskey(ENV, "OGS_BINARY")
+	@info "using $(ENV["OGS_BINARY"]) as binary"
+	simcall = ENV["OGS_BINARY"]
+end
 additionalprojecfilespath="./mesh"
 outputpath="./Res"
 postprocfiles=["PointHeatSource_quarter_002_2nd.xdmf"]
 outputpath="./Res"
 stochmethod=AdaptiveHierarchicalSparseGrid
-n_workers = 10
+n_workers = 4
 
 stochparampathes = loadStochasticParameters("StochasticParameters.xml")
 	
