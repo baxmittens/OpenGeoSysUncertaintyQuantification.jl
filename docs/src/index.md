@@ -23,6 +23,8 @@ Note that a python with version < 3.12 has to be installed for this work. This f
 
 The principle idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files which are used to define the stochastic OGS project. These files are human-readable and can be manually configured and duplicated for the use in other, or slightly altered, stochastic projects.
 
+Note that if relative pathes are used as in this documentation, the scripts have always be called from the same directory. You can prevent this by using absolute pathes.
+
 The first function 
 ```julia
 generatePossibleStochasticParameters(
