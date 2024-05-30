@@ -10,8 +10,8 @@ additionalprojecfilespath=joinpath(PATH,"mesh")
 outputpath=joinpath(PATH,"Res")
 
 # hierarchical sparse grid level
-INIT_LVL = 4
-MAX_LVL = 12
+INIT_LVL = 3
+MAX_LVL = 4
 
 #simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
 simcall = OpenGeoSysUncertaintyQuantification.install_ogs()
