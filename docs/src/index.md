@@ -7,6 +7,15 @@ Pages = ["index.md"]
 Depth = 5
 ```
 
+## Install OpenGeoSys 6
+
+A generic OGS6 binary can be installed via
+
+```julia
+import OpenGeoSysUncertaintyQuantification.install_ogs
+OGS_PATH = install_ogs()
+```
+
 ## The principle idea for the creation of a stochastic OGS6 project
 
 The principle idea is to always start with a fully configured and running deterministic OGS6 project. There are three basic functions which create three individual xml-files which are used to define the stochastic OGS project. These files are human-readable and can be manually configured and duplicated for the use in other, or slightly altered, stochastic projects.

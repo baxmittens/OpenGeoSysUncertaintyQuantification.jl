@@ -305,8 +305,9 @@ end
 
 function install_ogs()
 	@warn "python version < 3.12 has to be installed for this to work"
-	PATH = joinpath(splitpath(@__FILE__)[1:end-3]..., "test")
-	installscript = joinpath(PATH, "install_ogs.sh")
-	run(`bash $installscript $PATH`)
-	return joinpath(PATH,"/ogspyvenv/bin/ogs")
+	installdir = joinpath(splitpath(@__FILE__)[1:end-3]..., "test")
+	installscript = joinpath(installdir, "install_ogs.sh")
+	@info "installing ogs to $installdir"
+	run(`bash $installscript $installdir`)
+	return joinpath(installdir,"ogspyvenv/bin/ogs")
 end
