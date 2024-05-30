@@ -302,3 +302,11 @@ end
 function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
 end
+
+function install_ogs()
+	warning("python version < 3.12 has to be installed for this to work")
+	PATH = joinpath(splitpath(@__FILE__)[1:end-2]..., "test")
+	installscript = joinpath(PATH, "install_ogs.sh")
+	run(`bash $installscript $PATH`)
+	return joinpath(PATH,"/ogspyvenv/bin/ogs")
+end

@@ -6,28 +6,31 @@ user_functions_file = joinpath(PATH, "user_functions.jl")
 output_xml = joinpath(PATH, "StochasticOGSModelParams.xml")
 stoch_params_xml = joinpath(PATH, "StochasticParameters.xml")
 samplemethod_output_xml = joinpath(PATH, "SampleMethodParams.xml")
-
-simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
-if haskey(ENV, "OGS_BINARY") # installed with install_ogs.sh
-	@info "using $(ENV["OGS_BINARY"]) as binary"
-	simcall = ENV["OGS_BINARY"]
-elseif isfile(joinpath(PATH, "../../ogspyvenv/bin/ogs")) # for GitHub Action / testing
-	@info "using ../../ogspyvenv/bin/ogs as binary"
-	simcall = joinpath(PATH, "../../ogspyvenv/bin/ogs")
-else
-	@info "using ogs as binary"
-end
-#@info readdir(joinpath(PATH,".."))
-#@info readdir(joinpath(PATH,"..",".."))
-#@info readdir(joinpath(PATH,"..","..",".."))
 additionalprojecfilespath=joinpath(PATH,"mesh")
 outputpath=joinpath(PATH,"Res")
+
+# hierarchical sparse grid level
+INIT_LVL = 4
+MAX_LVL = 12
+
+simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
+if haskey(ENV, "OGS_BINARY") # enviroment variable set
+	simcall = ENV["OGS_BINARY"]
+elseif isfile(joinpath(PATH, "../../ogspyvenv/bin/ogs")) # for GitHub Action / testing
+	simcall = joinpath(PATH, "../../ogspyvenv/bin/ogs")
+	# reduce INIT_LVL and MAX_LVL for CI / GitHub Action
+	INIT_LVL = 3
+	MAX_LVL = 4
+end
+@info "simcall: $simcall"
+
 postprocfiles=["PointHeatSource_quarter_002_2nd.xdmf"]
 stochmethod=AdaptiveHierarchicalSparseGrid
 n_workers = 4
 
 stochparampathes = loadStochasticParameters(stoch_params_xml)
 
+# generate stochastic model
 stochasticmodelparams = generateStochasticOGSModell(
 	projectfile,
 	simcall,
@@ -49,16 +52,12 @@ stoch_params[1].upper_bound = 0.9
 stoch_params[2].dist = Normal(0.45,0.15)
 stoch_params[2].lower_bound = 0.1
 stoch_params[2].upper_bound = 0.8
-
 write(stochasticmodelparams)
+
+#generate sample method model
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams, samplemethod_output_xml)
-
 # alter sample method params
-# reduce init and max level for CI / GitHub Action
-samplemethodparams.init_lvl = 3
-samplemethodparams.maxlvl = 4
-#samplemethodparams.init_lvl = 4
-#samplemethodparams.maxlvl = 12
+samplemethodparams.init_lvl = INIT_LVL
+samplemethodparams.maxlvl = MAX_LVL
 samplemethodparams.tol = 0.025
-
 write(samplemethodparams)

@@ -16,8 +16,6 @@ varval,asg_varval = variance(ogsuqasg, expval)
 write(expval, "expval.xdmf", "expval.h5", PATH)
 write(varval, "varval.xdmf", "varval.h5", PATH)
 
-
-
 # import Pkg
 # Pkg.add("PlotlyJS")
 # Pkg.add("DistributedSparseGridsPlotting")
