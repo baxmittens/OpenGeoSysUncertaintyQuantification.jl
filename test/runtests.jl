@@ -8,7 +8,7 @@ using Test
 end
 
 @testset "Stochastic model setup" begin
-    include("ex1/generate_stoch_params_file.jl")
+    include("ex1/generate_stoch_mode_lowres.jl")
 end
 
 @testset "Utils" begin
