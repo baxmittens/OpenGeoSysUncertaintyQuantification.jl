@@ -1,6 +1,7 @@
 # OpenGeoSysUncertaintyQuantification
 
 [![][docs-dev-img]][docs-dev-url]
+[![CI][CI-img]][CI-url]
 
 An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.org/).
 
@@ -66,3 +67,6 @@ Contributions to or questions about this project are welcome. Feel free to creat
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
 [docs-dev-url]: https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/
+[CI-img]: https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/actions/workflows/CI.yml/badge.svg 
+[CI-url]: https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/actions/workflows/CI.yml
+
