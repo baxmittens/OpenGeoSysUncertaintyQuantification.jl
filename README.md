@@ -35,7 +35,7 @@ This toolbox heavily relies upon the following projects:
 
 - [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
 
-	Analogous to the above for the XDMF result file format (work in progress).
+	Analogous to the above for the XDMF file format resulting in a datatype `XDMF3File`.
 
 - [AltInplaceOpsInterface.jl](https://github.com/baxmittens/AltInplaceOpsInterface.jl)
 

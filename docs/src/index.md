@@ -7,7 +7,7 @@ Pages = ["index.md"]
 Depth = 5
 ```
 
-## Install OpenGeoSys 6
+## Install OpenGeoSys 6 (Linux only)
 
 A generic OGS6 binary can be installed to the `test` folder via:
 
@@ -17,7 +17,7 @@ OGS_PATH = install_ogs()
 ```
 
 Note that a python with version < 3.12 has to be installed for this work. This function is called by unit testing.
-
+This was only tested with Linux and probably does not work with Windows. However, you can take the install script [install_ogs.sh](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/install_ogs.sh) as an example for installing OpenGeoSys on Windows. For more information about the installation of OGS6, see [the OGS6 documentation](https://www.opengeosys.org/docs/).
 
 ## The principle idea for the creation of a stochastic OGS6 project
 
@@ -58,7 +58,7 @@ creates an xml-file which defines the so-called `StochasticOGSModelParams`. It i
 - the path to one or more `postprocfile`s, 
 - the stochpathes, generated with `generatePossibleStochasticParameters`. Can be manipulated by the user and loaded by the `loadStochasticParameters`-function,
 - an `outputpath`, where all snapshots will be stored,
-- a `stochmethod` (Sparse grid or Monte-Carlo, see [Library](# Library)),
+- a `stochmethod` (Sparse grid or Monte-Carlo, see [Library](https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.jl/dev/lib/lib/)),
 - the number of local workers `n_local_workers`, and, 
 - the filename `sogsfile` under which the model is stored as an xml-file. 
 
@@ -81,7 +81,7 @@ creates an xml-file `anafile` with all necessary parameters for the chosen sampl
 
 ## Usage
 
-In this chapter, [Example 1](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/tree/main/test/ex1) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [ASG_Point_Heat_Source](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/tree/main/test/Examples/ASG_Point_Heat_Source) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
 The complete example can be run by directing to the path `path/to/OpenGeoSysUncertaintyQuantification/test/ex1`, running Julia (if Julia is started by, e.g., `julia -t 10`, the adaptive sparse grid can take advantage of the extra threads) and starting the example by
 ```julia
@@ -90,7 +90,7 @@ include("run_ex1.jl")
 
 ### Defining the stochastic dimensions
 
-The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/generate_stoch_params_file.jl) 
+The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/ASG_Point_Heat_Source/generate_stoch_params_file.jl) 
 ```julia
 using OpenGeoSysUncertaintyQuantification
 
@@ -116,7 +116,7 @@ generate the stochastic parameters as [`OGS6-XML-pathes`](https://github.com/bax
 
 ### Defining the stochastic model
 
-The following [code snippet](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/generate_stoch_model.jl) 
+The following [code snippet](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/ASG_Point_Heat_Source/generate_stoch_model.jl) 
 ```julia
 using OpenGeoSysUncertaintyQuantification
 
@@ -164,7 +164,7 @@ samplemethodparams.tol = 0.025
 write(samplemethodparams)
 ```
 
-generates two XML-files, [`StochasticOGSModelParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/StochasticOGSModelParams.xml) and [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/SampleMethodParams.xml), defining the stochastic model.
+generates two XML-files, `StochasticOGSModelParams.xml` and `SampleMethodParams.xml`, defining the stochastic model.
 
 In the former, the two stochastic parameters are altered. The probability distributions are altered from `Uniform` to `Normal` with mean `μ=0.45` and standard deviation `σ=0.15` for the porosity and to `Normal` with mean `μ=0.6` and standard deviation `σ=0.175` for the thermal conductivity.
 
@@ -184,7 +184,7 @@ The multivariate truncated normal distribution resulting from the convolution of
 </p>
 ```
 
-The second file [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/SampleMethodParams.xml) defines the sample method parameters such as
+The second file `SampleMethodParams.xml` defines the sample method parameters such as
 - the number of dimensions `N=2`,
 - the return type `RT="XDMF3File"` (see [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl))
 - the number of initial hierachical level of the sparse grid `init_lvl=4`,
