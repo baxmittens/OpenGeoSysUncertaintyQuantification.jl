@@ -16,4 +16,16 @@
 	./media/medium/@id/0/properties/property/?permeability/value
 	./media/medium/@id/0/properties/property/?porosity/value
 	./media/medium/@id/0/properties/property/?biot_coefficient/value
+	./parameters/parameter/?E/value
+	./parameters/parameter/?nu/value
+	./parameters/parameter/?T0/value
+	./parameters/parameter/?dirichlet0/value
+	./parameters/parameter/?Neumann0/value
+	./parameters/parameter/?temperature_ic/value
+	./parameters/parameter/?pressure_bc_left/value
+	./parameters/parameter/?temperature_bc_left/value
+	./parameters/parameter/?temperature_source_term/value
+	./processes/process/specific_body_force
+	./parameters/parameter/?displacement0/values
+	./parameters/parameter/?pressure_ic/values
 </Array>

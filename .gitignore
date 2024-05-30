@@ -24,4 +24,6 @@ docs/site/
 Manifest.toml
 
 test/**/Res/
+test/tmp_test_dir/
 **DS_Store
+
