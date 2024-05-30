@@ -9,12 +9,15 @@ Depth = 5
 
 ## Install OpenGeoSys 6
 
-A generic OGS6 binary can be installed via
+A generic OGS6 binary can be installed to the `test` folder via:
 
 ```julia
 import OpenGeoSysUncertaintyQuantification.install_ogs
 OGS_PATH = install_ogs()
 ```
+
+Note that a python with version < 3.12 has to be installed for this work. This function is called by unit testing.
+
 
 ## The principle idea for the creation of a stochastic OGS6 project
 
@@ -179,9 +182,9 @@ The multivariate truncated normal distribution resulting from the convolution of
 </p>
 ```
 
-The second file [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/altered_SampleMethodParams.xml) defines the sample method parameters such as
+The second file [`SampleMethodParams.xml`](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/SampleMethodParams.xml) defines the sample method parameters such as
 - the number of dimensions `N=2`,
-- the return type `RT="XDMFData"` (see [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl))
+- the return type `RT="XDMF3File"` (see [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl))
 - the number of initial hierachical level of the sparse grid `init_lvl=4`,
 - the number of maximal hierarchical level of the sparse grid `maxlvl=12`, and,
 - the minimum hierarchical surplus for the adaptive refinement `tol=0.025`.
