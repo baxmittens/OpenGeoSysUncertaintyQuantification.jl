@@ -1,7 +1,8 @@
 using OpenGeoSysUncertaintyQuantification
 
 PATH = joinpath(splitpath(@__FILE__)[1:end-1]...)
-projectfile = joinpath(PATH, "project", "point_heat_source_2D.prj")
+OGS_PRJ_PATH = joinpath(OpenGeoSysUncertaintyQuantification.ogs_prj_folder(), "Consolidation_PHS")
+projectfile= joinpath(OGS_PRJ_PATH,"prj","point_heat_source_2D.prj")
 output_xml = joinpath(PATH, "StochasticParameters.xml")
 
 pathes = generatePossibleStochasticParameters(projectfile, output_xml)

@@ -343,8 +343,15 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	RT = ogsuqparams.samplemethodparams.RT
 	nshots = ogsuqparams.samplemethodparams.nshots
 	tol = ogsuqparams.samplemethodparams.tol
-	#@todo include truncated for normal distribution
-	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+
+	
+	#randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	
+	#stochparams = stoch_parameters(ogsuqparams)
+	#truncated_dists = map(x->truncated(x.dist, x.lower_bound, x.upper_bound), stochparams)
+	#randf() = map((x,y)->StochtoCP(rand(x),y), truncated_dists, stochparams)
+	randf = truncated_randfun(ogsuqparams)
+
 	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf)
 	return OGSUQMC(ogsuqparams, mc)
 end
@@ -368,7 +375,8 @@ function init(::Type{MonteCarloSobol}, ogsuqparams::OGSUQParams)
 		mkdir(pathA_B)
 	end	
 	#@todo include truncated for normal distribution
-	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	#randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	randf = truncated_randfun(ogsuqparams)
 	mc = MonteCarloSobol(Val(N), CT, RT, nshots, tol, randf)
 	return OGSUQMCSobol(ogsuqparams, mc)
 end
@@ -380,7 +388,8 @@ function init(::Type{MonteCarloMorris}, ogsuqparams::OGSUQParams)
 	ntrajectories = ogsuqparams.samplemethodparams.ntrajectories
 	lhs_sampling = ogsuqparams.samplemethodparams.lhs_sampling
 	#@todo include truncated for normal distribution
-	randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	#randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
+	randf = truncated_randfun(ogsuqparams)
 	mc = MonteCarloMorris(Val(N), CT, RT, ntrajectories, randf)
 	if lhs_sampling
 		DistributedMonteCarlo.lhs_sampling!(mc) 

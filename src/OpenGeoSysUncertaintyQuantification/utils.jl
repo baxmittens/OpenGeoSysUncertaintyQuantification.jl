@@ -303,6 +303,13 @@ function pdf(stoparams::Vector{StochasticOGS6Parameter}, x)
 	return foldl(*,map((x,y)->pdf(x,y),stoparams,x))
 end
 
+function truncated_randfun(ogsuqparams::OGSUQParams)
+	stochparams = stoch_parameters(ogsuqparams)
+	truncated_dists = map(x->truncated(x.dist, x.lower_bound, x.upper_bound), stochparams)
+	randf = ()->map((x,y)->StochtoCP(rand(x),y), truncated_dists, stochparams)
+	return randf
+end
+
 function install_ogs()
 	@warn "python version < 3.12 has to be installed for this to work"
 	installdir = joinpath(splitpath(@__FILE__)[1:end-3]..., "test")
@@ -310,4 +317,9 @@ function install_ogs()
 	@info "installing ogs to $installdir"
 	run(`bash $installscript $installdir`)
 	return joinpath(installdir,"ogspyvenv/bin/ogs")
+end
+
+function ogs_prj_folder()
+	PATH = joinpath(splitpath(@__FILE__)[1:end-3]...)
+	return joinpath(PATH, "test", "Examples", "OGS6")
 end

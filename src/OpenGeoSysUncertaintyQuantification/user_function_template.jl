@@ -34,6 +34,7 @@ function create(x, ID, modeldef, ogsparams, stoparams)
 			push!(top,vals.content[1])
 		end
 		writedlm(joinpath(PATH, "pars.txt"), top)
+		writedlm(joinpath(PATH, "coords.txt"), x)
 		return joinpath(PATH,name)
 	end
 
