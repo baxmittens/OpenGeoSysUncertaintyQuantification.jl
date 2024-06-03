@@ -18,9 +18,9 @@ end
 
 start!(ogsuqasg)
 
-ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.001
+ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.000001
 expval,asg_expval = 𝔼(ogsuqasg);
-ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.00001
+ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.000001
 varval,asg_varval = variance(ogsuqasg, expval);
 
 # XDMF cannot have '/' on name or h5 spec, therefore the path is the third argument 

@@ -10,14 +10,14 @@ stoch_params_xml = joinpath(PATH, "StochasticParameters.xml")
 samplemethod_output_xml = joinpath(PATH, "SampleMethodParams.xml")
 outputpath=joinpath(PATH,"Res")
 
-simcall = "/Users/maximilianbittens/Documents/GitHub/OpenGeoSys/build/release/bin/ogs"
+#simcall = "/Users/maximilianbittens/Documents/GitHub/OpenGeoSys/build/release/bin/ogs"
 #simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
-#simcall = OpenGeoSysUncertaintyQuantification.install_ogs()
+simcall = OpenGeoSysUncertaintyQuantification.install_ogs()
 @info "simcall: $simcall"
 
 postprocfiles=["DiffusionAndStorageAndAdvectionAndDispersionHalf_square_1x1_quad_1e3.xdmf"]
 stochmethod=MonteCarlo
-n_workers = 21
+n_workers = 25
 
 stochparampathes = loadStochasticParameters(stoch_params_xml)
 
@@ -47,5 +47,5 @@ write(stochasticmodelparams)
 #generate sample method model
 samplemethodparams = generateSampleMethodModel(stochasticmodelparams, samplemethod_output_xml)
 # alter sample method params
-samplemethodparams.nshots = 2500
+samplemethodparams.nshots = 10000
 write(samplemethodparams)
