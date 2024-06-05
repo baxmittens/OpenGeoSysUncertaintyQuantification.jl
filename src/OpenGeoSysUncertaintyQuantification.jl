@@ -592,7 +592,7 @@ function var_func(x,ID,ogsuqasg::OGSUQASG, exp_val::RT) where {RT}
 	interpolate!(ret,asg,x)
 	minus!(ret,exp_val)
 	pow!(ret,2.0)
-	mul!(ret,pdf(stochparams, x))
+	mul!(ret,ret,pdf(stochparams, x))
 	#return ((ret-exp_val)^2)*pdf(stochparams, x)
 	return ret
 end

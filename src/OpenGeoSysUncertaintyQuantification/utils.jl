@@ -295,6 +295,7 @@ end
 function pdf(stoparam::StochasticOGS6Parameter, x::Float64)
 	#Todo use CPtoStoch and truncated here and test.
 	val = lin_func(x, -1.0, stoparam.lower_bound, 1.0, stoparam.upper_bound)
+	#return pdf(truncated(stoparam.dist, stoparam.lower_bound, stoparam.upper_bound), val)
 	return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 	#return pdf(stoparam.dist, val)/(cdf(stoparam.dist, stoparam.upper_bound)-cdf(stoparam.dist, stoparam.lower_bound))#*(0.5*abs(stoparam.upper_bound-stoparam.lower_bound))
 end

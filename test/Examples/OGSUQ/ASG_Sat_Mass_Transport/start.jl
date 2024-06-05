@@ -15,7 +15,7 @@ ogsuqasg = init(ogsuqparams)
 	push!(XDMFFileHandler.interpolation_keywords, "Si")
 	push!(XDMFFileHandler.interpolation_keywords, "darcy_velocity")
 end
-
+#ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.01
 start!(ogsuqasg)
 
 ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.000001
@@ -33,7 +33,35 @@ write(varval, "varval.xdmf", "varval.h5", PATH)
 # Pkg.add("DistributedSparseGridsPlotting")
 
 #using PlotlyJS
-#using DistributedSparseGridsPlotting
+using DistributedSparseGridsPlotting
+import DistributedSparseGridsPlotting: minval
+using GLMakie
+using LinearAlgebra
+
+f = Figure(size=(1600,800));
+ax = Axis3(f[1, 1]);
+surface!(ax, ogsuqasg.asg, 50, ppfun)
+scatter!(ax, ogsuqasg.asg, z_offset=minval(ogsuqasg.asg, ppfun), markersize=4)
+ax2 = Axis(f[1, 2]);
+scatter!(ax2, ogsuqasg.asg)
+display(f)
+
+f = Figure(size=(1600,800));
+ax = Axis3(f[1, 1]);
+surface!(ax, asg_expval, 50, ppfun)
+scatter!(ax, asg_expval, z_offset=minval(asg_expval, ppfun), markersize=4)
+ax2 = Axis(f[1, 2]);
+scatter!(ax2, asg_expval)
+display(f)
+
+f = Figure(size=(1600,800));
+ax = Axis3(f[1, 1]);
+surface!(ax, asg_varval, 50, ppfun)
+scatter!(ax, asg_varval, z_offset=minval(asg_varval, ppfun), markersize=4)
+ax2 = Axis(f[1, 2]);
+scatter!(ax2, asg_varval)
+display(f)
+
 #using LinearAlgebra
 #
 #display(PlotlyJS.plot([PlotlyJS.scatter3d(ogsuqasg.asg), surface_inplace_ops(ogsuqasg.asg, 20, x->norm(x["Si"]))], PlotlyJS.Layout(title="ASG-Surrogateresponse function ASG(x) for norm(Si)")))
