@@ -11,8 +11,8 @@ samplemethod_output_xml = joinpath(PATH, "SampleMethodParams.xml")
 outputpath=joinpath(PATH,"Res")
 
 # hierarchical sparse grid level
-INIT_LVL = 6
-MAX_LVL = 14
+INIT_LVL = 4
+MAX_LVL = 12
 
 #simcall = "/Users/maximilianbittens/Documents/GitHub/OpenGeoSys/build/release/bin/ogs"
 #simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
@@ -21,7 +21,7 @@ simcall = OpenGeoSysUncertaintyQuantification.install_ogs()
 
 postprocfiles=["PointHeatSource_quarter_002_2nd.xdmf"]
 stochmethod=AdaptiveHierarchicalSparseGrid
-n_workers = 25
+n_workers = 10
 
 stochparampathes = loadStochasticParameters(stoch_params_xml)
 

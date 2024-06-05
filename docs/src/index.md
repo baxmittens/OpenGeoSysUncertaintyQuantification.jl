@@ -81,16 +81,16 @@ creates an xml-file `anafile` with all necessary parameters for the chosen sampl
 
 ## Usage
 
-In this chapter, [an Example](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/tree/main/test/Examples/ASG_Point_Heat_Source) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
+In this chapter, [an Example](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/tree/main/test/Examples/OGSUQ/ASG_Consolidation_PHS) is used to illustrate the workflow. The underlying deterministic OGS6 project is the [point heat source example](https://www.opengeosys.org/docs/benchmarks/th2m/saturatedpointheatsource/) ([Thermo-Richards-Mechanics project files](https://gitlab.opengeosys.org/ogs/ogs/-/tree/master/Tests/Data/ThermoRichardsMechanics/PointHeatSource)).
 
-The complete example can be run by directing to the path `path/to/OpenGeoSysUncertaintyQuantification/test/Examples/ASG_Point_Heat_Source`, running Julia (if Julia is started by, e.g., `julia -t 10`, the adaptive sparse grid can take advantage of the extra threads) and starting the example by
+The complete example can be run by directing to the path `path/to/OpenGeoSysUncertaintyQuantification/test/Examples/OGSUQ/ASG_Consolidation_PHS`, running Julia (if Julia is started by, e.g., `julia -t 10`, the adaptive sparse grid can take advantage of the extra threads) and starting the example by
 ```julia
 include("run_ex1.jl")
 ``` 
 
 ### Defining the stochastic dimensions
 
-The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/ASG_Point_Heat_Source/generate_stoch_params_file.jl) 
+The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/OGSUQ/ASG_Consolidation_PHS/generate_stoch_params_file.jl) 
 ```julia
 using OpenGeoSysUncertaintyQuantification
 
@@ -116,7 +116,7 @@ generate the stochastic parameters as [`OGS6-XML-pathes`](https://github.com/bax
 
 ### Defining the stochastic model
 
-The following [code snippet](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/ASG_Point_Heat_Source/generate_stoch_model.jl) 
+The following [code snippet](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/OGSUQ/ASG_Consolidation_PHS/generate_stoch_model.jl) 
 ```julia
 using OpenGeoSysUncertaintyQuantification
 
@@ -193,7 +193,7 @@ The second file `SampleMethodParams.xml` defines the sample method parameters su
 
 ### Sampling the model
 
-The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/ex1/start.jl)
+The following [lines of code](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl/blob/main/test/Examples/OGSUQ/ASG_Consolidation_PHS/start.jl)
 
 ```julia
 using OpenGeoSysUncertaintyQuantification
