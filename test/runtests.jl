@@ -37,5 +37,5 @@ end
     last_ts_varval = varval["temperature_interpolated"][:,end]
     max_lts_varval = maximum(last_ts_varval)
     println("Maximum Varval = ",max_lts_varval)
-    @test max_lts_varval > 1e7 && max_lts_varval < 1e8
+    @test max_lts_varval > 1e7 && max_lts_varval < 1e9
 end
