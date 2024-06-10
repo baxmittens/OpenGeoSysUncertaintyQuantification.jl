@@ -210,7 +210,7 @@ function sobol_multifield_result_to_pgfplot(
 		)
 	todict(x) = Dict(y[2]=>y[3] for y in x)
 	rets = map(field->scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, field, totalvariance, xdmf), fields)
-	ret = scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, fields, varval, expval, xdmf)
+	ret = scalar_sobolindex_from_multifield_result(ogsuq, sobolvars, fields, totalvariance, expval, xdmf)
 	retsdicts = map(todict, rets)
 	retdict = todict(ret)
 	n = min(n_entries_to_plot, length(ret))

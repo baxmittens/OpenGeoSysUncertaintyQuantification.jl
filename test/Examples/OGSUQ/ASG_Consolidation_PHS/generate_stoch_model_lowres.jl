@@ -11,7 +11,7 @@ samplemethod_output_xml = joinpath(PATH, "SampleMethodParams.xml")
 outputpath=joinpath(PATH,"Res")
 
 # hierarchical sparse grid level
-INIT_LVL = 2
+INIT_LVL = 1
 MAX_LVL = 2
 
 #simcall = "ogs" # ogs binary is in path, otherwise put your path/to/bin/ogs here
