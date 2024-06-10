@@ -70,7 +70,7 @@ mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}) = begin
 end
 mul!(a::Vector{Vector{Float64}}, b::Vector{Vector{Float64}}, c::Float64) = begin
 	@inbounds for i = 1:length(a)
-		mul(a[i], b[i], c)
+		mul!(a[i], b[i], c)
 	end
 	return nothing
 end
