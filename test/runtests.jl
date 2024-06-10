@@ -3,8 +3,9 @@ using Test
 
 @info "Running tests"
 
-TESTDIR = "./tmp_test_dir"
-EXAMPLEDIR = "./Examples/OGSUQ/ASG_Consolidation_PHS/"
+PATH = joinpath(splitpath(@__FILE__)[1:end-1]...)
+TESTDIR = joinpath(PATH, "tmp_test_dir")
+EXAMPLEDIR = joinpath(PATH, "Examples/OGSUQ/ASG_Consolidation_PHS/")
 
 if isdir(TESTDIR)
     @info "deleting $TESTDIR"
