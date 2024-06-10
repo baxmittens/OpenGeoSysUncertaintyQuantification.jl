@@ -85,7 +85,7 @@ In this chapter, [an Example](https://github.com/baxmittens/OpenGeoSysUncertaint
 
 The complete example can be run by directing to the path `path/to/OpenGeoSysUncertaintyQuantification/test/Examples/OGSUQ/ASG_Consolidation_PHS`, running Julia (if Julia is started by, e.g., `julia -t 10`, the adaptive sparse grid can take advantage of the extra threads) and starting the example by
 ```julia
-include("run_ex1.jl")
+include("run_all.jl")
 ``` 
 
 ### Defining the stochastic dimensions
