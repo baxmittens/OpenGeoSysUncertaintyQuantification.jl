@@ -410,7 +410,7 @@ function init(ogsuqparams::OGSUQParams)
 	actworker = nworkers()
 	if actworker < ogsuqparams.stochasticmodelparams.num_local_workers-1
 		naddprocs = ogsuqparams.stochasticmodelparams.num_local_workers-actworker
-		@info "add $addprocs procs"
+		@info "add $naddprocs procs"
 		addprocs(naddprocs)
 	end
 	@eval @everywhere include($(ogsuqparams.stochasticmodelparams.userfunctionfile))
