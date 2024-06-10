@@ -33,5 +33,8 @@ end
 
 @testset "OGS run" begin
     include(joinpath(TESTDIR, "start.jl"))
-    @test maximum(varval["temperature_interpolated"][:,end]) > 1e7 && maximum(varval["temperature_interpolated"][:,end]) < 1e8
+    last_ts_varval = varval["temperature_interpolated"][:,end]
+    max_lts_varval = maximum(last_ts_varval)
+    println("Maximum Varval = ",max_lts_varval)
+    @test max_lts_varval > 1e7 && max_lts_varval < 1e8
 end
