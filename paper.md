@@ -42,7 +42,7 @@ To this date, there is no uncertainty quantification toolbox for OpenGeoSys, nei
 
 Most of the functionalities of this package are outsourced into independent Julia packages to maintain their generic character. Therefore, OpenGeoSysUncertaintyQuantification.jl serves as an umbrella project for the following projects:
 
-- [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids]
+- [DistributedSparseGrids.jl](https://github.com/baxmittens/DistributedSparseGrids.jl) [@bittens2023distributedsparsegrids, @gates2015multilevel]
   
   A library implementing an Adaptive Sparse Grid collocation method for integrating memory-heavy objects generated on distributed workers.
 
