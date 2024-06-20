@@ -2,6 +2,7 @@
 
 [![][docs-dev-img]][docs-dev-url]
 [![CI][CI-img]][CI-url]
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.06725/status.svg)](https://doi.org/10.21105/joss.06725)
 
 An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.org/).
 
