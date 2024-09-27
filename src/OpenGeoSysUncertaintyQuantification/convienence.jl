@@ -134,6 +134,50 @@ function AltInplaceOpsInterface.pow!(a::Matrix{Float64}, b::Float64)
 	return nothing		
 end
 
+Base.fill!(a::Vector{Matrix{Float64}}, b::Float64) = foreach(x->fill!(x,b), a)
+Base.similar(a::Vector{Matrix{Float64}}) = map(x->similar(x),a)
+Base.zero(a::Vector{Matrix{Float64}}) = map(zero,a)
+
+AltInplaceOpsInterface.add!(a::Vector{Matrix{Float64}}, b::Vector{Matrix{Float64}}) = begin 
+	@inbounds for i = 1:length(a); add!(a[i],b[i]) end 
+	return nothing
+end
+AltInplaceOpsInterface.add!(a::Vector{Matrix{Float64}}, b::Float64) = begin
+	@inbounds for i = 1:length(a); add!(a[i],b) end
+	return nothing
+end
+mul!(a::Vector{Matrix{Float64}}, b::Float64) = begin
+	@inbounds for i = 1:length(a); mul!(a[i],b) end
+	return nothing
+end
+mul!(a::Vector{Matrix{Float64}}, b::Vector{Matrix{Float64}}) = begin
+	@inbounds for i = 1:length(a)
+		mul!(a[i],b[i]) end
+	return nothing
+end
+mul!(a::Vector{Matrix{Float64}}, b::Vector{Matrix{Float64}}, c::Float64) = begin
+	@inbounds for i = 1:length(a)
+		mul!(a[i], b[i], c)
+	end
+	return nothing
+end
+function AltInplaceOpsInterface.minus!(a::Vector{Matrix{Float64}}, b::Vector{Matrix{Float64}})
+	@inbounds for i = 1:length(a)
+		minus!(a[i],b[i]) end
+	return nothing	
+end
+function AltInplaceOpsInterface.pow!(a::Vector{Matrix{Float64}}, b::Int64)
+	@inbounds for i = 1:length(a)
+		pow!(a[i],b) end
+	return nothing		
+end
+AltInplaceOpsInterface.pow!(a::Vector{Matrix{Float64}}, b::Float64) = begin
+	@inbounds for i = 1:length(a)
+		pow!(a[i],b)
+	end
+	return nothing
+end
+
 ogs6_modeldef(ogsparams::OGS6ProjectParams) = read(Ogs6ModelDef, ogsparams.projectfile)
 ogs6_modeldef(stochparams::StochasticOGSModelParams) = ogs6_modeldef(stochparams.ogsparams)
 ogs6_modeldef(ogsuqparams::OGSUQParams) = ogs6_modeldef(ogsuqparams.stochasticmodelparams)
