@@ -105,7 +105,7 @@ function AltInplaceOpsInterface.add!(a::Matrix{Float64}, b::Float64)
 end
 function LinearAlgebra.mul!(a::Matrix{Float64}, b::Float64)
 	@inbounds @simd for i in 1:length(a)
-		 a[i] += b
+		 a[i] *= b
 	end
 	return nothing		
 end
