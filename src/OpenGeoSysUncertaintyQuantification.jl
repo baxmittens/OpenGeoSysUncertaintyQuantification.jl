@@ -142,6 +142,7 @@ mutable struct MonteCarloParams <: SampleMethodParams
 	CT::Type
 	RT::Type
 	nshots::Int
+	save_res::Bool
 	tol::Float64
 	file::String
 end
@@ -343,6 +344,7 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	RT = ogsuqparams.samplemethodparams.RT
 	nshots = ogsuqparams.samplemethodparams.nshots
 	tol = ogsuqparams.samplemethodparams.tol
+	save_res = ogsuqparams.samplemethodparams.save_res
 
 	
 	#randf() = map(x->StochtoCP(rand(ogsuqparams.stochasticmodelparams.stochparams[x].dist), ogsuqparams.stochasticmodelparams.stochparams[x]), 1:length(ogsuqparams.stochasticmodelparams.stochparams))
@@ -352,7 +354,7 @@ function init(::Type{MonteCarlo}, ogsuqparams::OGSUQParams)
 	#randf() = map((x,y)->StochtoCP(rand(x),y), truncated_dists, stochparams)
 	randf = truncated_randfun(ogsuqparams)
 
-	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf)
+	mc = MonteCarlo(Val(N), CT, RT, nshots, tol, randf, save_res)
 	return OGSUQMC(ogsuqparams, mc)
 end
 
