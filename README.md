@@ -12,7 +12,7 @@ An uncertainty quantification toolbox for [OpenGeoSys 6](https://www.opengeosys.
 
 In simulation-aided planning of safety-related projects, the effects of those uncertainties on the results must be assessed. 
 This toolbox is intended to provide all the necessary methods to quantify the uncertainties in a validly configured deterministic OGS6 simulation. 
-Special care is taken to ensure reliable and accurate determination of the stochastic moments even when a large amount of data is generated for individual calculations.
+Special care is taken to ensure reliable and accurate determination of the stochastic moments even when a large amount of data is generated for individual simulations.
 
 The current environment for using this toolbox is individual servers. This means additional local workers are added via the `distributed.addprocs` method. This can be easily extended for the use in cluster environments, but further design decisions must be made first, such as requiring a Network File System (NFS), or the implementation of a mapping of executed snapshots to individual servers.
 
@@ -24,7 +24,7 @@ This toolbox heavily relies upon the following projects:
 
 - [DistributedMonteCarlo.jl](https://github.com/baxmittens/DistributedMonteCarlo.jl)
 
-	Analogous to the above for the Monte Carlo method. Implements Monte Carlo integration, Sobol' indices and Morris means. Morris means can be integrated alternatively by Latin Hypercube integration.
+	Analogous to the above for the Monte Carlo method. Implements Monte Carlo integration, Sobol's indices, and Morris means. Morris means can be integrated alternatively by Latin Hypercube integration.
 
 - [Ogs6InputFileHandler.jl](https://github.com/baxmittens/Ogs6InputFileHandler.jl)
 
@@ -36,7 +36,7 @@ This toolbox heavily relies upon the following projects:
 
 - [XDMFFileHandler.jl](https://github.com/baxmittens/XDMFFileHandler.jl)
 
-	Analogous to the above for the XDMF file format resulting in a datatype `XDMF3File`.
+	Analogous to the above for the XDMF file format, resulting in a datatype `XDMF3File`.
 
 - [AltInplaceOpsInterface.jl](https://github.com/baxmittens/AltInplaceOpsInterface.jl)
 
@@ -63,7 +63,7 @@ See the [docs](https://baxmittens.github.io/OpenGeoSysUncertaintyQuantification.
 
 ## Contributions, report bugs and support
 
-Contributions to or questions about this project are welcome. Feel free to create a issue or a pull request on [GitHub](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl).
+Contributions to or questions about this project are welcome. Feel free to create an issue or a pull request on [GitHub](https://github.com/baxmittens/OpenGeoSysUncertaintyQuantification.jl).
 
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
