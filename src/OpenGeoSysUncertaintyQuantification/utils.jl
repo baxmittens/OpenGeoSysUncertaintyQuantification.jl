@@ -1,5 +1,5 @@
 
-ogs_numeric_keyvals = ["value", "reference_condition","slope", "reference_value", "specific_body_force", "values"]
+ogs_numeric_keyvals = ["value", "reference_condition","slope", "reference_value", "specific_body_force", "values", "residual_liquid_saturation", "residual_gas_saturation", "lambda", "entry_pressure", "min_relative_permeability"]
 
 """
 	generatePossibleStochasticParameters(
@@ -162,8 +162,13 @@ function generateStochasticOGSModell(
 		splitstr = split(vals.content[1])
 		valspec = 1
 		val = parse(Float64,splitstr[valspec])
-		lb = val-abs(val/10)
-		ub = val+abs(val/10)
+		if isapprox(val, 0.0, atol=1e-12)
+			lb = 0.0
+			ub = 1.0
+		else
+			lb = val-abs(val/10)
+			ub = val+abs(val/10)			
+		end
 		dist = Uniform(lb,ub)
 		user_function = x->x
 		push!(stochparams, StochasticOGS6Parameter(path,valspec,dist,lb,ub))
@@ -198,7 +203,8 @@ function generateSampleMethodModel(::Type{MonteCarlo}, sogs::StochasticOGSModelP
 	RT = XDMF3File
 	tol = 1e-2
 	nshots = 100
-	smparams = MonteCarloParams(N,CT,RT,nshots,tol,anafile)
+	save_res = true
+	smparams = MonteCarloParams(N,CT,RT,nshots,save_res,tol,anafile)
 	#writeXML(Julia2XML(smparams), anafile)
 	write(anafile, Julia2XML(smparams))
 	return smparams
