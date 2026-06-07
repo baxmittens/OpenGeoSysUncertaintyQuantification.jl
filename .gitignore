@@ -28,3 +28,4 @@ test/**/ANSICHT/
 test/tmp_test_dir/
 **DS_Store
 
+*/ogspyvenv

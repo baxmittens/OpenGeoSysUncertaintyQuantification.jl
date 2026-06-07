@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StochasticOGSModelParams
+	 samplemethod="AdaptiveHierarchicalSparseGrid"
+	 num_local_workers="10"
+	 userfunctionfile="user_functions.jl"
+	 file="StochasticOGSModelParams.xml"
+>
+	<OGS6ProjectParams
+		 julia:fieldname="ogsparams"
+		 projectfile="/Users/maximilianbittens/.julia/dev/OpenGeoSysUncertaintyQuantification/test/Examples/OGS6/Saturated_Mass_Transport/prj/DiffusionAndStorageAndAdvectionAndDispersionHalf.prj"
+		 simcall="/Users/maximilianbittens/.julia/dev/OpenGeoSysUncertaintyQuantification/test/ogspyvenv/bin/ogs"
+		 additionalprojecfilespath="/Users/maximilianbittens/.julia/dev/OpenGeoSysUncertaintyQuantification/test/Examples/OGS6/Saturated_Mass_Transport/misc"
+		 outputpath="Res"
+	>
+		<Array
+			 julia:type="String,1"
+			 julia:fieldname="postprocfiles"
+		>DiffusionAndStorageAndAdvectionAndDispersionHalf_square_1x1_quad_1e3.xdmf</Array>
+	</OGS6ProjectParams>
+	<Array
+		 julia:type="StochasticOGS6Parameter,1"
+		 julia:fieldname="stochparams"
+	>
+		<StochasticOGS6Parameter
+			 path="./media/medium/@id/0/properties/property/?longitudinal_dispersivity/value"
+			 valspec="1"
+			 lower_bound="0.1"
+			 upper_bound="1.0"
+		>
+			<Normal
+				 julia:type="Float64"
+				 julia:fieldname="dist"
+				 μ="0.55"
+				 σ="0.25"
+			/>
+		</StochasticOGS6Parameter>
+		<StochasticOGS6Parameter
+			 path="./parameters/parameter/?kappa1/values"
+			 valspec="1"
+			 lower_bound="-15.0"
+			 upper_bound="-17.0"
+		>
+			<Normal
+				 julia:type="Float64"
+				 julia:fieldname="dist"
+				 μ="-16.0"
+				 σ="0.5"
+			/>
+		</StochasticOGS6Parameter>
+	</Array>
+</StochasticOGSModelParams>

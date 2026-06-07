@@ -11,7 +11,7 @@
                 <concentration>Si</concentration>
                 <pressure>pressure</pressure>
             </process_variables>
-            <specific_body_force>0 0</specific_body_force>
+            <specific_body_force>0 -9.81</specific_body_force>
             <secondary_variables>
                 <secondary_variable internal_name="darcy_velocity" output_name="darcy_velocity"/>
             </secondary_variables>
@@ -159,9 +159,9 @@
                 </pair>
             </timesteps>
             <variables>
-                <variable>Si</variable>
+                <!--variable>Si</variable>
                 <variable>pressure</variable>
-                <variable>darcy_velocity</variable>
+                <variable>darcy_velocity</variable-->
             </variables>
             <suffix>_ts_{:timestep}_t_{:time}</suffix>
         </output>
@@ -170,7 +170,7 @@
         <parameter>
             <name>decay</name>
             <type>Constant</type>
-            <value>0</value>
+            <value>0.001</value>
         </parameter>
         <parameter>
             <name>c0</name>

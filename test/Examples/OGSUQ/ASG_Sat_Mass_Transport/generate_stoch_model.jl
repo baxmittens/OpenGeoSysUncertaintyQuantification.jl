@@ -21,7 +21,7 @@ simcall = OpenGeoSysUncertaintyQuantification.install_ogs()
 
 postprocfiles=["DiffusionAndStorageAndAdvectionAndDispersionHalf_square_1x1_quad_1e3.xdmf"]
 stochmethod=AdaptiveHierarchicalSparseGrid
-n_workers = 25
+n_workers = 10
 
 stochparampathes = loadStochasticParameters(stoch_params_xml)
 
@@ -43,9 +43,9 @@ stoch_params = stoch_parameters(stochasticmodelparams)
 stoch_params[1].dist = Normal(0.55,0.25)
 stoch_params[1].lower_bound = 0.1
 stoch_params[1].upper_bound = 1.0
-stoch_params[2].dist = Normal(0.55,0.25)
-stoch_params[2].lower_bound = 0.1
-stoch_params[2].upper_bound = 1.0
+stoch_params[2].dist = Normal(-16.0,0.5)
+stoch_params[2].lower_bound = -15.0
+stoch_params[2].upper_bound = -17.0
 write(stochasticmodelparams)
 
 #generate sample method model
