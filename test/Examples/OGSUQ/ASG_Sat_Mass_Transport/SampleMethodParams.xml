@@ -3,8 +3,8 @@
 	 N="2"
 	 CT="Float64"
 	 RT="XDMF3File"
-	 init_lvl="6"
-	 maxlvl="12"
+	 init_lvl="5"
+	 maxlvl="9"
 	 tol="0.001"
 	 file="SampleMethodParams.xml"
 >

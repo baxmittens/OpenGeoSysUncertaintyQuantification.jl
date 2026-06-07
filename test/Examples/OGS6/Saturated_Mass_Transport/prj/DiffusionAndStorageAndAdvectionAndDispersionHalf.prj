@@ -264,7 +264,7 @@
         <nonlinear_solver>
             <name>basic_picard</name>
             <type>Picard</type>
-            <max_iter>10</max_iter>
+            <max_iter>25</max_iter>
             <linear_solver>general_linear_solver</linear_solver>
         </nonlinear_solver>
     </nonlinear_solvers>

@@ -11,6 +11,7 @@ ogsparams = stochmodelparams.ogsparams
 modeldef = read(Ogs6ModelDef, ogsparams.projectfile)
 
 user_functions = Function[x->x for i = 1:length(stoparams)]
+user_functions[1] = x -> exp(x)
 user_functions[2] = x -> exp(x)
 
 function create_directories(ID, ogsparams)
@@ -44,8 +45,8 @@ function create(x, ID, modeldef, ogsparams, stoparams)
 		copyfiles =  readdir(ogsparams.additionalprojecfilespath)
 		foreach(x->cp(joinpath(ogsparams.additionalprojecfilespath,x), joinpath(PATH,x), force=true), copyfiles)
 		setStochasticParameters!(md, stoparams, x, user_functions)
-		dependent_stoch_param!(md, x[1], stoparams[1], "./media/medium/@id/0/properties/property/?transversal_dispersivity/value", 1, user_functions[1])
-		dependent_stoch_param!(md, x[2], stoparams[2], "./parameters/parameter/?kappa1/values", 4, user_functions[2])
+		#dependent_stoch_param!(md, x[1], stoparams[1], "./media/medium/@id/0/properties/property/?transversal_dispersivity/value", 1, user_functions[1])
+		#dependent_stoch_param!(md, x[2], stoparams[2], "./parameters/parameter/?kappa1/values", 4, user_functions[2])
 		write(md)
 		top = Any[]
 		for stoparam in stoparams

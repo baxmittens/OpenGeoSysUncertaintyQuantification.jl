@@ -80,7 +80,7 @@ ogsuqasg = init(ogsuqparams)
 start!(ogsuqasg)
 
 ogsuqasg.ogsuqparams.samplemethodparams.maxlvl = 15
-ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.001
+ogsuqasg.ogsuqparams.samplemethodparams.tol = 0.0001
 expval,asg_expval = 𝔼(ogsuqasg);
 varval,asg_varval = variance(ogsuqasg, expval);
 
@@ -97,12 +97,14 @@ write(varval, "varval.xdmf", "varval.h5", PATH)
 using DistributedSparseGridsPlotting
 using GLMakie
 using LinearAlgebra
+using Statistics
 
 ppfun(res) = norm(res["Si"][:,end])
+ppfun(res) = mean(res["Si"][:,end])
 
 f = Figure(size=(1600,800));
 ax = Axis3(f[1, 1]);
-Makie.scatter!(ax, ogsuqasg.asg, z_offset=hcpt->15.0)
+Makie.scatter!(ax, ogsuqasg.asg, z_offset=hcpt->0.0)
 surface!(ax, ogsuqasg.asg, 50, ppfun)
 display(f)
 
